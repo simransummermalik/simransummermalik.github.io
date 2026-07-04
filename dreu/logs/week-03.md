@@ -1,0 +1,40 @@
+# Week 03 Research Log
+
+## Dates
+June 22, 2026 - June 28, 2026
+
+## Goals
+The goal for this week was to go deeper into the Quantum Fourier Transform and stop treating it like a black-box library function. Since the QFT is one of the most important pieces of Shor's algorithm, I wanted to understand how it is built from gates, how the inverse QFT extracts phase information, and how the circuit behaves when noise is added.
+
+Another goal was to connect this QFT work back to order finding. Instead of only studying the transform by itself, I wanted to understand how it appears inside Shor's algorithm and how it affects period recovery. Since our advisor was out this week, a lot of the progress came from self-learning, testing, debugging, and working through the material more independently.
+
+## Approach and Implementation
+This week involved a lot of self-study and implementation work. I worked through the manual construction of the QFT using Hadamard gates, controlled phase rotations, and final bit-reversal swaps. I also studied the inverse QFT, where the swap structure and controlled phase rotations are reversed and the rotation angles become negative.
+
+I worked on the manual QFT project repository here:
+
+https://github.com/simransummermalik/manualQuantumFourierTransformation
+
+In the notebook, I built QFT and inverse QFT circuits for small register sizes, then compared the manual QFT against Qiskit's built-in implementation. I also tested QFT followed by inverse QFT as a round-trip check to make sure the original state could be recovered. This helped confirm that the manual circuit was behaving correctly before using it in more complicated experiments.
+
+After validating the basic QFT construction, I tested known-period states. This was useful because the correct Fourier peaks are known ahead of time, so it becomes easier to see whether the inverse QFT is working. For example, with period r = 4, the output should concentrate around the expected peak locations. This made the QFT easier to study separately from the rest of Shor's algorithm.
+
+I also began testing how noise affects the QFT output. I looked at depolarizing noise, phase damping, and readout error. The main idea was to compare how much each type of noise changed the measured output distribution and whether the correct period could still be recovered. I used metrics such as total variation distance and estimated period-recovery success so that the results were not only based on looking at histograms.
+
+In addition to the technical work, I attended another Lunch and Learn session. This one was useful because it focused on how to do research and how to think about writing papers. It helped connect the coding work to the larger process of turning research progress into something readable, organized, and explainable.
+
+## Results
+By the end of the week, I had a working manual QFT and inverse QFT implementation. The manual QFT matched the built-in QFT up to global phase for the tested circuit sizes, and the QFT followed by inverse QFT worked as a round-trip identity check. This gave me more confidence that I understood the gate-level structure instead of only knowing how to call a built-in function.
+
+The known-period experiments also helped clarify why the inverse QFT matters for period finding. When the input state has a known periodic structure, the inverse QFT concentrates probability near the expected Fourier peaks. This makes it possible to study the QFT as its own subsystem before connecting it back to full order finding.
+
+The noise experiments showed that different noise models affect period recovery differently. Depolarizing noise was the most damaging because it disrupts the state more broadly, while phase damping was less destructive than I expected. A really important observation was that a noisy distribution can look visibly damaged while still keeping enough probability near the correct peaks for period recovery to remain possible.
+
+I also connected this work back to Shor's algorithm by studying the N = 21 order-finding circuit and the role of the inverse QFT in the counting register. This helped connect the manual QFT experiments to the larger factoring problem instead of leaving them as isolated circuit tests.
+
+Our advisor responded positively to the QFT work and suggested the next directions: start looking at Regev's implementation, go deeper into QFT robustness with more qubits, more noise levels, and more plots, and begin a noise analysis of Shor's algorithm. This gives us a clearer direction for the next week.
+
+## Related Materials
+- [QFT N=21 Notes PDF](../assets/qft-n21.pdf)
+- [QFT Simulation PDF](../assets/qftsimulation.pdf)
+- [Manual QFT GitHub Repository](https://github.com/simransummermalik/manualQuantumFourierTransformation)

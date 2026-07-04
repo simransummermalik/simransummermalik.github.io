@@ -1,0 +1,69 @@
+# Week 04 Research Log
+
+## Dates
+June 29, 2026 - July 5, 2026
+
+## Goals
+The goal for this week was to begin moving from Shor's algorithm and manual QFT experiments toward Regev's newer factoring approach. After spending the previous weeks studying the Quantum Fourier Transform, inverse QFT, order finding, and noise sensitivity, the next step was to understand how Fourier-transform ideas appear in Regev's multidimensional algorithm.
+
+Another goal was to begin translating the theory into code. Since there are not as many beginner-friendly resources or implementation guides for Regev's algorithm, I wanted to collect useful references, study existing implementations, and start building a prototype circuit that could help us understand the structure of the algorithm.
+
+We also started thinking more seriously about the final research products for the summer. Since we need to have a short paper and thesis-style writeup done soon, I wanted to make sure the work was organized enough to eventually turn into a clear research narrative instead of just a collection of notebooks and notes.
+
+## Approach and Implementation
+This week involved a lot of independent digging through papers, code, and notes. We used several references to understand the original Regev algorithm, later improvements, and possible implementation strategies. The main resources included the original Regev paper, an improvement paper, a more recent implementation-focused paper, and existing GitHub repositories related to Regev's quantum algorithm.
+
+I worked on my Week 4 implementation repository here:
+
+https://github.com/simransummermalik/regevsqft
+
+In this repository, I started building a circuit related to Regev's algorithm and its Fourier-transform structure. The goal was not to fully reproduce a scalable factoring implementation yet, but to make the algorithm more concrete by turning pieces of the theory into circuit-level objects that we could inspect, test, and build on.
+
+A major challenge this week was that Regev's algorithm is much harder to approach than the small Shor examples. Shor's algorithm already has many tutorials, notebooks, and textbook explanations, but Regev's algorithm has fewer accessible implementation resources. Because of that, the work required more searching, comparing references, and trying to understand how the multidimensional Fourier transform fits into the factoring pipeline.
+
+We also started looking into how far we could realistically scale these simulations. One possible target we discussed was running circuits around 41 qubits, which is far beyond what is convenient to simulate locally. Because of this, we began looking into requesting access to high-performance computing resources. At this stage, it may be too early to run these experiments directly on quantum hardware, especially because the circuits are still being developed and the noise/robustness questions need to be studied carefully first. Using HPC would give us a more practical way to test larger simulations before deciding what, if anything, should be attempted on real quantum devices.
+
+I also attended Dr. Fernando's lab meeting again this week. Like previous weeks, the meeting was useful because PhD students and researchers gave updates or talks on their work. These meetings are helpful because they show how people communicate research progress, explain technical problems, and connect smaller weekly updates to larger research questions.
+
+I also continued connecting the project back to the earlier QFT work. Dr. Fernando emphasized going deeper into the Quantum Fourier Transform, including roots of unity, the Fast Fourier Transform, Fourier matrix structure, implementation details, and Regev's multidimensional quantum Fourier transform. We also discussed that it would be interesting to simulate the QFT and study how noise changes the output.
+
+Because this was also the week of the Fourth of July, the schedule felt a little different, but I still wanted to make progress and keep the project moving. I was excited to experience the holiday while staying at UIUC, but the research work this week still required a lot of self-learning and persistence because the material was difficult and not as clearly documented as earlier Shor/QFT examples.
+
+## Results
+By the end of the week, we had started a Regev-focused implementation direction and created an initial circuit/prototype related to Regev's algorithm. This was an important shift because the project began moving beyond the standard Shor examples and into newer quantum factoring research.
+
+The main result was not a finished implementation, but a clearer starting point for studying Regev's algorithm computationally. I learned that the multidimensional Fourier transform is a key part of the algorithm and that understanding its structure will be necessary before we can do meaningful simulations or noise analysis.
+
+This week also made it clear that the earlier QFT robustness work is still relevant. Many quantum speedups rely on Fourier-transform structure, and understanding how noise affects that structure could help connect our Shor simulations to Regev's algorithm. The QFT noise experiments gave us a foundation for asking similar questions about more complicated Fourier-based circuits.
+
+Another important outcome this week was realizing that scaling will be a major practical issue. Small QFT and Shor-style examples are useful for understanding the algorithm, but larger experiments may require HPC access. This helped us think more realistically about the difference between circuit design, classical simulation, and actually running something on quantum hardware.
+
+Another result was that we identified several next steps. We need to continue studying roots of unity, Fourier matrices, the Fast Fourier Transform, multidimensional Fourier transforms, and how these ideas appear in Regev's algorithm. We also need to continue building and testing circuits, add noise models, and compare how robust the outputs are.
+
+The work this week also helped us think about the short paper and thesis-style final report. A possible research story is starting to form around Fourier-transform-based factoring circuits, noise sensitivity, and the comparison between Shor-style and Regev-style approaches. Moving forward, I need to keep the code, references, plots, and explanations organized so they can be reused in the final writeup.
+
+## Next Steps
+Next week, I plan to keep studying the mathematical structure behind the Quantum Fourier Transform and Regev's multidimensional version of it. The main topics to focus on are:
+
+- Roots of unity
+- Fourier matrix structure
+- The classical Fast Fourier Transform
+- Multidimensional Fourier transforms
+- Regev's multidimensional quantum Fourier transform
+- How to simulate these circuits
+- How noise affects the Fourier-transform outputs
+- How this connects back to Shor's algorithm and factoring
+- Request or explore HPC access for larger simulations, especially if we want to test circuits near 41 qubits
+
+A longer-term goal is to begin comparing noise effects in Shor-style order finding with noise effects in Regev-style circuits. This could help us understand whether the Fourier-transform stage is a major source of fragility and whether different algorithmic structures respond to noise differently.
+
+We also need to start shaping the project into a short paper and thesis-style final report. That means organizing the project around a clear question, likely something like how Fourier-transform-based factoring circuits behave under noise and what that suggests for Shor-style and Regev-style approaches. Moving forward, I need to keep track of results, plots, references, and explanations in a way that can be reused directly in the final writeup.
+
+## Related Materials
+- [Week 4 Regev/QFT GitHub Repository](https://github.com/simransummermalik/regevsqft)
+- [Implementation Reference Repository](https://github.com/Wlitkopa/regev-quantum-algorithm/tree/main)
+- [Implementation Paper](https://arxiv.org/abs/2502.09772v2)
+- [Improvement Paper](https://arxiv.org/abs/2310.00899)
+- [Original Regev Paper](https://arxiv.org/abs/2308.06572)
+- [Additional Reference Repository](https://github.com/bartek-bartlomiej/master-thesis/tree/main)
+- [Additional PDF Reference](https://arxiv.org/pdf/1611.07995)
