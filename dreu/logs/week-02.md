@@ -1,0 +1,32 @@
+# Week 02 Research Log
+
+## Dates
+June 15, 2026 - June 21, 2026
+
+## Goals
+The goal for this week was to move from general background learning into a more concrete understanding of Shor's algorithm and how it can be simulated. I wanted to understand the structure of the algorithm beyond the surface level, especially how factoring gets reduced to order finding and why the Quantum Fourier Transform is such an important part of the quantum step.
+
+Another goal was to begin organizing our early work in GitHub so that the project had a visible place for code, notebooks, and research progress. Since Shor's algorithm has a lot of moving parts, I wanted to make sure our work was not just scattered across notes, messages, and local notebooks.
+
+## Approach and Implementation
+This week, I worked on studying the structure of Shor's algorithm through notes, simulation, and group discussion. I focused on the reduction from factoring to order finding, where the goal is to find the smallest positive integer r such that a^r is congruent to 1 modulo N. Understanding this helped me see that the quantum circuit is not directly "factoring" the number, but instead finding periodic structure that can later be used in a classical post-processing step.
+
+I also began using our GitHub repository to organize early simulation work:
+
+https://github.com/simransummermalik/shorsimulation/tree/main
+
+The repository contains early notebooks for simulating parts of Shor's algorithm and order-finding behavior. At this stage, the work was exploratory, but it helped turn the mathematical ideas into code that we could inspect, test, and discuss as a group.
+
+During a meeting with Dr. Fernando, we discussed that our next step should be going deeper into the Quantum Fourier Transform instead of only relying on Qiskit's built-in implementation. The topics mentioned included roots of unity, the Fourier matrix and its structure, the classical Fast Fourier Transform, multidimensional Fourier transforms, and the Schrödinger equation.
+
+The main focus was building enough background to understand why the QFT matters for period finding and how it connects to Shor's algorithm. I also started thinking about how we could manually implement and simulate the QFT, then later study how noise affects its outputs.
+
+## Results
+By the end of the week, I had a clearer understanding of how Shor's algorithm reduces factoring to order finding and why the QFT is central to extracting the period from the quantum state. I also understood that using a built-in QFT circuit is useful, but not enough for our project, because we need to understand what the transform is doing internally.
+
+The GitHub repository became an early project artifact where our simulation notebooks could live. This made the work feel more concrete and easier to build on, especially as we moved from background learning into implementation.
+
+This week also helped narrow the direction of the project. Instead of treating Shor's algorithm as one large black-box circuit, we started focusing on the Fourier transform, phase information, and the way periodic structure becomes measurable. The next step is to study the QFT more deeply, manually implement it, and connect it back to order finding and noise effects.
+
+## Related Materials
+- [Shor's Notes PDF](../assets/shors-notes.pdf)
