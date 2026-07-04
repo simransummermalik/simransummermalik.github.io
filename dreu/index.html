@@ -34,4 +34,34 @@
 <li><a href="logs/week-04.html">Week 04</a></li>
   </ul>
 </body>
+<hr>
+
+<h2>Mini Qubit Game</h2>
+<p>Click the button to “measure” the qubit. It will collapse into 0 or 1.</p>
+
+<button onclick="measureQubit()">Measure Qubit</button>
+
+<p id="result">State: unmeasured</p>
+<p id="score">0s: 0 | 1s: 0</p>
+
+<script>
+  let zeros = 0;
+  let ones = 0;
+
+  function measureQubit() {
+    const outcome = Math.random() < 0.5 ? 0 : 1;
+
+    if (outcome === 0) {
+      zeros++;
+    } else {
+      ones++;
+    }
+
+    document.getElementById("result").innerHTML =
+      "State collapsed to: |" + outcome + "⟩";
+
+    document.getElementById("score").innerHTML =
+      "0s: " + zeros + " | 1s: " + ones;
+  }
+</script>
 </html>
