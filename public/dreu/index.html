@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DREU Research Log - Summer Malik</title>
+</head>
+<body>
+  <h1>DREU Research Log</h1>
+
+  <p><strong>Name:</strong> Simran (Summer) Malik</p>
+  <p><strong>Program:</strong> Distributed Research Experiences for Undergraduates (DREU)</p>
+  <p>
+  <strong>Mentor:</strong> Dr. Fernando Granha Jeronimo.
+  If you want to read more about him, click
+  <a href="https://granha.github.io">here</a>.
+</p>
+  <p><strong>Institution:</strong> University of Illinois Urbana-Champaign</p>
+  <p><strong>Research Area:</strong> Quantum information science / quantum algorithms</p>
+
+  <h2>Project Description</h2>
+  <p>
+    My summer research project focuses on studying quantum algorithms for integer
+    factorization, especially Shor's algorithm and related improvements inspired by
+    newer work on quantum factoring. The goal is to understand the algorithm from both
+    the mathematical and implementation side by breaking down the quantum Fourier
+    transform, period finding, circuit construction, simulation behavior, and the gap
+    between theoretical speedups and realistic computational or hardware constraints.
+  </p>
+
+  <h2>Weekly Research Logs</h2>
+  <ul>
+<li><a href="logs/week-01.html">Week 01</a></li>
+<li><a href="logs/week-02.html">Week 02</a></li>
+<li><a href="logs/week-03.html">Week 03</a></li>
+<li><a href="logs/week-04.html">Week 04</a></li>
+  </ul>
+</body>
+<hr>
+
+<h2>Mini Qubit Game</h2>
+<p>Click the button to “measure” the qubit. It will collapse into 0 or 1.</p>
+
+<button onclick="measureQubit()">Measure Qubit</button>
+
+<p id="result">State: unmeasured</p>
+<p id="score">0s: 0 | 1s: 0</p>
+
+<hr>
+
+<h2>ASCII Qubit Dodge</h2>
+<p>Move with A and D. Dodge the falling qubits.</p>
+
+<pre id="game"></pre>
+
+<p>
+  <button onclick="moveLeft()">Left</button>
+  <button onclick="moveRight()">Right</button>
+  <button onclick="startGame()">Start / Restart</button>
+</p>
+
+<p id="gameStatus">Press Start to play.</p>
+
+<script>
+  let width = 21;
+  let height = 10;
+  let playerX = 10;
+  let qubits = [];
+  let score = 0;
+  let gameRunning = false;
+  let gameLoop;
+
+  function drawGame() {
+    let screen = "";
+
+    for (let y = 0; y < height; y++) {
+      let row = "";
+
+      for (let x = 0; x < width; x++) {
+        let char = " ";
+
+        for (let i = 0; i < qubits.length; i++) {
+          if (qubits[i].x === x && qubits[i].y === y) {
+            char = qubits[i].symbol;
+          }
+        }
+
+        if (y === height - 1 && x === playerX) {
+          char = "A";
+        }
+
+        row += char;
+      }
+
+      screen += "|" + row + "|\n";
+    }
+
+    screen += "+" + "-".repeat(width) + "+\n";
+    screen += "Score: " + score;
+
+    document.getElementById("game").textContent = screen;
+  }
+
+  function updateGame() {
+    if (!gameRunning) return;
+
+    for (let i = 0; i < qubits.length; i++) {
+      qubits[i].y++;
+    }
+
+    qubits = qubits.filter(q => q.y < height);
+
+    if (Math.random() < 0.4) {
+      qubits.push({
+        x: Math.floor(Math.random() * width),
+        y: 0,
+        symbol: Math.random() < 0.5 ? "0" : "1"
+      });
+    }
+
+    for (let i = 0; i < qubits.length; i++) {
+      if (qubits[i].y === height - 1 && qubits[i].x === playerX) {
+        gameRunning = false;
+        clearInterval(gameLoop);
+        document.getElementById("gameStatus").textContent =
+          "Game over. Final score: " + score;
+        drawGame();
+        return;
+      }
+    }
+
+    score++;
+    document.getElementById("gameStatus").textContent =
+      "Dodge the qubits. Current score: " + score;
+
+    drawGame();
+  }
+
+  function startGame() {
+    playerX = 10;
+    qubits = [];
+    score = 0;
+    gameRunning = true;
+    clearInterval(gameLoop);
+    gameLoop = setInterval(updateGame, 400);
+    document.getElementById("gameStatus").textContent = "Game started.";
+    drawGame();
+  }
+
+  function moveLeft() {
+    if (playerX > 0) {
+      playerX--;
+      drawGame();
+    }
+  }
+
+  function moveRight() {
+    if (playerX < width - 1) {
+      playerX++;
+      drawGame();
+    }
+  }
+
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "a" || event.key === "A") {
+      moveLeft();
+    }
+
+    if (event.key === "d" || event.key === "D") {
+      moveRight();
+    }
+  });
+</script>
+</html>
