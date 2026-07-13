@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Week 05 Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to DREU Research Log</a></p>
+
+  <h1>Week 05 Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>July 6, 2026 - July 12, 2026</p>
+
+  <h2>Goals</h2>
+  <p>The goal for this week was to move beyond the initial Regev circuit prototype and begin building a more complete quantum-to-classical factoring pipeline.</p>
+
+  <p>Last week, the main focus was getting a Regev-style multidimensional circuit structure working. This week, I wanted to focus on the part that was still missing: taking measured multidimensional samples, constructing the appropriate lattice, applying lattice reduction, recovering candidate relations, and checking whether those relations can actually produce a factor.</p>
+
+  <p>Another goal was to make the implementation more careful and reproducible. I wanted to separate what the code can currently demonstrate from what is still incomplete, especially because a Regev-style circuit by itself is not the same as a full implementation of Regev's factoring algorithm.</p>
+
+  <p>I also wanted to follow the directions discussed with Dr. Fernando by going deeper into high-dimensional QFT behavior, roots of unity, Fourier matrix structure, finite precision, noise, and the classical post-processing that comes after the quantum sampling stage.</p>
+
+  <h2>Approach and Implementation</h2>
+  <p>This week began with a full audit of the existing Regev-style notebook. I traced the full path from the input integer N, through parameter selection, base generation, modular exponentiation, multidimensional QFT sampling, measurement decoding, and classical post-processing.</p>
+
+  <p>The current repository for this stage of the project is:</p>
+
+  <p><a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing" target="_blank">https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing</a></p>
+
+  <p>A major issue I focused on was preserving the relationship between the original roots and the squared circuit bases. The quantum circuit uses squared bases, but the original roots still matter during classical post-processing. Without keeping those paired correctly, the classical stage can lose information needed to decide whether a recovered relation is useful for factor extraction.</p>
+
+  <p>I updated the implementation so that each root and squared base stay paired throughout the pipeline. I also added checks to make sure each stored base is actually the square of its paired root modulo N.</p>
+
+  <p>I then built out the lattice post-processing stage. The updated pipeline follows this structure:</p>
+
+  <p>quantum samples → augmented integer lattice → LLL reduction → candidate relation → relation classification → factor extraction</p>
+
+  <p>The implementation now constructs an augmented lattice from the measured samples, clears rational denominators exactly, applies integer LLL reduction, verifies the LLL transformation, tests candidate vectors as relations, distinguishes useful and non-useful relation classes, and only attempts GCD factor extraction when the relation is valid.</p>
+
+  <p>I also compared different sampling models. I worked with the original uniform hard-box sampler, a finite discrete-Gaussian sampler, and a theorem-consistent noisy dual-lattice model. This helped separate behavior caused by the finite practical implementation from behavior closer to the theoretical assumptions.</p>
+
+  <p>Another part of the work involved testing base-selection strategies. The original hypothesis was that selecting more diverse modular bases might improve lattice recovery. To test this, I created several controlled base-selection strategies and tested them across held-out semiprime inputs and multiple sampling models.</p>
+
+  <p>The result did not support the original positive hypothesis. Greater bounded-product diversity did not generally improve LLL factor recovery in the finite samplers. In some cases, it was negatively associated with recovery. However, the same pattern disappeared in the theorem-consistent noisy-dual model, which suggests that finite practical samplers may behave differently from the idealized model.</p>
+
+  <p>I also tested an L0-aware recovery idea. The motivation was that LLL might repeatedly return short but non-factor-yielding relations. I implemented quotient construction, exact integer deflation, adaptive resampling, bounded enumeration, and matched-cost comparisons. This intervention also did not improve recovery under the tested finite budgets, so I treated it as a negative result rather than changing the endpoint after seeing the data.</p>
+
+  <p>After the lattice work, I returned to the QFT side of the project. I implemented matrix-level validation for exact and approximate QFT circuits, including checks for forward versus inverse QFT signs, roots-of-unity conventions, controlled-phase angles, swap placement, qubit ordering, multidimensional coordinate ordering, unitarity, and measurement decoding.</p>
+
+  <p>I also implemented several error models, including approximate-QFT truncation, coherent phase error, readout bit flips, and Fourier-grid quantization. Instead of only looking at histograms or entropy, I measured the effect through the full endpoint: lattice recovery and factor extraction.</p>
+
+  <h2>Results</h2>
+  <p>The biggest result this week was that the project moved from an exploratory Regev-style circuit notebook into a more complete finite-parameter research pipeline.</p>
+
+  <p>The implementation can now follow the full path from multidimensional samples to augmented lattice construction, LLL reduction, relation classification, and factor extraction. This does not mean the project is a finished implementation of Regev's full factoring algorithm, but it is a much stronger experimental scaffold than the earlier circuit-only version.</p>
+
+  <p>Another important result was correcting how roots and squared bases are handled. The quantum circuit alone does not preserve all of the information needed for classical factor extraction. Keeping each original root paired with its squared base is necessary for checking whether a recovered relation is actually factor-yielding.</p>
+
+  <p>The base-selection experiments produced a useful negative result. Increasing the selected diversity metric did not generally improve factor recovery. The negative relationship appeared in finite uniform and Gaussian sampling models, but disappeared in the theorem-consistent noisy-dual model. This suggests that finite practical implementations should not automatically be expected to behave like the asymptotic theoretical model.</p>
+
+  <p>The quotient-deflation study produced another negative result. Removing or suppressing previously recovered non-factor-yielding relation directions did not improve recovery under the matched finite search budget. This suggests that standard LLL was not simply failing because it repeatedly returned the same useless relations.</p>
+
+  <p>The QFT analysis produced the strongest new direction. The current finite-shot certificate required the exact QFT over the tested parameter range. In other words, the current certificate could not justify controlled-phase truncation at the declared finite-shot loss level.</p>
+
+  <p>The careful conclusion is:</p>
+
+  <blockquote>
+    <p>The current finite-shot QFT-to-lattice certificate cannot certify a non-exact QFT throughout the tested range.</p>
+  </blockquote>
+
+  <p>This does not prove that approximate QFT can never work for Regev-style factoring. It only shows that the current sufficient certificate is too strict under the tested finite-parameter regime. The next question is whether this reflects a real information-loss barrier or whether the certificate is simply too conservative.</p>
+
+  <p>This week also improved the research methodology. The experiments now use frozen configurations, held-out semiprimes, matched computational budgets, fixed random seeds, cluster-aware confidence intervals, adversarial audits, automated regression tests, and reproducible result files.</p>
+
+  <p>Overall, this week made the project much closer to a serious computational research study instead of only a collection of circuit demonstrations.</p>
+
+  <h2>Next Steps</h2>
+  <p>The next major step is to determine whether the exact-QFT requirement comes from a real finite-parameter limitation or from looseness in the current proof.</p>
+
+  <p>I plan to audit the QFT certificate line by line and measure how much slack is introduced by worst-case inequalities, phase-error accumulation, sample-wise accumulation, and conversion from phase error to lattice displacement.</p>
+
+  <p>I also want to compare the certified behavior against empirical behavior. There may be cases where a truncated QFT still preserves factor recovery even though the current certificate refuses to approve it. If that happens, the next contribution could be a sharper certificate based on roots-of-unity cancellation, state-dependent matrix error, direct distribution distance, or the actual lattice endpoint.</p>
+
+  <p>Other next steps include expanding exact-fiber experiments, validating overlapping cases with actual Qiskit circuits, studying larger Fourier registers and dimensions, continuing comparisons between sparse corrupted samples and structured QFT errors, exploring HPC resources for larger simulations, and narrowing the work into one clear paper-level contribution.</p>
+
+  <p>The likely research question moving forward is:</p>
+
+  <blockquote>
+    <p>How much multidimensional-QFT precision is actually required for finite Regev-style lattice recovery, and can a sharper, state-specific certificate safely reduce quantum resources?</p>
+  </blockquote>
+
+  <h2>Related Materials</h2>
+  <ul>
+    <li><a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing" target="_blank">Regev Circuit and Lattice Post-Processing Repository</a></li>
+    <li>Original Regev Factoring Paper</li>
+    <li>Ragavan-Vaikuntanathan Noise-Robust Post-Processing Paper</li>
+    <li>Regev Implementation Reference Paper</li>
+    <li>QFT Precision Scaling Report</li>
+    <li>QFT Precision Theory Notes</li>
+    <li>QFT Precision Frozen Protocol</li>
+    <li>QFT Adversarial Audit</li>
+    <li>Red-Team Revision Report</li>
+  </ul>
+</body>
+</html>
