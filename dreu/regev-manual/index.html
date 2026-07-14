@@ -1,0 +1,2130 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manual for the Regev-Style Circuit and Lattice Post-Processing Repository</title>
+</head>
+<body id="top">
+
+  <p><a href="../">Back to DREU Research Log</a></p>
+
+  <h1>Manual for the Regev-Style Circuit and Lattice Post-Processing Repository</h1>
+
+  <p>
+    <strong>Repository:</strong>
+    <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing" target="_blank">
+      simransummermalik/RegevsCircutandLatticePostProcessing
+    </a>
+  </p>
+
+  <p>
+    <strong>Author:</strong> Summer Malik, with research collaborators Carolina Amorim and Owen Barnes
+  </p>
+
+  <p>
+    <strong>Purpose:</strong> This manual explains the project from the beginning, defines the mathematical
+    objects, walks through the full quantum-to-classical pipeline, explains what the experiments found,
+    and gives commands for testing and reproducing the repository.
+  </p>
+
+  <p>
+    <strong>Scope note:</strong> This repository does not factor cryptographically large integers and does
+    not claim a new general factoring algorithm. It implements, audits, and tests a finite Regev-style
+    research pipeline on small controlled instances.
+  </p>
+
+  <hr>
+
+  <h2>Contents</h2>
+
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#how-to-read">How to read this manual</a></li>
+    <li><a href="#quick-version">The project in one page</a></li>
+    <li><a href="#factoring">What factoring is</a></li>
+    <li><a href="#shor-regev">How Shor and Regev fit into the story</a></li>
+    <li><a href="#pipeline">The complete pipeline</a></li>
+    <li><a href="#symbols">Symbols used throughout the project</a></li>
+    <li><a href="#roots-bases">Roots, squared bases, and why provenance matters</a></li>
+    <li><a href="#modular-map">The modular-product map</a></li>
+    <li><a href="#state-preparation">The exponent state and the four sampling models</a></li>
+    <li><a href="#reversible-arithmetic">Reversible modular arithmetic</a></li>
+    <li><a href="#qft">The multidimensional quantum Fourier transform</a></li>
+    <li><a href="#approximate-qft">Exact and approximate QFTs</a></li>
+    <li><a href="#measurement">Measurement and decoding</a></li>
+    <li><a href="#lattice">Building the augmented lattice</a></li>
+    <li><a href="#lll">What LLL does</a></li>
+    <li><a href="#relations">The relation lattices L and L0</a></li>
+    <li><a href="#factor-extraction">How a recovered relation becomes a factor</a></li>
+    <li><a href="#certificate">The finite-shot QFT certificate</a></li>
+    <li><a href="#current-result">The current certification-gap result</a></li>
+    <li><a href="#negative-results">Negative results that the repository keeps</a></li>
+    <li><a href="#timeline">Research timeline</a></li>
+    <li><a href="#repository-layout">Repository layout</a></li>
+    <li><a href="#module-reference">Python module reference</a></li>
+    <li><a href="#script-reference">Script reference</a></li>
+    <li><a href="#setup">Installation and setup</a></li>
+    <li><a href="#tests">Running the tests</a></li>
+    <li><a href="#reproduction">Reproducing the current result</a></li>
+    <li><a href="#earlier-studies">Running earlier studies</a></li>
+    <li><a href="#outputs">How to read the outputs</a></li>
+    <li><a href="#problems">Common problems</a></li>
+    <li><a href="#extend">How to extend the project without invalidating it</a></li>
+    <li><a href="#claims">What is verified, what is not, and how claims are labeled</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#references">Primary references</a></li>
+  </ol>
+
+  <hr>
+
+  <h2 id="introduction">1. Introduction</h2>
+
+  <p>
+    This repository began with a Qiskit notebook inspired by Regev's quantum factoring algorithm.
+    The notebook could construct multidimensional quantum circuits and produce samples, but the
+    research question was larger than simply making a circuit run.
+  </p>
+
+  <p>
+    A complete factoring pipeline needs both a quantum stage and a classical stage. The quantum
+    circuit produces structured Fourier samples. Those samples must then be converted into an
+    integer lattice, reduced, interpreted as modular relations, classified, and finally tested for
+    factor extraction.
+  </p>
+
+  <p>
+    The repository therefore became an audit and reconstruction project. It asks:
+  </p>
+
+  <ul>
+    <li>What did the original notebook actually implement?</li>
+    <li>Which parts matched Regev's mathematical framework?</li>
+    <li>Which parts were only finite approximations or toy surrogates?</li>
+    <li>Was the modular arithmetic correct?</li>
+    <li>Were measurement bits decoded in the correct order?</li>
+    <li>Were the original modular roots preserved for factor extraction?</li>
+    <li>Could the missing lattice post-processing be implemented exactly?</li>
+    <li>Could an approximate QFT reduce quantum resources without destroying recovery?</li>
+    <li>Which positive hypotheses survived a frozen held-out test?</li>
+  </ul>
+
+  <p>
+    The repository now contains circuit construction, exact finite sampling laws, lattice
+    construction, LLL recovery, relation verification, factor extraction, noise and QFT models,
+    frozen experimental protocols, adversarial audits, statistical analysis, and reproducible
+    outputs.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="how-to-read">2. How to read this manual</h2>
+
+  <p>
+    The manual moves from the outside of the project toward the inside.
+  </p>
+
+  <p>
+    First, it explains factoring and the overall pipeline. Then it defines the mathematical
+    objects used by the code. After that, it follows one sample through the entire system:
+    roots, circuit bases, state preparation, modular exponentiation, QFT, measurement, lattice
+    construction, LLL, relation classification, and factor extraction.
+  </p>
+
+  <p>
+    The later sections explain the current research result, the negative results, the repository
+    structure, and the commands used to test or reproduce the work.
+  </p>
+
+  <p>
+    A reader who only wants the main idea can read:
+  </p>
+
+  <ul>
+    <li><a href="#quick-version">The project in one page</a></li>
+    <li><a href="#pipeline">The complete pipeline</a></li>
+    <li><a href="#current-result">The current result</a></li>
+    <li><a href="#claims">Claim boundaries</a></li>
+  </ul>
+
+  <p>
+    A reader who wants to run the code can skip to:
+  </p>
+
+  <ul>
+    <li><a href="#setup">Installation and setup</a></li>
+    <li><a href="#tests">Running the tests</a></li>
+    <li><a href="#reproduction">Reproducing the current result</a></li>
+    <li><a href="#problems">Common problems</a></li>
+  </ul>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="quick-version">3. The project in one page</h2>
+
+  <p>
+    Factoring means taking a composite integer and finding smaller integers whose product equals it.
+    For example:
+  </p>
+
+  <pre>
+15 = 3 × 5
+  </pre>
+
+  <p>
+    Regev's algorithm is a quantum factoring approach that uses several exponent registers and a
+    substantial classical lattice-reduction stage. The quantum computer does not directly print the
+    factors. It produces measurements containing information about hidden multiplicative relations.
+  </p>
+
+  <p>
+    This repository implements and audits a finite version of that idea:
+  </p>
+
+  <pre>
+choose N and roots
+      ↓
+square the roots to obtain circuit bases
+      ↓
+prepare several exponent registers
+      ↓
+compute modular products in superposition
+      ↓
+apply a QFT to every exponent register
+      ↓
+measure Fourier vectors
+      ↓
+build an augmented integer lattice
+      ↓
+run LLL
+      ↓
+verify candidate relations
+      ↓
+separate useful relations from useless relations
+      ↓
+attempt gcd factor extraction
+  </pre>
+
+  <p>
+    The current main research question concerns QFT precision. An exact QFT uses every controlled
+    phase rotation. An approximate QFT omits some of the smallest rotations to reduce gate count.
+  </p>
+
+  <p>
+    A conservative worst-case certificate used by the project refused to approve any approximation
+    in the frozen five-percent regime. However, a later held-out experiment found that limited
+    truncation could preserve the actual lattice-recovery endpoint in the tested finite models.
+  </p>
+
+  <p>
+    The main conclusion is not that approximate QFT is always safe. The conclusion is narrower:
+  </p>
+
+  <blockquote>
+    In the tested small finite regime, the worst-case certificate required more precision than the
+    prepared-state lattice-recovery endpoint actually needed.
+  </blockquote>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="factoring">4. What factoring is</h2>
+
+  <p>
+    An integer is <strong>prime</strong> when its only positive divisors are one and itself.
+    Examples include 2, 3, 5, 7, and 11.
+  </p>
+
+  <p>
+    An integer is <strong>composite</strong> when it can be written as a product of smaller positive
+    integers. For example:
+  </p>
+
+  <pre>
+21 = 3 × 7
+35 = 5 × 7
+77 = 7 × 11
+  </pre>
+
+  <p>
+    The factoring problem asks us to recover those smaller factors when only the product is given.
+  </p>
+
+  <p>
+    Small examples are easy. The cryptographic difficulty comes from very large integers chosen so
+    that ordinary classical factoring methods require too much time.
+  </p>
+
+  <p>
+    The project uses small semiprimes because the goal is not to break cryptography. The goal is to
+    inspect the algorithmic structure, verify the implementation, and measure finite behavior in a
+    controlled environment.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="shor-regev">5. How Shor and Regev fit into the story</h2>
+
+  <h3>Shor's approach</h3>
+
+  <p>
+    Shor's algorithm reduces factoring to an order-finding problem. A quantum circuit creates a
+    periodic state, and a quantum Fourier transform helps expose the period. Classical continued
+    fractions and greatest-common-divisor calculations then convert the period into factors.
+  </p>
+
+  <h3>Regev's approach</h3>
+
+  <p>
+    Regev proposed a different factoring construction. Instead of relying on one long exponent
+    register, the method distributes the exponent information across several registers. The quantum
+    stage produces multiple high-dimensional Fourier samples. The classical stage then uses lattice
+    reduction to recover a useful multiplicative relation.
+  </p>
+
+  <p>
+    The trade is important:
+  </p>
+
+  <ul>
+    <li>The quantum structure can use a lower asymptotic gate count under the stated assumptions.</li>
+    <li>The classical post-processing becomes more involved.</li>
+    <li>The quality and interpretation of the multidimensional samples matter.</li>
+    <li>Finite implementations can behave differently from the asymptotic theorem.</li>
+  </ul>
+
+  <p>
+    This repository is Regev-style rather than a complete full-scale implementation of every
+    asymptotic component in Regev's paper. It works with small finite states and clearly labels the
+    difference between notebook surrogates, finite Gaussian models, and theorem-consistent synthetic
+    models.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="pipeline">6. The complete pipeline</h2>
+
+  <pre>
+Input: an odd composite integer N
+
+1. Choose stored roots b1, ..., bd.
+2. Compute squared circuit bases:
+       ai = bi² mod N
+3. Prepare d exponent registers.
+4. Place the exponent registers in superposition.
+5. Reversibly compute:
+       hA(x) = product ai^xi mod N
+6. Apply one QFT or inverse QFT to each exponent register.
+7. Measure m Fourier vectors.
+8. Decode the Qiskit bitstrings into ordered integer vectors.
+9. Convert the vectors into an exact augmented integer lattice.
+10. Run LLL on that lattice.
+11. Extract candidate integer relations z.
+12. Verify:
+       product ai^zi = 1 mod N
+13. Compute the stored-root product:
+       beta = product bi^zi mod N
+14. If beta is neither +1 nor -1 modulo N, try:
+       gcd(beta - 1, N)
+       gcd(beta + 1, N)
+15. Validate any returned factor pair.
+  </pre>
+
+  <p>
+    Each step has a different correctness condition. A circuit can run successfully while the bit
+    order is wrong. LLL can return a short vector that is not an exact modular relation. A relation
+    can be valid but useless for factoring. A gcd can return one or N instead of a proper factor.
+  </p>
+
+  <p>
+    The repository therefore checks every boundary instead of treating the pipeline as one black box.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="symbols">7. Symbols used throughout the project</h2>
+
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Symbol</th>
+      <th>Meaning</th>
+    </tr>
+    <tr>
+      <td><code>N</code></td>
+      <td>The odd composite integer being factored.</td>
+    </tr>
+    <tr>
+      <td><code>n</code></td>
+      <td>The bit length of N. It is not the same as N.</td>
+    </tr>
+    <tr>
+      <td><code>d</code></td>
+      <td>The number of roots, circuit bases, exponent registers, and relation coordinates.</td>
+    </tr>
+    <tr>
+      <td><code>nd</code></td>
+      <td>The number of qubits in each exponent register.</td>
+    </tr>
+    <tr>
+      <td><code>M</code></td>
+      <td>The Fourier modulus. If a register has nd qubits, then M = 2^nd.</td>
+    </tr>
+    <tr>
+      <td><code>q</code></td>
+      <td>Another notation for log2(M), the number of qubits in one Fourier register.</td>
+    </tr>
+    <tr>
+      <td><code>m</code></td>
+      <td>The number of Fourier samples passed to classical recovery.</td>
+    </tr>
+    <tr>
+      <td><code>bi</code></td>
+      <td>A stored modular root used later in factor extraction.</td>
+    </tr>
+    <tr>
+      <td><code>ai</code></td>
+      <td>The squared circuit base ai = bi² mod N.</td>
+    </tr>
+    <tr>
+      <td><code>x</code></td>
+      <td>An exponent vector used by modular exponentiation.</td>
+    </tr>
+    <tr>
+      <td><code>k</code></td>
+      <td>A measured Fourier outcome vector.</td>
+    </tr>
+    <tr>
+      <td><code>z</code></td>
+      <td>A candidate integer multiplicative relation.</td>
+    </tr>
+    <tr>
+      <td><code>S</code></td>
+      <td>The scaling factor used in the augmented lattice.</td>
+    </tr>
+    <tr>
+      <td><code>Delta</code></td>
+      <td>The allowed loss in a downstream recovery-event probability.</td>
+    </tr>
+    <tr>
+      <td><code>t</code></td>
+      <td>The approximate-QFT distance cutoff.</td>
+    </tr>
+    <tr>
+      <td><code>L</code></td>
+      <td>The full lattice of exact multiplicative relations among the squared bases.</td>
+    </tr>
+    <tr>
+      <td><code>L0</code></td>
+      <td>The valid relations whose stored-root product is +1 or -1 and therefore gives no factor.</td>
+    </tr>
+  </table>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="roots-bases">8. Roots, squared bases, and why provenance matters</h2>
+
+  <p>
+    The circuit uses squared bases:
+  </p>
+
+  <pre>
+ai = bi² mod N
+  </pre>
+
+  <p>
+    The value <code>bi</code> is the stored root. The value <code>ai</code> is the base used by the
+    modular-exponentiation circuit.
+  </p>
+
+  <p>
+    The distinction is essential. A modular number can have multiple square roots. If the code stores
+    only <code>ai</code> and later guesses a root, it may use a different root than the one that
+    generated the circuit base.
+  </p>
+
+  <p>
+    ApolloRS—sorry, this repository—avoids that error by keeping every pair
+    <code>(bi, ai)</code> together in an immutable rooted-base object.
+  </p>
+
+  <p>
+    For example, modulo 15:
+  </p>
+
+  <pre>
+4² = 16 = 1 mod 15
+
+gcd(4 - 1, 15) = gcd(3, 15) = 3
+gcd(4 + 1, 15) = gcd(5, 15) = 5
+  </pre>
+
+  <p>
+    The number 4 is a nontrivial square root of one modulo 15. It is not +1 or -1 modulo 15, so its
+    two neighboring gcd calculations reveal the factors.
+  </p>
+
+  <h3>Setup factor leakage</h3>
+
+  <p>
+    A candidate root must be coprime to N. The code therefore checks <code>gcd(bi, N)</code>. If that
+    gcd is already a proper factor, the setup process has factored N classically.
+  </p>
+
+  <p>
+    The repository records this as a <strong>setup factor leak</strong>. It is not counted as a
+    successful quantum sample-to-lattice recovery.
+  </p>
+
+  <p>
+    This prevents an easy classical discovery from being mislabeled as evidence that the quantum
+    circuit or lattice decoder worked.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="modular-map">9. The modular-product map</h2>
+
+  <p>
+    Given an exponent vector:
+  </p>
+
+  <pre>
+x = (x1, x2, ..., xd)
+  </pre>
+
+  <p>
+    define:
+  </p>
+
+  <pre>
+hA(x) = product over i of ai^xi mod N
+  </pre>
+
+  <p>
+    Different exponent vectors can produce the same modular output. Those collisions are not an
+    implementation accident. They are the arithmetic structure that later creates interference in
+    the Fourier basis.
+  </p>
+
+  <p>
+    For a particular output y, define the fiber:
+  </p>
+
+  <pre>
+Fy = { x : hA(x) = y }
+  </pre>
+
+  <p>
+    A fiber is simply the set of exponent vectors that all produce the same arithmetic result.
+    During the QFT, phases from vectors inside the same fiber can add or cancel.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="state-preparation">10. The exponent state and the four sampling models</h2>
+
+  <p>
+    The repository does not use one word such as “Regev samples” for every possible state model.
+    It keeps four models separate because they answer different questions.
+  </p>
+
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Model</th>
+      <th>Definition</th>
+      <th>What it is used for</th>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>Exact finite uniform hard-box state.</td>
+      <td>Reproduces the state prepared by the audited notebook.</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>Exact finite truncated discrete-Gaussian amplitude state.</td>
+      <td>Moves closer to Regev's intended Gaussian state preparation while remaining finite.</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>Synthetic noisy dual-lattice samples satisfying a stated finite noise inequality.</td>
+      <td>Tests the classical theorem-model endpoint. Generator-side oracle information is hidden from recovery.</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>Hard-box samples with readout or whole-shot corruption.</td>
+      <td>Provides an explicit corruption surrogate without calling it hardware noise.</td>
+    </tr>
+  </table>
+
+  <h3>Why model A and model B are not the same</h3>
+
+  <p>
+    A hard-box state assigns equal amplitude to every exponent vector inside a finite Cartesian box.
+    A discrete-Gaussian state gives larger amplitudes near the center and smaller amplitudes farther
+    away.
+  </p>
+
+  <p>
+    The two states can produce different Fourier laws and different lattice-recovery behavior. The
+    repository therefore reports results by model instead of pooling them into one conclusion.
+  </p>
+
+  <h3>Why model C is different</h3>
+
+  <p>
+    Model C does not attempt to reproduce the entire quantum circuit. It generates samples that
+    satisfy the geometric noisy-dual condition needed to test the classical reconstruction stage.
+  </p>
+
+  <p>
+    This lets the project ask whether the lattice endpoint behaves correctly when the theorem-style
+    sample assumptions are deliberately satisfied.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="reversible-arithmetic">11. Reversible modular arithmetic</h2>
+
+  <p>
+    A quantum circuit must be reversible. Ordinary programming operations often erase information,
+    but a unitary quantum operation cannot simply discard an unknown input.
+  </p>
+
+  <p>
+    The circuit therefore uses reversible modular multiplication and modular exponentiation.
+    Conceptually, it performs:
+  </p>
+
+  <pre>
+|x1, ..., xd>|1>|0>
+        ↓
+|x1, ..., xd>|product ai^xi mod N>|0>
+  </pre>
+
+  <p>
+    The exponent registers are preserved. The modular result is written into a shared output
+    register. Temporary ancilla qubits are used as workspace and should be returned to zero.
+  </p>
+
+  <h3>What the tests check</h3>
+
+  <ul>
+    <li>The gate computes the intended modular value on the valid input domain.</li>
+    <li>The output register is updated correctly.</li>
+    <li>The auxiliary register is cleaned up.</li>
+    <li>Exponent widths other than the standard Shor-style choice are handled correctly.</li>
+    <li>The imported arithmetic dependency is pinned to a known commit.</li>
+  </ul>
+
+  <p>
+    A circuit diagram with a high-level modular-exponentiation block can look shallow. After
+    decomposition, that block expands into many elementary gates. This is why logical circuit depth
+    and transpiled depth must not be confused.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="qft">12. The multidimensional quantum Fourier transform</h2>
+
+  <p>
+    Each exponent register receives its own one-dimensional QFT. The full transform is a tensor
+    product:
+  </p>
+
+  <pre>
+FM ⊗ FM ⊗ ... ⊗ FM
+  </pre>
+
+  <p>
+    There are d copies, one for each exponent register.
+  </p>
+
+  <p>
+    For the inverse-QFT convention used in the main pipeline, the phase associated with outcome k
+    and exponent vector x is:
+  </p>
+
+  <pre>
+chi_k(x) = exp(-2πi &lt;k,x&gt; / M)
+  </pre>
+
+  <p>
+    The inner product <code>&lt;k,x&gt;</code> combines all coordinates. This is why the measured
+    outcome is a vector rather than one number.
+  </p>
+
+  <h3>Roots of unity</h3>
+
+  <p>
+    A root of unity is a complex phase that returns to one after an integer number of powers.
+    QFT amplitudes are sums of these phases.
+  </p>
+
+  <p>
+    Inside one modular fiber, the exact probability law is:
+  </p>
+
+  <pre>
+P_A(k) = M^(-2d) × sum over y of
+         | sum over x in Fy of chi_k(x) |²
+  </pre>
+
+  <p>
+    If the phases align, they interfere constructively and increase the probability. If they point in
+    opposing directions, they cancel.
+  </p>
+
+  <p>
+    This is the central reason that approximate-QFT error is structured. Omitting a controlled phase
+    changes coherent phase sums before measurement. It is not automatically equivalent to randomly
+    deleting or corrupting a few completed samples.
+  </p>
+
+  <h3>Forward versus inverse convention</h3>
+
+  <p>
+    A sign error changes the transform. A swap-order error changes qubit ordering. A classical-bit
+    decoding error can make a correct quantum distribution appear wrong.
+  </p>
+
+  <p>
+    The repository validates the matrix convention directly against roots-of-unity matrices and
+    Qiskit-generated matrices. It audits:
+  </p>
+
+  <ul>
+    <li>forward versus inverse sign;</li>
+    <li>controlled-phase angle;</li>
+    <li>gate order;</li>
+    <li>swap placement;</li>
+    <li>little-endian qubit ordering;</li>
+    <li>multidimensional coordinate order;</li>
+    <li>measurement decoding.</li>
+  </ul>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="approximate-qft">13. Exact and approximate QFTs</h2>
+
+  <p>
+    An exact q-qubit QFT includes:
+  </p>
+
+  <pre>
+q(q - 1) / 2
+  </pre>
+
+  <p>
+    controlled-phase gates in one register.
+  </p>
+
+  <p>
+    Across d registers, the logical controlled-phase count is:
+  </p>
+
+  <pre>
+d × q(q - 1) / 2
+  </pre>
+
+  <p>
+    Small-angle controlled rotations contribute to precision but also increase circuit size.
+    An approximate QFT removes some of the smallest rotations.
+  </p>
+
+  <h3>The distance cutoff t</h3>
+
+  <p>
+    The repository uses a distance cutoff. A controlled phase is kept when the two qubits are
+    separated by at most t positions.
+  </p>
+
+  <ul>
+    <li><code>t = q - 1</code> means exact QFT.</li>
+    <li><code>t = q - 2</code> removes only the smallest-angle phase layer.</li>
+    <li>Smaller t values remove increasingly important rotations.</li>
+  </ul>
+
+  <p>
+    The one-register sum of omitted phase angles is:
+  </p>
+
+  <pre>
+eta(q,t) = π × sum from r=t+1 to q-1 of (q-r)/2^r
+  </pre>
+
+  <p>
+    This quantity enters the conservative error certificate.
+  </p>
+
+  <h3>Logical savings versus hardware savings</h3>
+
+  <p>
+    Removing controlled phases reduces the QFT gate count. That does not automatically prove a full
+    program speedup.
+  </p>
+
+  <p>
+    Modular arithmetic dominates the full circuit, and a transpiler can decompose or optimize gates
+    differently. The repository therefore labels:
+  </p>
+
+  <ul>
+    <li>logical controlled-phase savings;</li>
+    <li>QFT-only transpiled CX savings;</li>
+    <li>full-circuit resources;</li>
+    <li>simulator runtimes;</li>
+    <li>analytic estimates.</li>
+  </ul>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="measurement">14. Measurement and decoding</h2>
+
+  <p>
+    Qiskit displays classical bitstrings in an order that does not directly match the logical list of
+    exponent registers.
+  </p>
+
+  <p>
+    The decoder must:
+  </p>
+
+  <ol>
+    <li>remove spaces from the displayed bitstring;</li>
+    <li>reverse the full displayed order when required by Qiskit's convention;</li>
+    <li>split the bits into d chunks of nd bits;</li>
+    <li>convert each register chunk into an integer;</li>
+    <li>return an ordered vector:</li>
+  </ol>
+
+  <pre>
+k = (k1, k2, ..., kd)
+  </pre>
+
+  <p>
+    A correct circuit paired with an incorrect decoder produces incorrect mathematical samples.
+    The repository therefore tests the decoding contract instead of treating bit order as a display
+    detail.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="lattice">15. Building the augmented lattice</h2>
+
+  <p>
+    The measured Fourier rows are normalized:
+  </p>
+
+  <pre>
+wi = ki / M
+  </pre>
+
+  <p>
+    If the rows are arranged into a matrix W, the rational augmented lattice has the block form:
+  </p>
+
+  <pre>
+B = [ I_d    0   ]
+    [ S W   S I_m]
+  </pre>
+
+  <p>
+    Here:
+  </p>
+
+  <ul>
+    <li><code>I_d</code> is a d-dimensional identity matrix;</li>
+    <li><code>I_m</code> is an m-dimensional identity matrix;</li>
+    <li><code>W</code> contains the normalized Fourier samples;</li>
+    <li><code>S</code> controls the geometric scale of the embedding.</li>
+  </ul>
+
+  <p>
+    The lattice should be exact. Converting rational entries to floating-point values and rounding
+    them can silently create a different lattice.
+  </p>
+
+  <p>
+    The implementation clears denominators exactly and passes an integer basis to LLL.
+  </p>
+
+  <h3>Why the lattice is augmented</h3>
+
+  <p>
+    The top block represents candidate relation coordinates. The bottom block records how well those
+    coordinates agree with the measured Fourier rows after scaling.
+  </p>
+
+  <p>
+    A useful short vector should combine a small relation candidate with a small sample-consistency
+    error.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="lll">16. What LLL does</h2>
+
+  <p>
+    LLL stands for Lenstra–Lenstra–Lovász lattice-basis reduction.
+  </p>
+
+  <p>
+    A lattice can be represented by many different bases. Some bases contain long, nearly dependent
+    vectors and are hard to interpret. LLL transforms the basis into a shorter and better-conditioned
+    basis.
+  </p>
+
+  <p>
+    LLL does not always return the mathematically shortest possible vector. It returns vectors that
+    satisfy a polynomial-time approximation guarantee.
+  </p>
+
+  <p>
+    The primary endpoint uses exact integer LLL through SymPy. The implementation also checks the
+    unimodular transformation:
+  </p>
+
+  <pre>
+transformation × original basis = reduced basis
+  </pre>
+
+  <p>
+    If this identity fails, the reduced rows cannot be trusted as exact combinations of the original
+    lattice basis.
+  </p>
+
+  <h3>Claim 5.1 stopping rule</h3>
+
+  <p>
+    The implementation evaluates the Regev-style Gram–Schmidt cutoff using exact rational
+    arithmetic. This determines how much of the reduced basis belongs to the short-vector prefix
+    considered by the recovery procedure.
+  </p>
+
+  <p>
+    This stopping rule is separate from “take the first LLL row and hope.” The repository records and
+    checks the actual prefix condition.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="relations">17. The relation lattices L and L0</h2>
+
+  <p>
+    The full relation lattice is:
+  </p>
+
+  <pre>
+L = { z in Z^d :
+      product ai^zi = 1 mod N }
+  </pre>
+
+  <p>
+    A candidate vector is not accepted merely because it is short. The code computes the modular
+    product and verifies exact membership in L.
+  </p>
+
+  <h3>The useless sublattice L0</h3>
+
+  <p>
+    For a verified relation z, compute:
+  </p>
+
+  <pre>
+beta = product bi^zi mod N
+  </pre>
+
+  <p>
+    Because each ai is bi², a valid relation in L makes beta a square root of one modulo N.
+  </p>
+
+  <p>
+    If:
+  </p>
+
+  <pre>
+beta = +1 mod N
+or
+beta = -1 mod N
+  </pre>
+
+  <p>
+    then the relation is valid but does not split N. These relations form L0.
+  </p>
+
+  <p>
+    A relation in:
+  </p>
+
+  <pre>
+L \ L0
+  </pre>
+
+  <p>
+    has a nontrivial square root of one and can yield a proper factor.
+  </p>
+
+  <h3>Why valid does not mean useful</h3>
+
+  <p>
+    LLL may successfully recover a short exact relation that lies in L0. That is not an
+    implementation failure. It is a valid arithmetic relation that happens to be useless for
+    factoring.
+  </p>
+
+  <p>
+    This distinction motivated the quotient-deflation study described later in the manual.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="factor-extraction">18. How a recovered relation becomes a factor</h2>
+
+  <p>
+    After verifying z in L and computing beta, the code attempts:
+  </p>
+
+  <pre>
+p = gcd(beta - 1, N)
+q = gcd(beta + 1, N)
+  </pre>
+
+  <p>
+    A successful factor must satisfy:
+  </p>
+
+  <pre>
+1 &lt; p &lt; N
+or
+1 &lt; q &lt; N
+  </pre>
+
+  <p>
+    If both factors are returned, the repository validates:
+  </p>
+
+  <pre>
+p × q = N
+  </pre>
+
+  <p>
+    Known factors are not given to the recovery algorithm. They are stored separately and used only
+    after a result is returned, so that the output can be checked.
+  </p>
+
+  <h3>The factor firewall</h3>
+
+  <p>
+    The code tries to prevent accidental use of the answer during recovery.
+  </p>
+
+  <ul>
+    <li>Trial functions receive N, roots, bases, samples, and frozen parameters.</li>
+    <li>Known factors are stored outside the recovery path.</li>
+    <li>Generator-side oracle information in model C is hidden from reconstruction.</li>
+    <li>Root selection is checked for setup leaks.</li>
+    <li>Every candidate relation is verified independently.</li>
+  </ul>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="certificate">19. The finite-shot QFT certificate</h2>
+
+  <p>
+    The project derived a conservative bound connecting QFT approximation to a downstream recovery
+    event.
+  </p>
+
+  <p>
+    Its dimensionless decision variable is:
+  </p>
+
+  <pre>
+B(d,M,m,t;Delta)
+  = m × min(1, 2d × eta(q,t)) / Delta
+  </pre>
+
+  <p>
+    The certificate approves a cutoff only when:
+  </p>
+
+  <pre>
+B ≤ 1
+  </pre>
+
+  <p>
+    The variables mean:
+  </p>
+
+  <ul>
+    <li><code>d</code>: number of exponent registers;</li>
+    <li><code>M</code>: Fourier modulus;</li>
+    <li><code>m</code>: number of measured samples;</li>
+    <li><code>t</code>: retained controlled-phase distance;</li>
+    <li><code>Delta</code>: maximum allowed loss in recovery-event probability.</li>
+  </ul>
+
+  <p>
+    The derived no-certificate condition is:
+  </p>
+
+  <pre>
+M &lt; 4πdm / Delta
+  </pre>
+
+  <p>
+    Under that condition, the implemented worst-case certificate cannot authorize even the first
+    non-exact QFT cutoff.
+  </p>
+
+  <h3>What the certificate means</h3>
+
+  <p>
+    The certificate is a sufficient guarantee. If it approves a cutoff, the stated worst-case error
+    budget is respected.
+  </p>
+
+  <p>
+    Failure to approve is not the same as proof of failure. The certificate may lose information
+    when it replaces the actual prepared state, fiber structure, interference pattern, measurement,
+    and recovery event with worst-case inequalities.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="current-result">20. The current certification-gap result</h2>
+
+  <p>
+    The final frozen holdout used:
+  </p>
+
+  <ul>
+    <li>eight previously unused semiprimes;</li>
+    <li>roots (2,3);</li>
+    <li>d = 2;</li>
+    <li>M in {8,16,32};</li>
+    <li>m = 7 samples;</li>
+    <li>model A hard-box states;</li>
+    <li>model B finite-Gaussian states;</li>
+    <li>every valid QFT cutoff;</li>
+    <li>64 replicates per experimental cell.</li>
+  </ul>
+
+  <p>
+    The experiment produced 12,288 raw endpoint trials.
+  </p>
+
+  <h3>What the original certificate selected</h3>
+
+  <p>
+    The original worst-case certificate approved zero omitted phase layers. In every tested
+    configuration, it selected the exact QFT.
+  </p>
+
+  <h3>What the held-out recovery endpoint found</h3>
+
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>M</th>
+      <th>Largest passing omission for hard-box model A</th>
+      <th>Largest passing omission for finite-Gaussian model B</th>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>1 phase layer</td>
+      <td>1 phase layer</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>1 phase layer</td>
+      <td>2 phase layers</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td>1 phase layer</td>
+      <td>2 phase layers</td>
+    </tr>
+  </table>
+
+  <p>
+    A cell passed only when both of the following approximate-minus-exact lower confidence bounds
+    remained above the frozen -0.10 non-inferiority margin:
+  </p>
+
+  <ul>
+    <li>factor-recovery probability;</li>
+    <li>verified L\L0 recovery probability.</li>
+  </ul>
+
+  <h3>Resource effect</h3>
+
+  <p>
+    The largest passing cells saved:
+  </p>
+
+  <ul>
+    <li>six logical controlled-phase gates;</li>
+    <li>12 QFT-only transpiled CX gates.</li>
+  </ul>
+
+  <p>
+    These are not demonstrated full-device speedups. The modular arithmetic remains much larger
+    than the QFT, and no hardware experiment was performed.
+  </p>
+
+  <h3>The conclusion</h3>
+
+  <blockquote>
+    The exact-QFT decision made by the original worst-case certificate was mainly a limitation of
+    that proof technique in this finite regime. It was not a necessary condition for the tested
+    prepared-state lattice-recovery endpoint.
+  </blockquote>
+
+  <p>
+    This conclusion is limited to the tested semiprimes, dimensions, Fourier sizes, sample count,
+    state models, and current LLL decoder.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="negative-results">21. Negative results that the repository keeps</h2>
+
+  <p>
+    The repository intentionally preserves failed hypotheses. A negative result is useful when the
+    experiment was frozen, the comparison was fair, and the claim boundary is clear.
+  </p>
+
+  <h3>Base-selection diversity</h3>
+
+  <p>
+    The first hypothesis was that selecting modular bases with greater bounded-product diversity
+    would improve lattice recovery.
+  </p>
+
+  <p>
+    The relationship was model-dependent. It appeared negatively associated with recovery in the
+    finite hard-box and Gaussian models and disappeared in the theorem-consistent noisy-dual model.
+  </p>
+
+  <p>
+    The repository therefore does not claim a general Regev base-selection improvement.
+  </p>
+
+  <h3>Quotient deflation and LDAR</h3>
+
+  <p>
+    Another hypothesis was that LLL wasted effort repeatedly finding short L0 relations. The project
+    implemented exact quotient construction, verified deflation, adaptive resampling, bounded
+    enumeration, and matched-cost baselines.
+  </p>
+
+  <p>
+    The complete method did not beat the matched reference on the frozen 20-modulus holdout. It was
+    worse in models A, B, and D and tied in saturated model C.
+  </p>
+
+  <h3>The original five-percent adaptive selector</h3>
+
+  <p>
+    The selector was intended to choose a resource-saving approximate QFT while remaining inside a
+    five-percent loss certificate.
+  </p>
+
+  <p>
+    It never selected a non-exact cutoff in the frozen grid. That positive selector hypothesis was
+    falsified.
+  </p>
+
+  <p>
+    The later certification-gap experiment did not make the selector successful. It showed that the
+    selector was too conservative relative to the finite endpoint.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="timeline">22. Research timeline</h2>
+
+  <h3>Stage 1: reconstruct the original notebook</h3>
+
+  <p>
+    The project recovered the register sizes, imported arithmetic behavior, QFT conventions,
+    measurement order, and circuit path. It identified the notebook state as a finite uniform box,
+    not the full Gaussian state from Regev's formulation.
+  </p>
+
+  <h3>Stage 2: test dependency-aware base selection</h3>
+
+  <p>
+    A bounded diversity metric was implemented. The first evaluation was later recognized as
+    circular because the selector and evaluator examined the same bounded relation region.
+  </p>
+
+  <h3>Stage 3: mandatory red-team revision</h3>
+
+  <p>
+    The revision permanently paired roots with bases, built the real augmented-lattice endpoint,
+    separated the sampling models, added factor-blind controls, and ran held-out base-selection
+    ablations.
+  </p>
+
+  <h3>Stage 4: quotient-aware recovery</h3>
+
+  <p>
+    The project tested whether quotienting or suppressing L0 directions would improve factor-bearing
+    recovery. The positive hypothesis failed under the frozen budget.
+  </p>
+
+  <h3>Stage 5: first finite QFT/noise study</h3>
+
+  <p>
+    A small d=3, M=8 experiment showed that aggressive truncation damaged recovery, but the register
+    was too small to support fine cutoff choices. The study was retained as background.
+  </p>
+
+  <h3>Stage 6: QFT precision scaling</h3>
+
+  <p>
+    The project derived the certificate-scaling law and evaluated a large analytic grid. The
+    five-percent selector chose exact QFT everywhere.
+  </p>
+
+  <h3>Stage 7: certification-gap holdout</h3>
+
+  <p>
+    A theorem audit found and corrected a reversed gate-order bug in the custom approximate QFT.
+    All affected rows were invalidated and regenerated. Sharper factor-blind certificates and an
+    eight-semiprime held-out endpoint then measured the gap between theorem rejection and actual
+    recovery.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="repository-layout">23. Repository layout</h2>
+
+  <pre>
+regev_research/
+    Python library modules for circuits, exact distributions,
+    lattices, quotient methods, experiments, and certificates
+
+scripts/
+    Reproducible command-line entry points
+
+tests/
+    Unit, regression, matrix, arithmetic, lattice, and protocol tests
+
+results/
+    Frozen raw trials, aggregate summaries, bootstrap draws,
+    completion records, and resource tables
+
+figures/
+    Generated plots from the original and red-team studies
+
+external/
+    Audited external reversible-arithmetic dependency
+
+*.ipynb
+    Original and generated executable notebooks
+
+*.md
+    Reports, theory notes, frozen protocols, and adversarial audits
+  </pre>
+
+  <p>
+    The repository is designed so that implementation, frozen experiment configuration, raw output,
+    statistical analysis, and written claims can be inspected separately.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="module-reference">24. Python module reference</h2>
+
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Module</th>
+      <th>Purpose</th>
+    </tr>
+    <tr>
+      <td><code>core.py</code></td>
+      <td>Rooted-base objects, modular arithmetic, factor-blind relation diagnostics, exact hard-box Fourier law, and factor extraction.</td>
+    </tr>
+    <tr>
+      <td><code>circuits.py</code></td>
+      <td>Qiskit circuit construction, exact or truncated product QFTs, and compiled resource reports.</td>
+    </tr>
+    <tr>
+      <td><code>qft_noise.py</code></td>
+      <td>Roots-of-unity matrices, exact and approximate fiber laws, noise mappings, gate counts, and cutoff formulas.</td>
+    </tr>
+    <tr>
+      <td><code>qft_certificate.py</code></td>
+      <td>Worst-case theorem decision, boundary checks, sharper state/distribution certificates, and proof-slack utilities.</td>
+    </tr>
+    <tr>
+      <td><code>dual.py</code></td>
+      <td>Factor-blind exact relation-lattice construction for oracle-side validation and theorem-consistent noisy-dual sampling.</td>
+    </tr>
+    <tr>
+      <td><code>lattice.py</code></td>
+      <td>Exact denominator clearing, augmented integer lattice, verified LLL transform, Claim-5.1 prefix, L/L0 classification, and factor endpoint.</td>
+    </tr>
+    <tr>
+      <td><code>redteam.py</code></td>
+      <td>Exact finite sampling laws and the frozen rooted-base ablations.</td>
+    </tr>
+    <tr>
+      <td><code>redteam_experiments.py</code></td>
+      <td>The 24-modulus, six-method, three-model red-team study with clustered inference.</td>
+    </tr>
+    <tr>
+      <td><code>quotient.py</code></td>
+      <td>Exact integer quotient construction using HNF and SNF.</td>
+    </tr>
+    <tr>
+      <td><code>quotient_metrics.py</code></td>
+      <td>Oracle-side relation and quotient diagnostics that are not passed to the recovery selector.</td>
+    </tr>
+    <tr>
+      <td><code>quotient_predictors.py</code></td>
+      <td>Post-hoc joins and clustered predictor comparisons on frozen study rows.</td>
+    </tr>
+    <tr>
+      <td><code>quotient_recovery.py</code></td>
+      <td>Bounded enumeration, quotient deduplication, L0 suppression, LDAR, BKZ comparisons, and matched baselines.</td>
+    </tr>
+    <tr>
+      <td><code>quotient_experiments.py</code></td>
+      <td>Frozen quotient-study parameters and sample-model definitions.</td>
+    </tr>
+    <tr>
+      <td><code>quotient_study.py</code></td>
+      <td>Checkpointed held-out execution and aggregation for the large quotient study.</td>
+    </tr>
+    <tr>
+      <td><code>rv_filter.py</code></td>
+      <td>A finite structural comparator inspired by Ragavan–Vaikuntanathan, with unmet theorem assumptions reported explicitly.</td>
+    </tr>
+    <tr>
+      <td><code>experiments.py</code></td>
+      <td>Superseded first-stage experiments retained for audit reproduction.</td>
+    </tr>
+    <tr>
+      <td><code>__init__.py</code></td>
+      <td>Public imports for core rooted-base, lattice, quotient, and QFT utilities.</td>
+    </tr>
+  </table>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="script-reference">25. Script reference</h2>
+
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Script</th>
+      <th>What it runs</th>
+    </tr>
+    <tr>
+      <td><code>scripts/run_qft_certificate_gap.py</code></td>
+      <td>The current eight-semiprime certification-gap holdout, sharper certificates, resources, comparisons, and figures.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/run_qft_precision_scaling.py</code></td>
+      <td>The earlier QFT certificate-scaling grid, matrix checks, feasible finite endpoints, and resource summaries.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/run_qft_noise_experiment.py</code></td>
+      <td>The superseded first finite QFT/noise experiment.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/run_redteam.py</code></td>
+      <td>The frozen base-selection red-team experiment.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/run_quotient_study.py</code></td>
+      <td>The expensive held-out quotient experiment.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/analyze_quotient_study.py</code></td>
+      <td>Reanalyzes the checked-in quotient trial table without rerunning recovery.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/run_research.py</code></td>
+      <td>The superseded first-stage analysis.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/build_revised_notebook.py</code></td>
+      <td>Builds the revised executable notebook from one Python source.</td>
+    </tr>
+    <tr>
+      <td><code>scripts/execute_revised_notebook.py</code></td>
+      <td>Executes the generated notebook with errors disallowed.</td>
+    </tr>
+  </table>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="setup">26. Installation and setup</h2>
+
+  <h3>Requirements</h3>
+
+  <ul>
+    <li>Git</li>
+    <li>Python 3 with virtual-environment support</li>
+    <li>A macOS or Linux shell such as zsh or bash</li>
+    <li>Enough storage for dependencies and result files</li>
+  </ul>
+
+  <p>
+    The checked-in quotient outputs are large. Re-running the quotient study can create large
+    checkpoint files. The current certification-gap study is much smaller.
+  </p>
+
+  <h3>Step 1: clone the repository</h3>
+
+  <pre>
+git clone https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing.git
+cd RegevsCircutandLatticePostProcessing
+  </pre>
+
+  <h3>Step 2: create a virtual environment</h3>
+
+  <pre>
+python3 -m venv .venv
+  </pre>
+
+  <p>
+    A virtual environment keeps the research dependencies separate from the computer's global
+    Python installation.
+  </p>
+
+  <h3>Step 3: activate the environment</h3>
+
+  <pre>
+source .venv/bin/activate
+  </pre>
+
+  <p>
+    Activation is optional when commands explicitly use <code>.venv/bin/python</code>, but it is
+    convenient during interactive work.
+  </p>
+
+  <h3>Step 4: install pinned dependencies</h3>
+
+  <pre>
+.venv/bin/python -m pip install -r requirements-research.txt
+  </pre>
+
+  <p>
+    The environment includes Qiskit and Aer for circuits, NumPy and SciPy for numerical work,
+    SymPy for exact integer algebra, pandas and Matplotlib for analysis, fpylll for verified BKZ
+    comparisons, notebook tooling, and pytest.
+  </p>
+
+  <h3>Step 5: install the audited arithmetic dependency</h3>
+
+  <p>
+    Only run the clone command if the external directory is missing:
+  </p>
+
+  <pre>
+git clone --depth 1 \
+  https://github.com/Wlitkopa/regev-quantum-algorithm.git \
+  external/regev-quantum-algorithm
+
+git -C external/regev-quantum-algorithm fetch --depth 1 \
+  origin a18f75d414485086db9b257407e0bd01f8a8f81c
+
+git -C external/regev-quantum-algorithm checkout \
+  a18f75d414485086db9b257407e0bd01f8a8f81c
+  </pre>
+
+  <p>
+    The fixed commit keeps the reversible-arithmetic dependency reproducible.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="tests">27. Running the tests</h2>
+
+  <p>
+    Run the full test suite from the repository root:
+  </p>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl \
+PYTHONPATH=. \
+.venv/bin/python -m pytest -q
+  </pre>
+
+  <p>
+    The current repository documentation reports this expected final line:
+  </p>
+
+  <pre>
+104 passed
+  </pre>
+
+  <h3>What the environment variables do</h3>
+
+  <p>
+    <code>PYTHONPATH=.</code> tells Python that the repository root should be searched for imports.
+  </p>
+
+  <p>
+    <code>MPLCONFIGDIR=/tmp/mpl</code> gives Matplotlib a writable temporary cache directory and
+    avoids permission warnings in restricted environments.
+  </p>
+
+  <h3>What the tests cover</h3>
+
+  <ul>
+    <li>root/base pairing;</li>
+    <li>factor-blind arithmetic utilities;</li>
+    <li>modular gate contracts;</li>
+    <li>ancilla cleanup;</li>
+    <li>QFT matrices and sign conventions;</li>
+    <li>approximate-QFT gate ordering;</li>
+    <li>measurement decoding;</li>
+    <li>exact finite sampling laws;</li>
+    <li>augmented lattice construction;</li>
+    <li>LLL transformations;</li>
+    <li>L and L0 classification;</li>
+    <li>factor extraction;</li>
+    <li>frozen protocol configuration;</li>
+    <li>regression cases discovered during red-teaming.</li>
+  </ul>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="reproduction">28. Reproducing the current result</h2>
+
+  <p>
+    Run:
+  </p>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl \
+PYTHONPATH=. \
+.venv/bin/python scripts/run_qft_certificate_gap.py
+  </pre>
+
+  <p>
+    This rewrites:
+  </p>
+
+  <pre>
+results/qft_certificate_gap/
+  </pre>
+
+  <p>
+    The output directory includes:
+  </p>
+
+  <ul>
+    <li>raw endpoint trials;</li>
+    <li>per-N comparisons;</li>
+    <li>cluster comparisons;</li>
+    <li>bootstrap draws;</li>
+    <li>leave-one-N-out sensitivity checks;</li>
+    <li>margin sensitivity checks;</li>
+    <li>proof-step slack tables;</li>
+    <li>controlled examples;</li>
+    <li>resource tables;</li>
+    <li>the certification-versus-recovery figure;</li>
+    <li>a completion record containing row counts and SHA-256 hashes.</li>
+  </ul>
+
+  <h3>Why completion hashes matter</h3>
+
+  <p>
+    A result directory can be copied, edited, or partially regenerated. A completion record lets a
+    reader check whether the files match the output produced by one completed run.
+  </p>
+
+  <p>
+    This does not prove the scientific claim by itself. It proves that the result bundle is internally
+    tied to a recorded execution.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="earlier-studies">29. Running earlier studies</h2>
+
+  <h3>QFT precision scaling</h3>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl \
+PYTHONPATH=. \
+.venv/bin/python scripts/run_qft_precision_scaling.py
+  </pre>
+
+  <h3>First finite QFT/noise experiment</h3>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl \
+PYTHONPATH=. \
+.venv/bin/python scripts/run_qft_noise_experiment.py
+  </pre>
+
+  <h3>Base-selection red team</h3>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl \
+PYTHONPATH=. \
+.venv/bin/python scripts/run_redteam.py
+  </pre>
+
+  <h3>Analyze the completed quotient study</h3>
+
+  <pre>
+PYTHONPATH=. \
+.venv/bin/python scripts/analyze_quotient_study.py
+  </pre>
+
+  <p>
+    The quotient study is expensive and already has a complete checked-in trial table. Use the
+    analysis script unless a full rerun is specifically required.
+  </p>
+
+  <h3>Build and execute the revised notebook</h3>
+
+  <pre>
+.venv/bin/python scripts/build_revised_notebook.py
+
+.venv/bin/python -m ipykernel install \
+  --prefix .jupyter \
+  --name regev-research \
+  --display-name "Regev Research"
+
+JUPYTER_DATA_DIR="$PWD/.jupyter/share/jupyter" \
+IPYTHONDIR=/tmp/ipython \
+MPLBACKEND=Agg \
+MPLCONFIGDIR=/tmp/mpl \
+.venv/bin/python scripts/execute_revised_notebook.py
+  </pre>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="outputs">30. How to read the outputs</h2>
+
+  <h3>Raw trials</h3>
+
+  <p>
+    A raw trial row represents one frozen combination of modulus, model, cutoff, replicate, and
+    recovery result. Raw rows should not be pooled without respecting the experimental unit.
+  </p>
+
+  <h3>The modulus N is the generalization unit</h3>
+
+  <p>
+    Thousands of repeated shots on one modulus do not create thousands of independently generalized
+    factoring problems.
+  </p>
+
+  <p>
+    The repository therefore aggregates and resamples at the whole-N level when making
+    across-modulus claims.
+  </p>
+
+  <h3>Factor success</h3>
+
+  <p>
+    Factor success means the recovery path returned a proper factor pair that multiplied back to N.
+    Setup gcd leaks are excluded.
+  </p>
+
+  <h3>Verified L\L0 success</h3>
+
+  <p>
+    This is a stricter structural endpoint. It records whether recovery found an exact relation whose
+    stored-root product belonged to a factor-bearing class.
+  </p>
+
+  <h3>Confidence intervals</h3>
+
+  <p>
+    Cluster intervals resample whole moduli. They reflect uncertainty across the tested N values,
+    not merely uncertainty across repeated shots at one N.
+  </p>
+
+  <h3>Non-inferiority</h3>
+
+  <p>
+    Non-inferiority asks whether the approximate method is not worse than the exact method by more
+    than a predeclared margin.
+  </p>
+
+  <p>
+    In the current holdout, the frozen absolute margin was 0.10. The approximate-minus-exact lower
+    confidence bound had to remain above -0.10.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="problems">31. Common problems</h2>
+
+  <h3>ModuleNotFoundError: No module named regev_research</h3>
+
+  <p>
+    Run the command from the repository root and include:
+  </p>
+
+  <pre>
+PYTHONPATH=.
+  </pre>
+
+  <h3>Missing gates.r_haner or modular-exponentiation imports</h3>
+
+  <p>
+    Confirm that this file exists:
+  </p>
+
+  <pre>
+external/regev-quantum-algorithm/gates/r_haner/modular_exponentiation.py
+  </pre>
+
+  <p>
+    Verify the dependency commit:
+  </p>
+
+  <pre>
+git -C external/regev-quantum-algorithm rev-parse HEAD
+  </pre>
+
+  <p>
+    Expected:
+  </p>
+
+  <pre>
+a18f75d414485086db9b257407e0bd01f8a8f81c
+  </pre>
+
+  <h3>Matplotlib cache is not writable</h3>
+
+  <p>
+    Prefix the command with:
+  </p>
+
+  <pre>
+MPLCONFIGDIR=/tmp/mpl
+  </pre>
+
+  <h3>Jupyter cannot find the regev-research kernel</h3>
+
+  <p>
+    Install it from the virtual environment:
+  </p>
+
+  <pre>
+.venv/bin/python -m ipykernel install \
+  --prefix .jupyter \
+  --name regev-research \
+  --display-name "Regev Research"
+  </pre>
+
+  <h3>LLL and BKZ are being confused</h3>
+
+  <p>
+    The primary endpoint uses exact integer LLL through SymPy. BKZ experiments use fpylll only when
+    the transformation can be verified.
+  </p>
+
+  <p>
+    A deterministic fallback is labeled as a surrogate. It should not be reported as actual BKZ.
+  </p>
+
+  <h3>The quotient study uses too much time or storage</h3>
+
+  <p>
+    Do not rerun it by default. Analyze the checked-in 117,760-row trial table:
+  </p>
+
+  <pre>
+PYTHONPATH=. \
+.venv/bin/python scripts/analyze_quotient_study.py
+  </pre>
+
+  <h3>A toy circuit returned factors. Is the algorithm proven?</h3>
+
+  <p>
+    No. A toy success may be caused by easy group structure, setup gcd leakage, a favorable root
+    family, or repeated tuning on the same input.
+  </p>
+
+  <p>
+    The evidence must be tied to the labeled sample-to-lattice endpoint and the tested finite model.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="extend">32. How to extend the project without invalidating it</h2>
+
+  <ol>
+    <li>Keep every chosen root permanently paired with its squared base.</li>
+    <li>Do not give known factors, group orders, arbitrary square roots, or generator oracles to a factor-blind recovery method.</li>
+    <li>Write the mathematical contract of every new function.</li>
+    <li>Test what the code actually computes, not only what its name suggests.</li>
+    <li>Freeze moduli, seeds, parameter grids, budgets, and failure conditions before the final holdout.</li>
+    <li>Use N as the primary unit for generalization.</li>
+    <li>Compare methods using the same quantum-sample count and classical-search budget.</li>
+    <li>Verify z in L before classifying it or attempting gcd extraction.</li>
+    <li>Keep hard-box, Gaussian, noisy-dual, and corruption-surrogate conclusions separate.</li>
+    <li>Separate measured gate counts, analytic bounds, deterministic estimates, and simulator runtimes.</li>
+    <li>Preserve negative results instead of moving the endpoint after seeing held-out data.</li>
+    <li>Invalidate and regenerate outputs when a correctness bug changes the experimental calculation.</li>
+  </ol>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="claims">33. What is verified, what is not, and how claims are labeled</h2>
+
+  <h3>Verified implementation facts</h3>
+
+  <ul>
+    <li>The original notebook prepares a finite uniform hard-box state.</li>
+    <li>Setup base selection can reveal factors classically, and those events are now labeled.</li>
+    <li>Roots and squared bases must remain paired for valid factor extraction.</li>
+    <li>The augmented lattice is constructed with exact denominator clearing.</li>
+    <li>The LLL transformation is verified.</li>
+    <li>Candidate relations are checked exactly before classification.</li>
+    <li>The QFT convention is validated against direct matrices.</li>
+    <li>The reversed approximate-QFT gate-order bug was corrected and affected outputs were regenerated.</li>
+    <li>The current repository documentation reports 104 passing tests.</li>
+  </ul>
+
+  <h3>Falsified positive hypotheses</h3>
+
+  <ul>
+    <li>The bounded diversity selector did not establish a general base-selection improvement.</li>
+    <li>Complete quotient-aware LDAR did not beat the matched baseline in the frozen holdout.</li>
+    <li>The five-percent worst-case selector did not choose a resource-saving cutoff.</li>
+  </ul>
+
+  <h3>Not established</h3>
+
+  <ul>
+    <li>No cryptographically large factorization.</li>
+    <li>No proof of a general speedup over Shor or published Regev implementations.</li>
+    <li>No hardware experiment.</li>
+    <li>No calibrated device-noise claim.</li>
+    <li>No proof that approximate QFT is always safe.</li>
+    <li>No proof that all approximate QFTs fail.</li>
+    <li>No generalization from small finite hard-box states to the full asymptotic Gaussian algorithm.</li>
+    <li>No publication-priority or breakthrough claim.</li>
+  </ul>
+
+  <h3>The strongest current claim</h3>
+
+  <blockquote>
+    In the tested finite hard-box and finite-Gaussian models, limited QFT phase-layer omission met a
+    frozen lattice-recovery non-inferiority endpoint even though the original worst-case certificate
+    rejected every non-exact cutoff.
+  </blockquote>
+
+  <p>
+    This is a finite certification-gap result. It is not a general faster factoring algorithm.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="glossary">34. Glossary</h2>
+
+  <dl>
+    <dt><strong>Ancilla</strong></dt>
+    <dd>A temporary quantum work qubit used by reversible arithmetic.</dd>
+
+    <dt><strong>Approximate QFT</strong></dt>
+    <dd>A QFT circuit that omits selected small controlled-phase rotations.</dd>
+
+    <dt><strong>BKZ</strong></dt>
+    <dd>A stronger, usually more expensive family of lattice-reduction algorithms.</dd>
+
+    <dt><strong>Composite integer</strong></dt>
+    <dd>An integer that is a product of smaller positive integers.</dd>
+
+    <dt><strong>Controlled phase</strong></dt>
+    <dd>A two-qubit gate that adds a phase depending on the control and target states.</dd>
+
+    <dt><strong>Discrete Gaussian</strong></dt>
+    <dd>A probability or amplitude profile that decreases with squared distance on a discrete domain.</dd>
+
+    <dt><strong>Dual lattice</strong></dt>
+    <dd>The set of vectors having integer inner product with every vector in the original lattice.</dd>
+
+    <dt><strong>Factor-blind</strong></dt>
+    <dd>A method that is not allowed to use the known factorization of N while selecting or recovering.</dd>
+
+    <dt><strong>Fiber</strong></dt>
+    <dd>The set of exponent vectors that produce the same modular-exponentiation output.</dd>
+
+    <dt><strong>gcd</strong></dt>
+    <dd>The greatest common divisor of two integers.</dd>
+
+    <dt><strong>Hard-box state</strong></dt>
+    <dd>A state assigning equal amplitude to every exponent vector in a finite Cartesian box.</dd>
+
+    <dt><strong>Held-out modulus</strong></dt>
+    <dd>An N value not used while tuning the method and reserved for final evaluation.</dd>
+
+    <dt><strong>HNF</strong></dt>
+    <dd>Hermite normal form, an exact canonical form for integer lattices.</dd>
+
+    <dt><strong>L</strong></dt>
+    <dd>The exact multiplicative relation lattice of the squared circuit bases.</dd>
+
+    <dt><strong>L0</strong></dt>
+    <dd>The sublattice of valid relations whose stored-root product is +1 or -1.</dd>
+
+    <dt><strong>LLL</strong></dt>
+    <dd>A polynomial-time lattice-basis reduction algorithm that returns a shorter, better-conditioned basis.</dd>
+
+    <dt><strong>Modulo N</strong></dt>
+    <dd>Arithmetic in which values differing by a multiple of N are treated as equivalent.</dd>
+
+    <dt><strong>Non-inferiority</strong></dt>
+    <dd>A test asking whether a new method is not worse than a reference by more than a predeclared margin.</dd>
+
+    <dt><strong>QFT</strong></dt>
+    <dd>The quantum Fourier transform, which converts phase and periodic structure into measurement structure.</dd>
+
+    <dt><strong>QFT cutoff</strong></dt>
+    <dd>The maximum qubit separation whose controlled phase is retained.</dd>
+
+    <dt><strong>Relation</strong></dt>
+    <dd>An integer exponent vector whose modular product of circuit bases equals one.</dd>
+
+    <dt><strong>Root of unity</strong></dt>
+    <dd>A complex phase that returns to one after an integer power.</dd>
+
+    <dt><strong>Rooted base</strong></dt>
+    <dd>The permanently paired values (bi, ai) with ai = bi² mod N.</dd>
+
+    <dt><strong>Semiprime</strong></dt>
+    <dd>A composite integer formed from the product of two primes.</dd>
+
+    <dt><strong>Setup factor leak</strong></dt>
+    <dd>A factor found classically during root or base selection before quantum sampling.</dd>
+
+    <dt><strong>Shot</strong></dt>
+    <dd>One circuit preparation, execution, and measurement.</dd>
+
+    <dt><strong>SNF</strong></dt>
+    <dd>Smith normal form, an exact integer tool for quotient-group structure.</dd>
+
+    <dt><strong>Total variation distance</strong></dt>
+    <dd>A value from zero to one measuring the difference between two probability distributions.</dd>
+
+    <dt><strong>Unimodular transformation</strong></dt>
+    <dd>An invertible integer change of lattice basis with determinant +1 or -1.</dd>
+  </dl>
+
+  <p><a href="#top">Back to contents</a></p>
+
+  <h2 id="references">35. Primary references</h2>
+
+  <ul>
+    <li>
+      Peter W. Shor,
+      <a href="https://doi.org/10.1137/S0097539795293172" target="_blank">
+        Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer
+      </a>.
+    </li>
+    <li>
+      Oded Regev,
+      <a href="https://arxiv.org/abs/2308.06572" target="_blank">
+        An Efficient Quantum Factoring Algorithm
+      </a>.
+    </li>
+    <li>
+      Seyoon Ragavan and Vinod Vaikuntanathan,
+      <a href="https://eprint.iacr.org/2023/1501" target="_blank">
+        Space-Efficient and Noise-Robust Quantum Factoring
+      </a>.
+    </li>
+    <li>
+      Don Coppersmith,
+      <a href="https://arxiv.org/abs/quant-ph/0201067" target="_blank">
+        An Approximate Fourier Transform Useful in Quantum Factoring
+      </a>.
+    </li>
+    <li>
+      Adriano Barenco, Artur Ekert, Kalle-Antti Suominen, and Päivi Törmä,
+      <a href="https://arxiv.org/abs/quant-ph/9601018" target="_blank">
+        Approximate Quantum Fourier Transform and Decoherence
+      </a>.
+    </li>
+    <li>
+      Yunseong Nam, Yuan Su, and Dmitri Maslov,
+      <a href="https://arxiv.org/abs/1803.04933" target="_blank">
+        Approximate Quantum Fourier Transform with O(n log n) T Gates
+      </a>.
+    </li>
+    <li>
+      Przemysław Pawlitko, Natalia Moćko, Marcin Niemiec, and Piotr Chołda,
+      <a href="https://arxiv.org/abs/2502.09772" target="_blank">
+        Implementation and Analysis of Regev's Quantum Factorization Algorithm
+      </a>.
+    </li>
+    <li>
+      A. K. Lenstra, H. W. Lenstra Jr., and L. Lovász,
+      <a href="https://doi.org/10.1007/BF01457454" target="_blank">
+        Factoring Polynomials with Rational Coefficients
+      </a>.
+    </li>
+  </ul>
+
+  <h3>Repository reports</h3>
+
+  <ul>
+    <li>
+      <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing/blob/main/QFT_CERTIFICATE_GAP_REPORT.md" target="_blank">
+        QFT Certificate Gap Report
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing/blob/main/QFT_CERTIFICATE_PROOF_AUDIT.md" target="_blank">
+        QFT Certificate Proof Audit
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing/blob/main/QFT_CERTIFICATE_GAP_PROTOCOL.md" target="_blank">
+        Frozen Certificate-Gap Protocol
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing/blob/main/REDTEAM_REVISION.md" target="_blank">
+        Red-Team Revision
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing/blob/main/FROZEN_QUOTIENT_PROTOCOL.md" target="_blank">
+        Frozen Quotient Protocol
+      </a>
+    </li>
+  </ul>
+
+  <hr>
+
+  <p>
+    This manual reflects the repository's documented main-branch state when generated in July 2026.
+    The GitHub repository remains the authoritative source for later corrections, new tests, and new results.
+  </p>
+
+  <p><a href="#top">Back to contents</a></p>
+  <p><a href="../">Back to DREU Research Log</a></p>
+
+</body>
+</html>
+'''
+
+# Correct one accidental project-name slip before writing.
+html = html.replace(
+    "ApolloRS—sorry, this repository—avoids that error",
+    "This repository avoids that error"
+)
+
+path = Path("/mnt/data/regev-style-factoring-manual.html")
+path.write_text(html, encoding="utf-8")
+
+print(f"Created {path}")
+print(f"Size: {path.stat().st_size:,} bytes")
