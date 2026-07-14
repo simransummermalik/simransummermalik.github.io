@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ApolloRS - Summer Malik</title>
+</head>
+<body>
+  <p><a href="/">Back to homepage</a></p>
+
+  <h1>ApolloRS</h1>
+
+  <p>
+    ApolloRS is my project where I am trying to understand Apollo 11 flight software by bringing it into Rust.
+  </p>
+
+  <p>
+    The repository is here:
+    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">
+      https://github.com/simransummermalik/ApolloRS
+    </a>
+  </p>
+
+  <h2>Why I chose this project</h2>
+
+  <p>
+    I chose ApolloRS because Apollo 11 software is one of those projects that feels almost unreal when you actually think about it.
+    It is not just old code. It is code that helped run a spacecraft, using a computer with very limited memory, strange arithmetic,
+    bank switching, interrupts, timing constraints, and a whole style of programming that is very different from how modern software is written.
+  </p>
+
+  <p>
+    I liked the idea of taking something historically important and trying to understand it from the inside instead of only reading about it.
+    Rewriting or modeling Apollo software in Rust forces me to slow down and ask what the original machine was actually doing.
+  </p>
+
+  <h2>Why this is not just "assembly to Rust"</h2>
+
+  <p>
+    Assembly to Rust is not like translating Python into Java. Assembly is tied very closely to the machine.
+    It uses registers, memory addresses, jumps, banks, and exact instruction behavior.
+  </p>
+
+  <p>
+    So for ApolloRS, I am not trying to immediately turn Apollo code into pretty modern Rust.
+    That would be cute, but it would also be kind of fake if I could not prove it behaves like the original.
+  </p>
+
+  <p>
+    Instead, I am thinking about the project in layers.
+  </p>
+
+  <h2>Layer 1: Emulate the Apollo Guidance Computer</h2>
+
+  <p>
+    This is the safest first layer. The Apollo assembly stays Apollo assembly.
+    Rust acts like the Apollo Guidance Computer and executes the original machine words.
+  </p>
+
+  <pre>
+Apollo assembly
+      |
+      v
+yaYUL assembler
+      |
+      v
+15-bit AGC machine words
+      |
+      v
+Rust AGC emulator
+      |
+      v
+behavior similar to what the original computer would do
+  </pre>
+
+  <p>
+    This layer matters because I need something faithful before I can make anything readable.
+  </p>
+
+  <h2>Layer 2: Faithful Rust translation</h2>
+
+  <p>
+    The second layer is a more direct Rust translation. Each Apollo instruction becomes a Rust operation.
+    This still keeps the program counter, registers, memory, labels, banks, and addresses.
+  </p>
+
+  <p>
+    It would not look like normal Rust yet. It would still behave like assembly, just represented through Rust code.
+    But that is useful because I can compare it instruction by instruction against the emulator.
+  </p>
+
+  <h2>Layer 3: Readable Rust reconstruction</h2>
+
+  <p>
+    This is the harder and more interesting layer. Eventually, I want parts of the code to become readable Rust:
+    structs, functions, loops, and named guidance logic.
+  </p>
+
+  <p>
+    The problem is that the original Apollo assembly does not hand you neat functions like
+    <code>update_landing_state()</code>. It gives you labels, jumps, memory locations, fixed-point math,
+    temporary storage, and comments from a completely different programming world.
+  </p>
+
+  <p>
+    So the readable version has to be earned slowly. I do not want to make it pretty before I know it is correct.
+  </p>
+
+  <h2>Why Apollo is weird</h2>
+
+  <p>
+    Apollo software has a lot of machine details that normal Rust does not automatically copy.
+  </p>
+
+  <ul>
+    <li>The AGC uses 15-bit words.</li>
+    <li>It uses one's-complement arithmetic.</li>
+    <li>It has positive zero and negative zero.</li>
+    <li>It uses banked memory.</li>
+    <li>Interrupts and timing matter.</li>
+    <li>Some instructions can be modified through indexing.</li>
+    <li>Some code runs through an interpreter inside the AGC itself.</li>
+  </ul>
+
+  <p>
+    That is why I chose Rust for this. Rust lets me make the weird parts explicit instead of hiding everything inside normal integers.
+    I can create types for AGC words, banks, addresses, traces, and machine state.
+  </p>
+
+  <h2>What I am doing right now</h2>
+
+  <p>
+    Right now, ApolloRS is closer to a historical emulator and translation scaffold than a clean rewrite.
+    I am trying to preserve the original source, assemble or load reference rope images, decode AGC machine words,
+    execute them in Rust, and compare behavior carefully.
+  </p>
+
+  <p>
+    I also care about provenance. That means keeping track of where the historical source came from,
+    which commit was used, what toolchain assembled it, and what assumptions were made.
+  </p>
+
+  <p>
+    My notes describe this direction as keeping the historical Apollo source immutable while building upward from exact word semantics,
+    a lossless parser, audited references, and Rust execution rather than treating a modern rewrite as proof by itself.
+  </p>
+
+  <h2>The actual goal</h2>
+
+  <p>
+    The goal is not just to say:
+  </p>
+
+  <blockquote>
+    I converted Apollo assembly to Rust.
+  </blockquote>
+
+  <p>
+    The better goal is:
+  </p>
+
+  <blockquote>
+    I am building several Rust representations of Apollo flight software and checking where their behavior agrees with the original AGC execution.
+  </blockquote>
+
+  <p>
+    That means comparing things like the program counter, registers, memory writes, bank state, channel activity,
+    interrupts, guidance variables, and final outputs.
+  </p>
+
+  <p>
+    Basically, I want to make Apollo code easier to study without sanding off everything that made it Apollo code.
+  </p>
+
+  <h2>Repository</h2>
+
+  <p>
+    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">
+      ApolloRS on GitHub
+    </a>
+  </p>
+
+  <p><a href="/">Back to homepage</a></p>
+</body>
+</html>
