@@ -9,173 +9,591 @@
   <h1>ApolloRS</h1>
 
   <p>
-    ApolloRS is my project where I am trying to understand Apollo 11 flight software by bringing it into Rust.
+    This page is long. What do you want to read?
+  </p>
+
+  <ul>
+    <li><a href="#quick-version">Quick version</a></li>
+    <li><a href="#what-this-is">What ApolloRS actually is</a></li>
+    <li><a href="#why-not-simple">Why this is not simple</a></li>
+    <li><a href="#agc">What the AGC is</a></li>
+    <li><a href="#rope">What a rope image is</a></li>
+    <li><a href="#machine-details">The machine details that make this difficult</a></li>
+    <li><a href="#levels">The three levels of the project</a></li>
+    <li><a href="#built">What I have built so far</a></li>
+    <li><a href="#comanche-luminary">Comanche and Luminary</a></li>
+    <li><a href="#validation">How I validate it</a></li>
+    <li><a href="#p63">The P63 result</a></li>
+    <li><a href="#not-claiming">What I am not claiming</a></li>
+    <li><a href="#goal">The long-term goal</a></li>
+    <li><a href="#repo">Repository</a></li>
+  </ul>
+
+  <hr>
+
+  <h2 id="quick-version">Quick version</h2>
+
+  <p>
+    ApolloRS is my Rust project for working with Apollo 11 flight software at the machine level.
+    I am not trying to take Apollo assembly, make it look like modern Rust, and call that done.
+    That would be the easy version, but it would not prove much.
+  </p>
+
+  <p>
+    The actual goal is to preserve the original Apollo software, execute real Apollo Guidance Computer machine words,
+    record what the machine does, and compare that behavior against a pinned reference emulator.
+  </p>
+
+  <p>
+    In other words, ApolloRS is not just a rewrite. It is an emulator, source-preservation system,
+    trace generator, validation pipeline, and eventually a path toward readable Rust reconstructions of bounded Apollo routines.
   </p>
 
   <p>
     The repository is here:
-    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">
-      https://github.com/simransummermalik/ApolloRS
-    </a>
+    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">ApolloRS on GitHub</a>.
   </p>
 
-  <h2>Why I chose this project</h2>
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="what-this-is">What ApolloRS actually is</h2>
 
   <p>
-    I chose ApolloRS because Apollo 11 software is one of those projects that feels almost unreal when you actually think about it.
-    It is not just old code. It is code that helped run a spacecraft, using a computer with very limited memory, strange arithmetic,
-    bank switching, interrupts, timing constraints, and a whole style of programming that is very different from how modern software is written.
-  </p>
-
-  <p>
-    I liked the idea of taking something historically important and trying to understand it from the inside instead of only reading about it.
-    Rewriting or modeling Apollo software in Rust forces me to slow down and ask what the original machine was actually doing.
-  </p>
-
-  <h2>Why this is not just "assembly to Rust"</h2>
-
-  <p>
-    Assembly to Rust is not like translating Python into Java. Assembly is tied very closely to the machine.
-    It uses registers, memory addresses, jumps, banks, and exact instruction behavior.
+    ApolloRS is an executable Rust system for the Apollo Guidance Computer, also called the AGC.
+    The AGC was the computer used in the Apollo spacecraft. It was not a general-purpose computer like a modern laptop.
+    It had its own instruction set, memory system, arithmetic rules, input/output channels, interrupt behavior, and timing assumptions.
   </p>
 
   <p>
-    So for ApolloRS, I am not trying to immediately turn Apollo code into pretty modern Rust.
-    That would be cute, but it would also be kind of fake if I could not prove it behaves like the original.
+    That matters because Apollo software was written for that specific machine.
+    If I rewrite it too quickly into normal Rust, I can easily remove the behavior that made the original software correct.
+    The code might look cleaner, but it would no longer mean the same thing.
   </p>
 
   <p>
-    Instead, I am thinking about the project in layers.
+    So ApolloRS starts from the bottom.
+    First, it preserves the historical source.
+    Then it builds or imports validated rope images.
+    Then it executes those images in Rust.
+    Then it records detailed traces of the machine state.
+    Then it compares those traces against a reference implementation.
   </p>
 
-  <h2>Layer 1: Emulate the Apollo Guidance Computer</h2>
+  <p>
+    The current ApolloRS README describes the project as a 24-crate, unsafe-free Rust workspace that preserves Comanche 055 and Luminary 099,
+    executes real rope images, models DSKY and deterministic hardware inputs, records traces, and compares those traces with a pinned yaAGC reference.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="why-not-simple">Why this is not simple</h2>
 
   <p>
-    This is the safest first layer. The Apollo assembly stays Apollo assembly.
-    Rust acts like the Apollo Guidance Computer and executes the original machine words.
+    This is one of the most important parts of the project.
+    Converting Apollo assembly into Rust is not like converting Python into Java.
+  </p>
+
+  <p>
+    Python and Java are both high-level languages. They already have variables, functions, objects, libraries,
+    and runtime systems that are meant for people to read and write directly.
+    A Python-to-Java rewrite can usually keep the same general algorithm and change the syntax and structure around it.
+  </p>
+
+  <p>
+    Apollo assembly is different. It is much closer to the hardware.
+    A line of assembly is not just a line of code in the modern sense.
+    It is an instruction that changes a specific machine state.
+  </p>
+
+  <p>
+    That machine state includes the program counter, registers, memory banks, arithmetic state, channels, timers, interrupt state,
+    and sometimes machine behavior that does not have a normal modern equivalent.
+  </p>
+
+  <p>
+    So the question is not simply:
+  </p>
+
+  <blockquote>
+    What Rust code looks similar to this assembly?
+  </blockquote>
+
+  <p>
+    The better question is:
+  </p>
+
+  <blockquote>
+    What exact machine behavior did this instruction produce, and can Rust reproduce that behavior closely enough to check it?
+  </blockquote>
+
+  <p>
+    Apollo assembly depends on details that normal Rust does not automatically model:
+    15-bit words, one's-complement arithmetic, positive and negative zero, banked memory,
+    indexed instructions, hardware channels, and interrupt timing.
+  </p>
+
+  <p>
+    If I ignore those details, I can write Rust that looks nice but is wrong.
+    That is why ApolloRS starts with emulation and trace comparison before trying to make anything look readable.
+  </p>
+
+  <p>
+    The hard part is not generating Rust code.
+    The hard part is proving what kind of Rust representation I have:
+    original machine execution, mechanical translation, readable reconstruction, or behaviorally verified equivalence over a bounded run.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="agc">What the AGC is</h2>
+
+  <p>
+    The AGC stands for Apollo Guidance Computer.
+    It was the onboard computer used in Apollo spacecraft for navigation, guidance, and control.
+  </p>
+
+  <p>
+    The AGC handled more than just calculations.
+    It interacted with astronaut input, timers, interrupts, memory banks, input/output channels,
+    and flight software routines that controlled mission behavior.
+  </p>
+
+  <p>
+    ApolloRS models the AGC as a machine.
+    That means the project has to represent registers, memory, instructions, channels, timers, interrupts,
+    and execution traces instead of treating the original source as normal text.
+  </p>
+
+  <p>
+    This is why the project is closer to systems work than a normal translation project.
+    I am not only asking what the code says.
+    I am asking what the computer did when that code ran.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="rope">What a rope image is</h2>
+
+  <p>
+    A rope image is the executable program image for the Apollo Guidance Computer.
+    Apollo flight software was stored in fixed memory called rope memory.
+  </p>
+
+  <p>
+    For ApolloRS, the rope image is what the Rust AGC machine loads and executes.
+    This is different from just reading the source files.
+  </p>
+
+  <p>
+    Reading source tells me what is written.
+    Executing the rope tells me what the AGC machine actually does instruction by instruction.
+  </p>
+
+  <p>
+    That difference is important because the project is not only a source-code reader.
+    It is meant to run Apollo software as machine code and record the resulting behavior.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="machine-details">The machine details that make this difficult</h2>
+
+  <h3>15-bit words</h3>
+
+  <p>
+    Modern computers usually use word sizes like 8, 16, 32, or 64 bits.
+    The AGC used 15-bit words.
+  </p>
+
+  <p>
+    That means a normal Rust integer is not automatically an AGC word.
+    ApolloRS needs explicit word types so the emulator preserves the way the AGC stored and transformed values.
+  </p>
+
+  <h3>One's-complement arithmetic</h3>
+
+  <p>
+    Most modern computers use two's-complement arithmetic for signed integers.
+    The AGC used one's-complement arithmetic.
+  </p>
+
+  <p>
+    One consequence is that the AGC has both positive zero and negative zero.
+    That sounds small, but it is real machine behavior.
+    If ApolloRS collapses both zeros into one normal Rust zero too early, it is already no longer representing the AGC correctly.
+  </p>
+
+  <h3>Banked memory</h3>
+
+  <p>
+    The AGC used banked memory.
+    This means an address does not always identify one physical location by itself.
+    The selected bank registers help determine what memory is actually being accessed.
+  </p>
+
+  <p>
+    So ApolloRS cannot just do this:
   </p>
 
   <pre>
-Apollo assembly
-      |
-      v
-yaYUL assembler
-      |
-      v
-15-bit AGC machine words
-      |
-      v
-Rust AGC emulator
-      |
-      v
-behavior similar to what the original computer would do
+memory[address]
   </pre>
 
   <p>
-    This layer matters because I need something faithful before I can make anything readable.
+    The emulator has to translate addresses through the current bank state.
+    Otherwise, the same apparent address could point to the wrong memory.
   </p>
 
-  <h2>Layer 2: Faithful Rust translation</h2>
+  <h3>Interrupts</h3>
 
   <p>
-    The second layer is a more direct Rust translation. Each Apollo instruction becomes a Rust operation.
-    This still keeps the program counter, registers, memory, labels, banks, and addresses.
-  </p>
-
-  <p>
-    It would not look like normal Rust yet. It would still behave like assembly, just represented through Rust code.
-    But that is useful because I can compare it instruction by instruction against the emulator.
-  </p>
-
-  <h2>Layer 3: Readable Rust reconstruction</h2>
-
-  <p>
-    This is the harder and more interesting layer. Eventually, I want parts of the code to become readable Rust:
-    structs, functions, loops, and named guidance logic.
+    Interrupts are events that temporarily pull the computer away from its current path so it can handle something else.
+    For Apollo, interrupts matter because timers, inputs, and hardware events interact with the running flight software.
   </p>
 
   <p>
-    The problem is that the original Apollo assembly does not hand you neat functions like
-    <code>update_landing_state()</code>. It gives you labels, jumps, memory locations, fixed-point math,
-    temporary storage, and comments from a completely different programming world.
+    ApolloRS has to model interrupt entry, interrupt return, and the registers affected by that process.
+    A small mistake in interrupt handling can completely change where the program goes.
+  </p>
+
+  <h3>Channels</h3>
+
+  <p>
+    Channels are how the AGC communicated with hardware-facing systems.
+    Instead of pretending input is just typed into a modern terminal, ApolloRS models the channel activity that the original software expected.
   </p>
 
   <p>
-    So the readable version has to be earned slowly. I do not want to make it pretty before I know it is correct.
+    This matters because many meaningful Apollo scenarios are not just arithmetic.
+    They involve hardware input, display behavior, and interrupt-driven software paths.
   </p>
 
-  <h2>Why Apollo is weird</h2>
+  <h3>DSKY</h3>
 
   <p>
-    Apollo software has a lot of machine details that normal Rust does not automatically copy.
-  </p>
-
-  <ul>
-    <li>The AGC uses 15-bit words.</li>
-    <li>It uses one's-complement arithmetic.</li>
-    <li>It has positive zero and negative zero.</li>
-    <li>It uses banked memory.</li>
-    <li>Interrupts and timing matter.</li>
-    <li>Some instructions can be modified through indexing.</li>
-    <li>Some code runs through an interpreter inside the AGC itself.</li>
-  </ul>
-
-  <p>
-    That is why I chose Rust for this. Rust lets me make the weird parts explicit instead of hiding everything inside normal integers.
-    I can create types for AGC words, banks, addresses, traces, and machine state.
-  </p>
-
-  <h2>What I am doing right now</h2>
-
-  <p>
-    Right now, ApolloRS is closer to a historical emulator and translation scaffold than a clean rewrite.
-    I am trying to preserve the original source, assemble or load reference rope images, decode AGC machine words,
-    execute them in Rust, and compare behavior carefully.
+    The DSKY was the display and keyboard interface used by astronauts.
+    It is where inputs like verbs, nouns, program numbers, and execute commands were entered.
   </p>
 
   <p>
-    I also care about provenance. That means keeping track of where the historical source came from,
-    which commit was used, what toolchain assembled it, and what assumptions were made.
+    ApolloRS models DSKY behavior because it lets the project drive real Apollo software paths.
+    For example, entering a program through the DSKY is much stronger than forcing the emulator to jump to a label.
+  </p>
+
+  <h3>Indexed instructions</h3>
+
+  <p>
+    Some AGC instructions can be modified by previous instructions through indexing.
+    That means the instruction that runs may not be interpreted in isolation.
   </p>
 
   <p>
-    My notes describe this direction as keeping the historical Apollo source immutable while building upward from exact word semantics,
-    a lossless parser, audited references, and Rust execution rather than treating a modern rewrite as proof by itself.
+    This is another reason a simple source-to-source rewrite is not enough.
+    The emulator has to understand the instruction behavior in machine context.
   </p>
 
-  <h2>The actual goal</h2>
+  <h3>Interpretive code</h3>
 
   <p>
-    The goal is not just to say:
-  </p>
-
-  <blockquote>
-    I converted Apollo assembly to Rust.
-  </blockquote>
-
-  <p>
-    The better goal is:
-  </p>
-
-  <blockquote>
-    I am building several Rust representations of Apollo flight software and checking where their behavior agrees with the original AGC execution.
-  </blockquote>
-
-  <p>
-    That means comparing things like the program counter, registers, memory writes, bank state, channel activity,
-    interrupts, guidance variables, and final outputs.
+    Some Apollo code was not ordinary AGC instruction code.
+    It ran through an interpretive system inside the AGC.
   </p>
 
   <p>
-    Basically, I want to make Apollo code easier to study without sanding off everything that made it Apollo code.
+    That means part of the software stack looks like this:
   </p>
 
-  <h2>Repository</h2>
+  <pre>
+Rust AGC emulator
+      |
+      v
+AGC machine instructions
+      |
+      v
+Apollo interpretive system
+      |
+      v
+higher-level guidance mathematics
+  </pre>
 
   <p>
-    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">
-      ApolloRS on GitHub
-    </a>
+    That is why the project has to be layered.
+    There is machine code, and then there are higher-level behaviors built on top of that machine code.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="levels">The three levels of the project</h2>
+
+  <h3>Level 1: historical emulation</h3>
+
+  <p>
+    This level runs the original AGC machine words in a Rust implementation of the AGC.
+    The Apollo program is still the Apollo program.
+    Rust is acting as the computer.
+  </p>
+
+  <pre>
+historical Apollo source
+        |
+        v
+validated rope image
+        |
+        v
+AGC machine words
+        |
+        v
+Rust AGC execution
+        |
+        v
+trace of machine behavior
+  </pre>
+
+  <p>
+    This is the foundation.
+    If this layer is wrong, then every higher-level translation is built on bad evidence.
+  </p>
+
+  <h3>Level 2: mechanical translation</h3>
+
+  <p>
+    This level transforms source or decoded instructions into Rust while preserving the structure of the original program.
+    It keeps the program counter, labels, memory operations, banks, and instruction boundaries.
+  </p>
+
+  <p>
+    This is not meant to look like normal application code.
+    It is meant to stay close enough to the assembly that it can be compared against the emulator.
+  </p>
+
+  <h3>Level 3: readable reconstruction</h3>
+
+  <p>
+    This level is where a bounded piece of Apollo behavior is rewritten as normal typed Rust.
+    This is where routines can become functions and machine state can become structs.
+  </p>
+
+  <p>
+    But this level has to be earned.
+    Apollo assembly does not automatically give me clean high-level structure.
+    I have to infer it from source labels, memory locations, comments, instruction behavior, and trace evidence.
+  </p>
+
+  <p>
+    That is why ApolloRS only treats a readable reconstruction as meaningful when it is bounded and compared against original rope execution.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="built">What I have built so far</h2>
+
+  <p>
+    ApolloRS is currently organized as a 24-crate Rust workspace.
+    A crate is a Rust package.
+    Splitting the project into crates lets each part of the system have a clear job.
+  </p>
+
+  <p>
+    The workspace includes code for one's-complement words, fixed-point behavior, source preservation, source parsing,
+    overlays, instruction decoding, AGC memory, CPU execution, runtime events, timers, interrupts, channels, DSKY behavior,
+    faults, traces, validation, reports, cross references, and Rust generation.
+  </p>
+
+  <p>
+    That organization is important because this is not one task.
+    It is a pipeline.
+  </p>
+
+  <pre>
+preserve source
+      |
+      v
+validate executable image
+      |
+      v
+execute AGC words
+      |
+      v
+record trace
+      |
+      v
+compare against reference
+      |
+      v
+make bounded higher-level claims
+  </pre>
+
+  <p>
+    The project also has provenance records.
+    That means it tracks source revisions, toolchain versions, hashes, generated artifacts, and limitations.
+    I want the project to say exactly what was executed and exactly how it was produced.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="comanche-luminary">Comanche and Luminary</h2>
+
+  <p>
+    ApolloRS works with Comanche 055 and Luminary 099.
+  </p>
+
+  <p>
+    Comanche was the Command Module flight software.
+    Luminary was the Lunar Module flight software.
+    They are different programs, but both target the Apollo Guidance Computer.
+  </p>
+
+  <p>
+    Supporting both matters because it tests whether ApolloRS is modeling the AGC generally,
+    not just fitting one narrow example.
+  </p>
+
+  <p>
+    If the same machine model can work with both programs, that is stronger evidence that the architecture is on the right path.
+  </p>
+
+  <p>
+    The project preserves both historical source sets and handles their rope images through documented paths.
+    Luminary is built through a pinned yaYUL integration path.
+    Comanche uses a reference binsource path validated by bank checksums.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="validation">How I validate it</h2>
+
+  <p>
+    ApolloRS does not use "it seems to work" as a final claim.
+    The stronger question is whether ApolloRS agrees with a reference implementation on a defined set of observable machine states.
+  </p>
+
+  <p>
+    A trace comparison can check event kind, cycle, program counter, instruction, registers,
+    bank registers, and interrupt identity.
+  </p>
+
+  <p>
+    If those match over a bounded run, that is real evidence.
+    It is still bounded evidence, but it is much stronger than only showing that the program compiled.
+  </p>
+
+  <p>
+    A matched trace for one scenario does not prove the whole emulator is perfect.
+    It proves that, for the tested scenario and compared fields, ApolloRS and the reference agree over that interval.
+  </p>
+
+  <p>
+    That distinction is the whole point.
+    I would rather make a precise claim than a huge claim that cannot be checked.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="p63">The P63 result</h2>
+
+  <p>
+    The current major result is a Luminary 099 P63 entry slice.
+    P63 is part of the Lunar Module landing guidance software.
+  </p>
+
+  <p>
+    In the current run, ApolloRS sends <code>V37E63E</code> through the DSKY input path.
+    That means the program is selected through the interface the Apollo software expected, instead of manually forcing a jump.
+  </p>
+
+  <p>
+    The run enters Program 63, reaches the historical <code>P63LM</code> rope location,
+    and records the first landing-guidance writes.
+  </p>
+
+  <p>
+    The important part is the comparison.
+    The recorded ApolloRS run matches the pinned yaAGC reference trace for 300,468 instruction and interrupt events
+    on the compared fields.
+  </p>
+
+  <p>
+    Those compared fields include event kind, cycle, program counter, instruction, A/L/Q registers,
+    EB/FB/BB bank registers, and interrupt identity.
+  </p>
+
+  <p>
+    This is a real result, but it is not overstated.
+    It proves P63 selection, entry, and initial equation activity under a documented scenario.
+    It does not claim ApolloRS has reproduced the entire powered descent.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="not-claiming">What I am not claiming</h2>
+
+  <p>
+    ApolloRS is not a complete high-level rewrite of every Apollo routine.
+  </p>
+
+  <p>
+    It is not proof that every possible execution agrees with yaAGC.
+  </p>
+
+  <p>
+    It is not a full physical Lunar Module simulator with continuous vehicle state, IMU behavior, and landing radar.
+  </p>
+
+  <p>
+    Those boundaries matter.
+    They make the work stronger because the claims are specific.
+  </p>
+
+  <p>
+    A precise result is better than a huge claim that cannot be checked.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="goal">The long-term goal</h2>
+
+  <p>
+    The long-term goal is to create a path from original Apollo software to readable Rust explanations without breaking the connection to the original machine.
+  </p>
+
+  <pre>
+historical source
+      |
+      v
+validated rope image
+      |
+      v
+Rust AGC execution
+      |
+      v
+trace comparison
+      |
+      v
+bounded readable Rust reconstruction
+  </pre>
+
+  <p>
+    If those layers agree over defined scenarios, then the readable Rust is not just a rewrite.
+    It becomes an explanation backed by execution evidence.
+  </p>
+
+  <p>
+    That is why I like this project.
+    It forces me to be careful about what was preserved, what was executed, what was compared, what matched,
+    and what has not been proven yet.
+  </p>
+
+  <p>
+    ApolloRS is not only about making old code run.
+    It is about taking an important historical system and building a modern way to inspect, execute, validate, and explain it.
+  </p>
+
+  <p><a href="#top">Back to top</a></p>
+
+  <h2 id="repo">Repository</h2>
+
+  <p>
+    <a href="https://github.com/simransummermalik/ApolloRS" target="_blank">ApolloRS on GitHub</a>
   </p>
 
   <p><a href="/">Back to homepage</a></p>
