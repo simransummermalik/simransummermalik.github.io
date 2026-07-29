@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Week 06 Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to DREU Research Log</a></p>
+
+  <h1>Week 06 Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>July 13, 2026 - July 19, 2026</p>
+
+  <h2>Goals</h2>
+  <p>The goal for this week was to make the Regev-style circuit and lattice post-processing work more reliable, more reproducible, and easier for someone new to the project to understand.</p>
+
+  <p>After the Week 05 experiments, I wanted to strengthen the project in three main ways. First, I wanted to add more tests so that changes to the circuit, sampling models, lattice construction, and factor-checking code would be easier to trust. Second, I wanted to apply more noise to the experiments, following our advisor's feedback that the work should be tested under less ideal conditions. Third, I wanted to begin making the project more approachable through a beginner guide and a small demo direction.</p>
+
+  <p>I also started working on a hand-tracking demo. This was connected to the broader goal of making the project feel less abstract and more interactive. Even though the main research work is about quantum algorithms, lattice recovery, noise, and reproducibility, I wanted to explore ways of helping people see and interact with computational ideas more directly.</p>
+
+  <h2>Approach and Implementation</h2>
+  <p>This week I focused on adding more tests around the parts of the project that are easiest to accidentally break. I added and expanded tests for parameter handling, modular arithmetic assumptions, root and squared-base pairing, sample decoding, lattice construction, relation checking, and factor extraction. The purpose was not only to catch bugs, but also to make the pipeline easier to audit later.</p>
+
+  <p>I also worked on applying more noise to the experiments. Previously, I had tested several error models, including approximate-QFT truncation, coherent phase error, readout bit flips, and Fourier-grid quantization. This week, I pushed further in that direction by adding more noisy conditions and thinking more carefully about how the noise affects the final endpoint. I did not want to only ask whether the quantum samples look different. I wanted to ask whether the noise changes lattice recovery and whether it prevents the final factor extraction step from working.</p>
+
+  <p>This was important because our advisor emphasized that the experiments should not assume perfect behavior. Real quantum hardware has noise, finite precision, measurement errors, and implementation constraints. If the project is going to make a useful claim about Regev-style factoring under finite conditions, then the experiments need to include stress tests that show where the method is stable and where it fails.</p>
+
+  <p>I also started writing a beginner guide to the work. The goal of this guide is to explain the project from the ground up, especially for someone who has not already spent weeks thinking about Regev's algorithm, multidimensional QFTs, LLL, or lattice-based post-processing. I wanted the guide to explain what each stage of the pipeline does, why it matters, what assumptions are being made, how to run the code, and how to interpret the outputs.</p>
+
+  <p>The reproducibility part of the guide was especially important to me. I want another student to be able to reproduce the experiments without needing to guess which notebook cells to run, which parameters were used, which random seeds mattered, or what result files should be compared. I started organizing the explanation around inputs, fixed configurations, experiment commands, saved outputs, tests, and known limitations.</p>
+
+  <p>For the hand-tracking demo, I began sketching out how an interactive demonstration could work. The early goal is to create a small interface where hand motion can control or illustrate part of a computational process. This is still at an early stage, but it helped me think about communication and accessibility. Research is stronger when people can reproduce it, but it is also stronger when people can build an intuition for what the computation is doing.</p>
+
+  <h2>Results</h2>
+  <p>The main result this week was that the project became more testable and more explainable. Adding more tests made the implementation feel less fragile. It also made it easier to separate genuine research results from accidental implementation behavior.</p>
+
+  <p>The additional noise work gave the experiments a stronger connection to realistic quantum computing conditions. Instead of only studying an idealized pipeline, I continued testing how finite precision, sampling corruption, and measurement-level errors affect the full quantum-to-classical path.</p>
+
+  <p>Another result was that the beginner guide began turning the project into something another person could actually follow. This matters for reproducibility. If the work can only be understood by the person who wrote the code, then it is not yet a strong research artifact. The guide is meant to make the project easier to read, run, check, and extend.</p>
+
+  <p>The hand-tracking demo is still preliminary, but it opened a new direction for presenting the work. It gives me a way to think about how to make abstract computation more visible and engaging, especially for students or audiences who may be new to quantum computing.</p>
+
+  <h2>Challenges</h2>
+  <p>One challenge was deciding how much noise to add without making the experiments meaningless. If the noise model is too weak, it does not tell us much about robustness. If it is too strong or poorly motivated, then failures may not teach us anything useful. I had to think carefully about testing noise in a way that still connects to the research question.</p>
+
+  <p>Another challenge was writing beginner-facing documentation without oversimplifying the mathematics. Regev-style factoring involves several layers: modular arithmetic, quantum sampling, multidimensional Fourier structure, lattice reduction, relation recovery, and classical factor extraction. The guide needs to be readable, but it also needs to preserve the real structure of the work.</p>
+
+  <p>The hand-tracking demo also introduced a different kind of challenge. It is more visual and interactive than the main research code, so it requires thinking about user experience, responsiveness, and what part of the research is actually helpful to demonstrate.</p>
+
+  <h2>Next Steps</h2>
+  <p>Next, I want to continue expanding the test suite and connect the tests more directly to the claims made by the experiments. I also want to keep applying and comparing noise models so I can understand which failures come from the quantum stage, which come from finite sampling, and which come from the lattice post-processing stage.</p>
+
+  <p>I also plan to keep improving the beginner guide. The next version should include clearer setup instructions, a reproducibility checklist, explanations of the major experiment files, and a short path for someone who wants to run only the smallest working example first.</p>
+
+  <p>For the hand-tracking demo, the next step is to build a simple prototype and decide what concept it should communicate most clearly. I want the demo to support the research story rather than distract from it.</p>
+
+  <h2>Related Materials</h2>
+  <ul>
+    <li><a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing" target="_blank">Regev Circuit and Lattice Post-Processing Repository</a></li>
+    <li>Expanded tests for the quantum-to-classical pipeline</li>
+    <li>Additional noise experiments following advisor feedback</li>
+    <li>Beginner guide and reproducibility notes</li>
+    <li>Early hand-tracking demo notes</li>
+  </ul>
+</body>
+</html>
