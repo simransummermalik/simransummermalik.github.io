@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QML Torch Activity One - Summer Malik</title>
+  <style>
+    img {
+      width: 720px;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html">Back to QML Outreach</a></p>
+
+  <h1>QML Torch Activity One Deep Dive</h1>
+
+  <p><strong>Date:</strong> September 17, 2025</p>
+
+  <img
+    src="../assets/activity-one-notes.png"
+    alt="First page of the QML Torch Activity One deep-dive notes"
+  >
+
+  <h2>Teaching Goal</h2>
+
+  <p>
+    Activity One begins with a classical machine learning problem so students
+    can understand the purpose of a feature map before seeing a quantum
+    circuit. A logistic-regression model can separate data with a straight
+    boundary, but it struggles with curved structures such as the two-moons
+    dataset. Transforming the inputs into a richer feature space can make those
+    patterns separable without changing the final classifier.
+  </p>
+
+  <h2>Experiment</h2>
+
+  <p>
+    The activity uses a reproducible train-test split, visualization utilities,
+    feature-map choices, standard scaling, and logistic regression. Students
+    compare the original two features with a quantum-inspired map containing
+    sine, cosine, interaction, and polynomial terms. They can then create a
+    custom map and inspect how the decision boundary changes.
+  </p>
+
+  <p>
+    The notes record approximately 80 percent accuracy for the classical mode
+    and approximately 95 percent for the quantum-inspired mode in the example
+    run. The point is not that the transformation proves quantum advantage.
+    Instead, it demonstrates the representation lesson that motivates quantum
+    feature maps: performance depends on the space in which a model receives
+    the data.
+  </p>
+
+  <h2>Student Extensions</h2>
+
+  <ul>
+    <li>Increase dataset noise and test robustness.</li>
+    <li>Add new nonlinear transformations.</li>
+    <li>Replace logistic regression with an SVM and compare kernels.</li>
+    <li>
+      Compare manually engineered feature maps with automatically learned
+      representations.
+    </li>
+  </ul>
+
+  <h2>Related Work</h2>
+
+  <ul>
+    <li>
+      <a
+        href="https://github.com/simransummermalik/qml-torch-activity-one"
+        target="_blank"
+        rel="noreferrer"
+      >
+        qml-torch-activity-one repository
+      </a>
+    </li>
+    <li>
+      <a href="../assets/qml-torch-notes-2025-09-17.pdf" target="_blank">
+        Open the complete Activity One deep-dive notes
+      </a>
+    </li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 03 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 03 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>March 16, 2026 - March 22, 2026</p>
+
+  <h2>From Path Output to Explanation</h2>
+  <p>
+    I expanded the project beyond reporting whether an algorithm found a path.
+    The new goal was to explain why a route emerged and which assumptions made
+    that route possible. A graph is not a neutral copy of the room: it defines
+    what counts as adjacency, continuity, and navigable space.
+  </p>
+
+  <p>
+    Downsampling from 681,270 raw points to 9,842 points, restricting the graph
+    to 1,200 nodes, and choosing a distance threshold that produced 6,437 edges
+    all changed what the algorithms could know. These were not only performance
+    shortcuts. They were representational decisions with direct consequences
+    for reachability and pathfinding.
+  </p>
+
+  <h2>Unified Pipeline</h2>
+  <p>
+    I consolidated the work into an end-to-end pipeline:
+  </p>
+
+  <p>
+    physical or modeled environment -&gt; spatial representation -&gt; graph
+    abstraction -&gt; algorithmic reasoning -&gt; interpretable metrics
+  </p>
+
+  <h2>Shift Toward Live Spatial Computing</h2>
+  <p>
+    On March 21 and 22, I shifted attention from offline scans to live spatial
+    acquisition. Instead of treating a scan as a finished dataset, I began
+    asking how a Vision Pro application could continuously update an internal
+    environment model while the user moved through space.
+  </p>
+
+  <p>
+    ARKit scene reconstruction now became a stream of partial geometric
+    observations rather than a one-time result. This introduced new questions:
+    when is a model stable enough for graph construction, how often should new
+    observations be incorporated, and when should an algorithm re-plan?
+  </p>
+
+  <h2>Result</h2>
+  <p>
+    The research now connected the controlled offline experiments to a live
+    immersive system in which representation, sensing, and decision-making
+    evolve together.
+  </p>
+
+  <p>
+    <a href="week-02.html">Previous: Week 02</a> |
+    <a href="week-04.html">Next: Week 04</a>
+  </p>
+</body>
+</html>

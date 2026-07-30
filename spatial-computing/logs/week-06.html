@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 06 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 06 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>April 6, 2026 - April 12, 2026</p>
+
+  <h2>Perception, Modeling, and Reasoning</h2>
+  <p>
+    I formalized three separate but interacting layers for the live system.
+    Perception provides raw reconstruction updates. Modeling converts those
+    updates into persistent structured state. Reasoning operates over the
+    abstraction that best preserves the information needed for a decision.
+  </p>
+
+  <h2>Algorithms Over Evolving Models</h2>
+  <p>
+    BFS, Dijkstra, and A* were no longer treated as algorithms that wait for a
+    finished graph. I began considering how their outputs might change when the
+    representation is revised over time. This expanded the work from ordinary
+    shortest-path search into search under evolving representational
+    conditions.
+  </p>
+
+  <h2>Coarse Intermediate Representations</h2>
+  <p>
+    Higher fidelity is not always better. A very detailed graph may fluctuate
+    whenever reconstruction changes, while a coarser occupancy or region-based
+    model may support earlier and more stable decisions. I explored using such
+    a model as a bridge between live geometry and later graph generation.
+  </p>
+
+  <h2>Engineering Milestone</h2>
+  <p>
+    The immediate milestone became a component that stores
+    reconstruction-derived state over time and supports conversion into a
+    decision-level structure. I continued treating the existing immersive
+    prototype as the systems foundation for this work rather than as a
+    throwaway demonstration.
+  </p>
+
+  <h2>Offline and Live Roles</h2>
+  <p>
+    The offline point-cloud experiments remained useful for controlled
+    abstraction tests. The Vision Pro application was necessary for studying
+    how the model is constructed, stabilized, and queried in real time. These
+    two tracks were complementary rather than redundant.
+  </p>
+
+  <p>
+    <a href="week-05.html">Previous: Week 05</a> |
+    <a href="week-07.html">Next: Week 07</a>
+  </p>
+</body>
+</html>

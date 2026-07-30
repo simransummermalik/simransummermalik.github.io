@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spatial Computing Research Log - Summer Malik</title>
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Spatial Computing Research Log</h1>
+
+  <p><strong>Name:</strong> Summer (Simran) Malik</p>
+  <p><strong>Institution:</strong> University of North Carolina at Charlotte</p>
+  <p><strong>Faculty Mentor:</strong> Dr. Todd Dobbs</p>
+  <p>
+    <strong>Research Area:</strong>
+    Spatial computing, spatial representations, and algorithmic decision-making
+  </p>
+
+  <h2>Project</h2>
+
+  <p>
+    <strong>
+      Algorithmic Behavior Under Different Spatial Representations in Spatial
+      Computing
+    </strong>
+  </p>
+
+  <p>
+    Spatial computing systems can capture detailed three-dimensional
+    environments, but algorithms cannot reason directly over raw spatial data.
+    The environment must first be converted into a computational
+    representation such as a point cloud, mesh, graph, occupancy structure, or
+    region-based model. My research examined how that representation choice
+    changes what an algorithm can perceive, which paths it finds, how much of
+    the environment it considers reachable, and when its decisions remain
+    stable.
+  </p>
+
+  <p>
+    I used an Apple Vision Pro and a visionOS prototype built with Swift,
+    SwiftUI, RealityKit, and ARKit alongside offline point-cloud experiments.
+    The algorithmic work compared breadth-first search, Dijkstra's shortest
+    path algorithm, and A* across simplified spatial models. The project later
+    expanded from static graph analysis into the systems problem of maintaining
+    a persistent, decision-relevant world model while live reconstruction data
+    continues to change.
+  </p>
+
+  <h2>Research Pipeline</h2>
+
+  <p>
+    Physical or modeled environment -&gt; spatial representation -&gt;
+    stabilized abstraction -&gt; graph or occupancy structure -&gt;
+    algorithmic reasoning -&gt; interpretable outputs
+  </p>
+
+  <h2>Selected Prototype Visuals</h2>
+
+  <figure>
+    <img
+      src="assets/vision-pro-sphere-test.png"
+      alt="Xcode and Apple Vision Pro simulator showing a bright test sphere in an immersive scene"
+      width="700"
+    >
+    <figcaption>
+      Early visionOS immersive-space test using SwiftUI and RealityKit.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="assets/vision-pro-immersive-view.png"
+      alt="Xcode project and Apple Vision Pro simulator showing the immersive-space interface"
+      width="800"
+    >
+    <figcaption>
+      The early application scaffold used to test immersive launch and prepare
+      for ARKit scene reconstruction.
+    </figcaption>
+  </figure>
+
+  <h2>Weekly Research Logs</h2>
+
+  <ol>
+    <li><a href="logs/week-01.html">Week 01: March 4 - March 8</a></li>
+    <li><a href="logs/week-02.html">Week 02: March 9 - March 15</a></li>
+    <li><a href="logs/week-03.html">Week 03: March 16 - March 22</a></li>
+    <li><a href="logs/week-04.html">Week 04: March 23 - March 29</a></li>
+    <li><a href="logs/week-05.html">Week 05: March 30 - April 5</a></li>
+    <li><a href="logs/week-06.html">Week 06: April 6 - April 12</a></li>
+    <li><a href="logs/week-07.html">Week 07: April 13 - April 19</a></li>
+    <li><a href="logs/week-08.html">Week 08: April 20 - April 23</a></li>
+    <li><a href="logs/week-09.html">Week 09: April 25 - April 27</a></li>
+    <li><a href="logs/week-10.html">Week 10: April 30</a></li>
+  </ol>
+
+  <h2>Original Documents</h2>
+
+  <ul>
+    <li>
+      <a href="assets/research-abstract.pdf">Research abstract (PDF)</a>
+    </li>
+    <li>
+      <a href="assets/logs-from-vscode.pdf">Complete original research logs (PDF)</a>
+    </li>
+  </ul>
+
+  <p>
+    The original source code and experiment files are archived locally. These
+    pages preserve the research progression and the major technical outputs.
+  </p>
+
+  <hr>
+
+  <p><a href="/">Back to homepage</a></p>
+</body>
+</html>

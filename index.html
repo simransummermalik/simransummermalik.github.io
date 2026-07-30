@@ -1,31 +1,1844 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Summer Malik</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #f8f1ff;
+      font-family: "Courier New", "Comic Sans MS", monospace;
+      background:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(90deg, rgba(0, 255, 224, 0.14) 0 2px, transparent 2px 17px),
+        radial-gradient(circle at 12% 18%, #ff00a8 0 6%, transparent 7%),
+        radial-gradient(circle at 88% 16%, #00ffe1 0 5%, transparent 6%),
+        radial-gradient(circle at 70% 90%, #ccff00 0 7%, transparent 8%),
+        linear-gradient(135deg, #190022 0%, #281150 38%, #111111 70%, #3d0035 100%);
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      color: #111111;
+      background: #ccff00;
+    }
+
+    body::before {
+      content: "SUMMER SUMMER SUMMER RESEARCH RESEARCH HTML HTML";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      color: rgba(255, 255, 255, 0.06);
+      font-size: 4rem;
+      font-weight: bold;
+      line-height: 0.9;
+      word-break: break-all;
+      transform: rotate(-8deg) scale(1.2);
+    }
+
+    a {
+      color: #00ffe1;
+      text-decoration-style: wavy;
+      text-decoration-thickness: 2px;
+    }
+
+    .page {
+      position: relative;
+      width: min(1240px, calc(100% - 10px));
+      min-height: 1480px;
+      margin: 14px auto 70px;
+      border: 3px dotted #f8f1ff;
+      background:
+        linear-gradient(45deg, transparent 0 46%, rgba(255, 0, 168, 0.35) 47% 53%, transparent 54%),
+        rgba(0, 0, 0, 0.16);
+    }
+
+    .title {
+      position: relative;
+      z-index: 5;
+      width: min(860px, 96%);
+      margin: 28px 0 0 22px;
+      color: #fff6ba;
+      font-family: "Times New Roman", Times, serif;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 0.96;
+      letter-spacing: 0;
+      text-transform: none;
+      text-shadow: 3px 3px 0 #111111;
+    }
+
+    .title span {
+      display: inline-block;
+      color: #fff6ba;
+      transform: rotate(-2deg);
+    }
+
+    .scrap {
+      position: absolute;
+      z-index: 6;
+      max-width: 330px;
+      padding: 10px 12px;
+      color: #111111;
+      font-size: 0.98rem;
+      line-height: 1.25;
+      background: #fff6ba;
+      border: 2px solid #111111;
+      box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.8);
+    }
+
+    .scrap.about {
+      top: 318px;
+      left: 40px;
+      transform: rotate(-3deg);
+    }
+
+    .scrap.status {
+      top: 930px;
+      right: 38px;
+      background: #ffb5ee;
+      transform: rotate(5deg);
+    }
+
+    .scrap.tiny {
+      top: 1105px;
+      left: 40px;
+      width: 230px;
+      background: #b7fff5;
+      transform: rotate(3deg);
+    }
+
+    .scrap.sideways {
+      top: 214px;
+      right: 42px;
+      width: 260px;
+      background: #ffffff;
+      transform: rotate(13deg);
+      font-size: 0.8rem;
+      z-index: 11;
+    }
+
+    .scrap.badge {
+      top: 205px;
+      left: 302px;
+      width: 220px;
+      padding: 6px;
+      color: #ffffff;
+      background: #0015ff;
+      border-color: #ccff00;
+      transform: rotate(-11deg);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .note-strip {
+      position: absolute;
+      z-index: 12;
+      top: 230px;
+      left: 548px;
+      width: 145px;
+      color: #111111;
+      font-size: 0.74rem;
+      line-height: 1.05;
+      background: #ccff00;
+      border: 2px solid #111111;
+      transform: rotate(19deg);
+    }
+
+    .note-strip span {
+      display: block;
+      padding: 3px 5px;
+      border-bottom: 1px solid #111111;
+    }
+
+    .sign {
+      position: absolute;
+      z-index: 44;
+      display: inline-block;
+      padding: 4px 8px;
+      font-family: "Times New Roman", Times, serif;
+      font-weight: bold;
+      line-height: 0.95;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 2px solid transparent;
+    }
+
+    .sign.open {
+      top: 6px;
+      left: 320px;
+      color: #fffb00;
+      font-size: 2rem;
+      background: #000000;
+    }
+
+    .sign.formal {
+      top: 84px;
+      left: 308px;
+      color: #00ff5a;
+      font-size: 1.2rem;
+      background: #0015ff;
+      transform: rotate(-2deg);
+    }
+
+    .sign.homecoming {
+      top: 116px;
+      left: 925px;
+      color: #ff003c;
+      font-size: 1.25rem;
+      background: #00ffe1;
+      transform: rotate(4deg);
+    }
+
+    .sign.poster-click {
+      top: 675px;
+      left: 350px;
+      color: #ffffff;
+      font-size: 1.05rem;
+      background: #0015ff;
+      transform: rotate(2deg);
+    }
+
+    .sign.apollo-click {
+      top: 808px;
+      left: 855px;
+      color: #fffb00;
+      font-size: 1.4rem;
+      background: #a000a8;
+      transform: rotate(-3deg);
+    }
+
+    .sign.qft {
+      top: 648px;
+      left: 38px;
+      color: #00ffe1;
+      font-size: 1.15rem;
+      background: #111111;
+      transform: rotate(-6deg);
+    }
+
+    .sign.research {
+      top: 1038px;
+      left: 430px;
+      color: #39ff14;
+      font-size: 1.15rem;
+      background: #000000;
+      transform: rotate(3deg);
+    }
+
+    .sign.bride {
+      top: 1220px;
+      left: 420px;
+      color: #fffb00;
+      font-size: 1.9rem;
+      background: #0015ff;
+      transform: rotate(-1deg);
+    }
+
+    .sign.small-map {
+      top: 1100px;
+      left: 790px;
+      color: #ff003c;
+      font-size: 1rem;
+      background: #d9d9d9;
+      border-color: #ffffff;
+      transform: rotate(6deg);
+    }
+
+    .photo {
+      position: absolute;
+      z-index: 3;
+      display: block;
+      width: 310px;
+      max-width: 42vw;
+      background: #ffffff;
+      border: 9px solid #ffffff;
+      outline: 3px solid #111111;
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
+    }
+
+    .photo.one {
+      z-index: 18;
+      top: 282px;
+      right: 80px;
+      width: 340px;
+      max-width: 38vw;
+      transform: rotate(8deg);
+      border-width: 12px;
+      box-shadow: 17px 17px 0 rgba(0, 0, 0, 0.82);
+    }
+
+    .photo.two {
+      z-index: 24;
+      top: 330px;
+      left: 355px;
+      width: 360px;
+      max-width: 42vw;
+      transform: rotate(-7deg);
+      border-width: 9px;
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
+      filter: saturate(1.8) contrast(1.2);
+    }
+
+    .photo.three {
+      top: 1085px;
+      right: 620px;
+      width: 210px;
+      transform: rotate(12deg);
+      filter: contrast(1.08) saturate(1.2);
+    }
+
+    .photo.four {
+      top: 1060px;
+      right: 42px;
+      width: 250px;
+      transform: rotate(-5deg);
+    }
+
+    .photo.five {
+      top: 730px;
+      left: 70px;
+      width: 270px;
+      transform: rotate(-18deg);
+      z-index: 9;
+    }
+
+    .photo.six {
+      top: 108px;
+      right: 355px;
+      width: 155px;
+      transform: rotate(21deg);
+      z-index: 2;
+      filter: saturate(1.8) contrast(1.2);
+    }
+
+    .photo.seven {
+      top: 1010px;
+      right: 355px;
+      width: 185px;
+      transform: rotate(7deg);
+      z-index: 4;
+    }
+
+    .uiuc-note {
+      position: absolute;
+      z-index: 32;
+      top: 970px;
+      left: 62px;
+      width: 325px;
+      padding: 8px 10px;
+      color: #111111;
+      background: #ffb5ee;
+      border: 3px solid #0015ff;
+      box-shadow: 6px 6px 0 #00ffe1, 10px 10px 0 rgba(0, 0, 0, 0.75);
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.25rem;
+      font-weight: bold;
+      transform: rotate(5deg);
+    }
+
+    .uiuc-note a {
+      color: #0015ff;
+    }
+
+    .apollo-pic {
+      position: absolute;
+      z-index: 12;
+      top: 535px;
+      left: 728px;
+      width: 235px;
+      max-width: 38vw;
+      display: block;
+      background: #ffffff;
+      border: 9px solid #ffffff;
+      outline: 3px solid #111111;
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
+      filter: none;
+      transform: rotate(-8deg);
+    }
+
+    .apollo-note {
+      position: absolute;
+      z-index: 30;
+      top: 518px;
+      left: 966px;
+      width: 250px;
+      padding: 12px;
+      color: #001425;
+      background: #9ffcff;
+      border: 3px solid #0015ff;
+      box-shadow: 6px 6px 0 #0015ff, 9px 9px 0 rgba(0, 0, 0, 0.72);
+      font-family: "Comic Sans MS", "Courier New", monospace;
+      transform: rotate(4deg);
+    }
+
+    .apollo-note h2 {
+      margin: 0 0 8px;
+      color: #0015ff;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+    }
+
+    .apollo-note p {
+      margin: 0 0 10px;
+      line-height: 1.25;
+    }
+
+    .apollo-note a {
+      display: inline-block;
+      padding: 6px 9px;
+      color: #ffffff;
+      background: #0015ff;
+      border: 2px dashed #9ffcff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .booth-one {
+      position: absolute;
+      z-index: 16;
+      top: 98px;
+      left: 535px;
+      width: 155px;
+      max-width: 22vw;
+      display: block;
+      background: #ffffff;
+      border: 8px solid #ffffff;
+      outline: 3px solid #111111;
+      box-shadow: 7px 7px 0 #00ffe1, 11px 11px 0 rgba(0, 0, 0, 0.82);
+      filter: saturate(1.4) contrast(1.16);
+      transform: rotate(-10deg);
+    }
+
+    .booth-two {
+      position: absolute;
+      z-index: 26;
+      top: 800px;
+      left: 600px;
+      width: 270px;
+      max-width: 36vw;
+      display: block;
+      background: #ffffff;
+      border: 8px solid #ffffff;
+      outline: 3px solid #111111;
+      box-shadow: 10px 10px 0 #ff00a8, 15px 15px 0 rgba(0, 0, 0, 0.82);
+      filter: brightness(1.08) contrast(1.12);
+      transform: rotate(8deg);
+    }
+
+    .sticker {
+      position: absolute;
+      z-index: 8;
+      padding: 8px 12px;
+      color: #111111;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: #ccff00;
+      border: 3px dashed #111111;
+      box-shadow: 5px 5px 0 #ff00a8;
+    }
+
+    .sticker.a {
+      top: 250px;
+      left: 700px;
+      transform: rotate(9deg);
+    }
+
+    .sticker.b {
+      top: 612px;
+      left: 82px;
+      background: #00ffe1;
+      transform: rotate(-8deg);
+    }
+
+    .sticker.c {
+      top: 1170px;
+      left: 710px;
+      background: #ff00a8;
+      color: #ffffff;
+      transform: rotate(4deg);
+    }
+
+    .ugly-links {
+      position: absolute;
+      z-index: 20;
+      top: 18px;
+      left: 18px;
+      width: 260px;
+      padding: 8px;
+      color: #111111;
+      background: #d9d9d9;
+      border: 4px ridge #ffffff;
+      font-family: Times, "Times New Roman", serif;
+    }
+
+    .ugly-links h2 {
+      margin: 0 0 4px;
+      color: #0015ff;
+      font-size: 1.3rem;
+      text-decoration: underline;
+    }
+
+    .ugly-links ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .ugly-links li {
+      margin: 4px 0;
+    }
+
+    .tiny-rant {
+      position: absolute;
+      z-index: 1;
+      top: 430px;
+      left: 0;
+      width: 100%;
+      color: rgba(204, 255, 0, 0.55);
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      transform: rotate(-5deg);
+      pointer-events: none;
+    }
+
+    .pixel-box {
+      position: absolute;
+      z-index: 7;
+      top: 34px;
+      right: 24px;
+      width: 210px;
+      padding: 10px;
+      color: #ffffff;
+      background: #000000;
+      border: 3px outset #d9d9d9;
+      font-size: 0.82rem;
+    }
+
+    .pixel-box b {
+      color: #00ffe1;
+    }
+
+    .hardware-scraps {
+      position: absolute;
+      z-index: 22;
+      top: 1290px;
+      left: 285px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 610px;
+    }
+
+    .hardware-card {
+      display: block;
+      width: 195px;
+      padding: 5px;
+      background: #ffffff;
+      border: 3px solid #111111;
+      box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.82);
+    }
+
+    .hardware-card:nth-child(1) {
+      transform: rotate(-4deg);
+      box-shadow: 5px 5px 0 #00ffe1, 9px 9px 0 rgba(0, 0, 0, 0.82);
+    }
+
+    .hardware-card:nth-child(2) {
+      z-index: 2;
+      transform: rotate(3deg) translateY(-7px);
+      box-shadow: 5px 5px 0 #0015ff, 9px 9px 0 rgba(0, 0, 0, 0.82);
+    }
+
+    .hardware-card:nth-child(3) {
+      transform: rotate(-2deg) translateY(4px);
+      box-shadow: 5px 5px 0 #ff00a8, 9px 9px 0 rgba(0, 0, 0, 0.82);
+    }
+
+    .hardware-card img {
+      display: block;
+      width: 100%;
+      height: 125px;
+      object-fit: cover;
+    }
+
+    .links {
+      display: none;
+    }
+
+    .links a {
+      display: inline-block;
+      padding: 10px 14px;
+      color: #111111;
+      font-size: 1.15rem;
+      font-weight: bold;
+      text-decoration: none;
+      text-transform: uppercase;
+      background: #ffffff;
+      border: 3px solid #111111;
+      box-shadow: 5px 5px 0 #00ffe1;
+    }
+
+    .links a:nth-child(2) {
+      background: #ffb5ee;
+      transform: rotate(2deg);
+      box-shadow: 5px 5px 0 #ccff00;
+    }
+
+    .links a:nth-child(3) {
+      background: #b7fff5;
+      transform: rotate(-2deg);
+      box-shadow: 5px 5px 0 #ff00a8;
+    }
+
+    .links a:nth-child(4) {
+      background: #fff6ba;
+      transform: rotate(3deg);
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        min-height: auto;
+        padding-bottom: 28px;
+      }
+
+      .title {
+        margin-left: 10px;
+      }
+
+      .scrap,
+      .photo,
+      .apollo-pic,
+      .apollo-note,
+      .uiuc-note,
+      .booth-one,
+      .booth-two,
+      .hardware-scraps,
+      .sign,
+      .sticker,
+      .ugly-links,
+      .pixel-box,
+      .note-strip {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        width: min(92%, 380px);
+        max-width: 92%;
+        margin: 14px auto;
+      }
+
+      .hardware-scraps {
+        display: flex;
+        gap: 7px;
+      }
+
+      .hardware-card {
+        width: calc((100% - 14px) / 3);
+        padding: 3px 3px 0;
+        box-shadow: 4px 4px 0 #111111;
+      }
+
+      .hardware-card:nth-child(1),
+      .hardware-card:nth-child(2),
+      .hardware-card:nth-child(3) {
+        transform: none;
+        box-shadow: 4px 4px 0 #111111;
+      }
+
+      .hardware-card img {
+        height: 110px;
+      }
+
+      .photo.one,
+      .photo.two,
+      .photo.three,
+      .photo.four,
+      .apollo-pic,
+      .apollo-note,
+      .uiuc-note,
+      .booth-one,
+      .booth-two,
+      .sign {
+        width: min(92%, 380px);
+      }
+
+      .links {
+        margin: 22px auto 0;
+      }
+
+      .tiny-rant {
+        display: none;
+      }
+    }
+  </style>
+  <style>
+    html {
+      background: #000000;
+    }
+
+    body {
+      color: #ffffff;
+      font-family: "Times New Roman", Times, serif;
+      background-color: #000000;
+      background-image:
+        radial-gradient(#ffffff 0.8px, transparent 1px),
+        radial-gradient(#0028ff 0.9px, transparent 1.2px),
+        radial-gradient(#ff00a8 0.7px, transparent 1px);
+      background-position: 0 0, 3px 5px, 8px 2px;
+      background-size: 5px 5px, 9px 9px, 13px 13px;
+    }
+
+    body::before {
+      display: none;
+    }
+
+    a {
+      text-decoration-style: solid;
+      text-decoration-thickness: 2px;
+    }
+
+    .page {
+      width: min(1420px, calc(100% - 4px));
+      min-height: 1420px;
+      margin: 0 auto;
+      border: 0;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .sign {
+      z-index: 60;
+      padding: 1px 6px;
+      border: 0;
+      box-shadow: none;
+      font-family: "Times New Roman", Times, serif;
+      line-height: 0.92;
+      transform: none;
+    }
+
+    .sign.open {
+      top: 4px;
+      left: 8px;
+      color: #fff600;
+      font-size: 2.65rem;
+      background: #000000;
+    }
+
+    .plain-toggle {
+      margin-left: 8px;
+      padding: 3px 7px;
+      color: #0000ee;
+      background: #ffffff;
+      border: 3px outset #d9d9d9;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1rem;
+      font-weight: normal;
+      line-height: 1;
+      text-decoration: underline;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    .sign.formal {
+      top: 12px;
+      left: 760px;
+      color: #fff600;
+      font-size: 1.75rem;
+      background: #000000;
+    }
+
+    .sign.homecoming {
+      top: 65px;
+      left: 18px;
+      color: #ff174c;
+      font-size: 1.65rem;
+      background: #000000;
+      transform: none;
+    }
+
+    .sign.poster-click {
+      top: 126px;
+      left: 528px;
+      width: 330px;
+      color: #ffffff;
+      font-size: 1.3rem;
+      background: #1515ff;
+      transform: none;
+    }
+
+    .sign.apollo-click {
+      top: 605px;
+      left: auto;
+      right: 30px;
+      color: #fff600;
+      font-size: 1.75rem;
+      background: #a000a8;
+      transform: none;
+    }
+
+    .sign.qft {
+      top: 1015px;
+      left: 285px;
+      color: #00fff0;
+      font-size: 1.5rem;
+      background: #000000;
+      transform: none;
+    }
+
+    .sign.research {
+      top: 948px;
+      left: 498px;
+      color: #39ff14;
+      font-size: 1.45rem;
+      background: #000000;
+      transform: none;
+    }
+
+    .sign.bride {
+      top: 1248px;
+      left: 355px;
+      color: #fff600;
+      font-size: 2.2rem;
+      background: #1515ff;
+      transform: none;
+    }
+
+    .sign.small-map {
+      top: 862px;
+      left: auto;
+      right: 24px;
+      color: #ff174c;
+      font-size: 1.35rem;
+      background: #d9d9d9;
+      border: 0;
+      transform: none;
+    }
+
+    .pixel-box {
+      z-index: 58;
+      top: 62px;
+      right: 10px;
+      width: 240px;
+      padding: 6px 10px;
+      color: #ffffff;
+      background: #000000;
+      border: 3px solid #ffffff;
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    .scrap {
+      z-index: 45;
+      padding: 5px 9px;
+      border: 0;
+      box-shadow: none;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.15rem;
+      line-height: 1.05;
+      transform: none;
+    }
+
+    .scrap.about {
+      top: 344px;
+      left: 8px;
+      width: 360px;
+      max-width: none;
+      color: #ff00a8;
+      background: #000000;
+      font-size: 1.45rem;
+      font-weight: bold;
+      transform: none;
+    }
+
+    .scrap.status {
+      top: 790px;
+      right: 340px;
+      width: 335px;
+      max-width: none;
+      color: #111111;
+      background: #ff9dea;
+      font-size: 1.13rem;
+      transform: none;
+    }
+
+    .scrap.tiny {
+      top: 1070px;
+      left: 12px;
+      width: 275px;
+      color: #0015ff;
+      background: #b7fff5;
+      font-size: 1.25rem;
+      font-weight: bold;
+      transform: none;
+    }
+
+    .scrap.sideways {
+      top: 525px;
+      right: 4px;
+      width: 330px;
+      max-width: none;
+      color: #00ff5a;
+      background: #000000;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transform: none;
+    }
+
+    .scrap.badge {
+      top: 85px;
+      left: 290px;
+      width: 220px;
+      max-width: none;
+      color: #fff600;
+      background: #1515ff;
+      font-size: 1rem;
+      transform: none;
+    }
+
+    .note-strip {
+      z-index: 55;
+      top: 980px;
+      left: 14px;
+      width: 165px;
+      border: 0;
+      color: #111111;
+      background: #ccff00;
+      font-family: "Courier New", monospace;
+      font-size: 0.95rem;
+      transform: none;
+    }
+
+    .note-strip span {
+      padding: 2px 4px;
+      border-bottom: 2px solid #111111;
+    }
+
+    .sticker {
+      z-index: 61;
+      padding: 2px 7px;
+      border: 0;
+      box-shadow: none;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.15rem;
+      transform: none;
+    }
+
+    .sticker.a {
+      top: 183px;
+      left: 835px;
+      color: #111111;
+      background: #ff00a8;
+      transform: none;
+    }
+
+    .sticker.b {
+      top: 985px;
+      left: 300px;
+      color: #111111;
+      background: #00ffe1;
+      transform: none;
+    }
+
+    .sticker.c {
+      top: 1015px;
+      left: 880px;
+      color: #ffffff;
+      background: #ff00a8;
+      transform: none;
+    }
+
+    .tiny-rant {
+      z-index: 2;
+      top: 530px;
+      left: 0;
+      color: rgba(204, 255, 0, 0.75);
+      font-family: "Courier New", monospace;
+      font-size: 1.35rem;
+      transform: none;
+    }
+
+    .ugly-links {
+      z-index: 70;
+      top: 78px;
+      left: 8px;
+      width: 245px;
+      padding: 4px 7px;
+      color: #111111;
+      background: #d8d8d8;
+      border: 4px ridge #ffffff;
+      font-family: Times, "Times New Roman", serif;
+    }
+
+    .ugly-links h2 {
+      margin: 0;
+      color: #0015ff;
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    .ugly-links ul {
+      margin: 4px 0 2px;
+      padding-left: 22px;
+    }
+
+    .ugly-links li {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+
+    .photo,
+    .apollo-pic,
+    .booth-one,
+    .booth-two,
+    .chaos-photo {
+      border: 3px solid #ffffff;
+      outline: 0;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .photo.one {
+      z-index: 14;
+      top: 190px;
+      right: 12px;
+      width: 490px;
+      height: 355px;
+      max-width: none;
+      border: 6px solid #ccff00;
+      object-fit: cover;
+      filter: contrast(1.08) saturate(1.18);
+      transform: none;
+    }
+
+    .photo.two {
+      z-index: 68;
+      top: 375px;
+      left: 385px;
+      width: 520px;
+      height: 390px;
+      max-width: none;
+      border-width: 3px;
+      object-fit: cover;
+      filter: contrast(1.12) saturate(1.28);
+      transform: none;
+    }
+
+    .photo.three {
+      display: none;
+    }
+
+    .photo.four {
+      z-index: 11;
+      top: 980px;
+      right: 12px;
+      width: 250px;
+      height: 185px;
+      object-fit: cover;
+      border: 6px solid #00e4df;
+      transform: none;
+    }
+
+    .photo.five {
+      z-index: 15;
+      top: 690px;
+      left: 14px;
+      width: 310px;
+      height: 225px;
+      object-fit: cover;
+      transform: none;
+    }
+
+    .uiuc-cluster {
+      position: absolute;
+      z-index: 75;
+      top: 690px;
+      left: 14px;
+      width: 315px;
+      border: 4px solid #00e4df;
+      box-shadow: 7px 7px 0 #ff00a8;
+    }
+
+    .uiuc-cluster .photo.five {
+      position: relative;
+      top: auto;
+      right: auto;
+      left: auto;
+      display: block;
+      width: 100%;
+      height: 225px;
+      max-width: none;
+      border: 0;
+    }
+
+    .photo.six {
+      z-index: 32;
+      top: 80px;
+      right: 10px;
+      width: 145px;
+      height: 105px;
+      object-fit: cover;
+      filter: contrast(1.12) saturate(1.25);
+      transform: none;
+    }
+
+    .photo.seven {
+      z-index: 9;
+      top: 1090px;
+      right: 285px;
+      width: 190px;
+      height: 145px;
+      object-fit: cover;
+      transform: none;
+    }
+
+    .uiuc-note {
+      z-index: 75;
+      top: 915px;
+      left: 10px;
+      width: 315px;
+      padding: 2px 8px;
+      border: 0;
+      box-shadow: none;
+      color: #ff00a8;
+      background: #00e4df;
+      font-size: 1.35rem;
+      line-height: 1;
+      transform: none;
+    }
+
+    .uiuc-cluster .uiuc-note {
+      position: relative;
+      top: auto;
+      right: auto;
+      left: auto;
+      width: 100%;
+      margin: 0;
+      border-top: 4px solid #1515ff;
+    }
+
+    .apollo-pic {
+      z-index: 13;
+      top: 635px;
+      left: auto;
+      right: 22px;
+      width: 350px;
+      height: 260px;
+      max-width: none;
+      object-fit: cover;
+      border-width: 3px;
+      transform: none;
+    }
+
+    .apollo-note {
+      z-index: 39;
+      top: 770px;
+      left: 650px;
+      right: auto;
+      width: 360px;
+      padding: 6px 8px;
+      border: 0;
+      box-shadow: none;
+      color: #111111;
+      background: #00e4df;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.92rem;
+      transform: none;
+    }
+
+    .apollo-note h2 {
+      margin: 0;
+      color: #0015ff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.65rem;
+    }
+
+    .apollo-note p {
+      margin: 2px 0 5px;
+      line-height: 1.05;
+    }
+
+    .apollo-note a {
+      padding: 1px 4px;
+      border: 0;
+      color: #fff600;
+      background: #1515ff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .booth-one {
+      z-index: 24;
+      top: 185px;
+      left: 300px;
+      width: 240px;
+      height: 145px;
+      max-width: none;
+      object-fit: cover;
+      border-width: 3px;
+      filter: contrast(1.08) saturate(1.15);
+      transform: none;
+    }
+
+    .booth-two {
+      z-index: 74;
+      top: 800px;
+      left: 340px;
+      width: 270px;
+      height: 170px;
+      max-width: none;
+      object-fit: cover;
+      border: 5px dashed #ff00a8;
+      filter: contrast(1.08);
+      transform: none;
+    }
+
+    .chaos-photo {
+      position: absolute;
+      display: block;
+      object-fit: cover;
+    }
+
+    .chaos-photo.personal-two {
+      z-index: 20;
+      top: 475px;
+      left: 18px;
+      width: 175px;
+      height: 205px;
+      border-color: #00ffe1;
+    }
+
+    .hardware-scraps {
+      z-index: 30;
+      top: 1050px;
+      left: 350px;
+      display: flex;
+      gap: 0;
+      width: 510px;
+    }
+
+    .hardware-card {
+      width: 170px;
+      padding: 2px;
+      border: 2px solid #ffffff;
+      box-shadow: none;
+      background: #000000;
+      transform: none;
+    }
+
+    .hardware-card:nth-child(1),
+    .hardware-card:nth-child(2),
+    .hardware-card:nth-child(3) {
+      box-shadow: none;
+    }
+
+    .hardware-card:nth-child(1) {
+      transform: translateY(8px);
+      border-color: #00e4df;
+    }
+
+    .hardware-card:nth-child(2) {
+      transform: translateY(-8px);
+      border-color: #ccff00;
+    }
+
+    .hardware-card:nth-child(3) {
+      transform: translateY(4px);
+      border-color: #ff00a8;
+    }
+
+    .hardware-card img {
+      height: 112px;
+      object-fit: cover;
+    }
+
+    .link-swarm {
+      position: absolute;
+      inset: 0;
+      z-index: 65;
+      pointer-events: none;
+    }
+
+    .link-swarm a,
+    .link-swarm span {
+      position: absolute;
+      display: inline-block;
+      padding: 0 5px;
+      font-weight: bold;
+      line-height: 1;
+      pointer-events: auto;
+    }
+
+    .link-swarm > :nth-child(1) {
+      top: 260px;
+      left: 8px;
+      width: 280px;
+      color: #39ff14;
+      background: #000000;
+      font-size: 1.3rem;
+      line-height: 0.9;
+    }
+
+    .link-swarm > :nth-child(2) {
+      top: 300px;
+      left: 550px;
+      max-width: 360px;
+      color: #161e2d;
+      background: #ff9900;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.05rem;
+    }
+
+    .link-swarm > :nth-child(3) {
+      top: 545px;
+      right: 12px;
+      left: auto;
+      color: #39ff14;
+      background: #a000a8;
+      font-size: 1.55rem;
+    }
+
+    .link-swarm > :nth-child(4) {
+      top: 575px;
+      right: 10px;
+      left: auto;
+      color: #0015ff;
+      background: #ccff00;
+      font-size: 1.35rem;
+    }
+
+    .spatial-link {
+      position: absolute;
+      z-index: 82;
+      top: 1175px;
+      left: 14px;
+      display: inline-block;
+      max-width: 630px;
+      padding: 2px 8px;
+      color: #fff600;
+      background: #1515ff;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 2rem;
+      font-weight: bold;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .qml-outreach-link {
+      position: absolute;
+      z-index: 82;
+      top: 1320px;
+      right: 14px;
+      display: inline-block;
+      width: 470px;
+      max-width: 470px;
+      padding: 3px 9px;
+      color: #111111;
+      background: #ff00a8;
+      border: 5px double #00ffe1;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.75rem;
+      font-weight: bold;
+      line-height: 0.92;
+      text-transform: uppercase;
+    }
+
+    .spatial-crumb {
+      position: absolute;
+      z-index: 64;
+      display: inline-block;
+      padding: 1px 5px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    .spatial-crumb.one {
+      top: 940px;
+      left: 1000px;
+      color: #ff00a8;
+      background: #00e4df;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.25rem;
+    }
+
+    .spatial-crumb.two {
+      top: 1170px;
+      right: 15px;
+      width: 250px;
+      color: #39ff14;
+      background: #000000;
+      font-family: "Courier New", monospace;
+      font-size: 1rem;
+    }
+
+    .spatial-crumb.three {
+      top: 1215px;
+      right: 25px;
+      color: #0015ff;
+      background: #ff9dea;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.45rem;
+    }
+
+    .links {
+      display: none;
+    }
+
+    .plain-page {
+      display: none;
+    }
+
+    body.plain-mode {
+      color: #000000;
+      background: #ffffff;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body.plain-mode .page {
+      position: static;
+      width: auto;
+      min-height: 0;
+      margin: 16px;
+      padding: 0;
+      background: #ffffff;
+    }
+
+    body.plain-mode .page > :not(.plain-page) {
+      display: none !important;
+    }
+
+    body.plain-mode .plain-page {
+      display: block;
+      max-width: 680px;
+      color: #000000;
+      background: #ffffff;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .plain-page h1 {
+      margin: 0 0 12px;
+      font-size: 2rem;
+      letter-spacing: 0;
+    }
+
+    .plain-page h2 {
+      margin: 0 0 8px;
+      font-size: 1.25rem;
+      letter-spacing: 0;
+    }
+
+    .plain-page ul {
+      margin: 0 0 18px;
+      padding-left: 40px;
+    }
+
+    .plain-page li {
+      margin: 5px 0;
+    }
+
+    .plain-page a {
+      color: #0000ee;
+      text-decoration: underline;
+      text-decoration-style: solid;
+      text-decoration-thickness: auto;
+    }
+
+    .plain-page button {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1100px) {
+      .page {
+        min-height: auto;
+        padding: 5px 8px 30px;
+      }
+
+      .sign,
+      .scrap,
+      .photo,
+      .apollo-pic,
+      .apollo-note,
+      .uiuc-note,
+      .booth-one,
+      .booth-two,
+      .chaos-photo,
+      .sticker,
+      .ugly-links,
+      .pixel-box,
+      .note-strip,
+      .hardware-scraps,
+      .uiuc-cluster,
+      .spatial-link,
+      .qml-outreach-link,
+      .spatial-crumb {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        width: auto;
+        max-width: 100% !important;
+        height: auto;
+        margin: 4px !important;
+        transform: none !important;
+      }
+
+      .spatial-link,
+      .qml-outreach-link,
+      .spatial-crumb {
+        display: inline-block;
+        font-size: 1.25rem;
+      }
+
+      .uiuc-cluster {
+        display: inline-block;
+        width: min(92%, 380px) !important;
+      }
+
+      .uiuc-cluster .photo.five {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+      }
+
+      .uiuc-cluster .uiuc-note {
+        width: 100% !important;
+        margin: 0 !important;
+      }
+
+      .sign.open {
+        display: block;
+        margin: 0;
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .plain-toggle {
+        display: inline-block;
+        margin: 5px 0 0;
+      }
+
+      .sign.formal,
+      .sign.homecoming,
+      .sign.poster-click,
+      .sign.apollo-click,
+      .sign.qft,
+      .sign.research,
+      .sign.bride,
+      .sign.small-map {
+        display: inline-block;
+        font-size: 1.3rem;
+      }
+
+      .pixel-box,
+      .ugly-links,
+      .scrap,
+      .apollo-note,
+      .uiuc-note {
+        display: inline-block;
+        vertical-align: top;
+        max-width: 330px;
+      }
+
+      .photo,
+      .apollo-pic,
+      .booth-one,
+      .booth-two,
+      .chaos-photo {
+        display: inline-block;
+        width: min(46%, 330px) !important;
+        height: 210px !important;
+        vertical-align: top;
+        object-fit: cover;
+      }
+
+      .photo.six,
+      .photo.seven {
+        width: min(28%, 180px) !important;
+        height: 130px !important;
+      }
+
+      .hardware-scraps {
+        display: inline-flex;
+        width: min(100%, 520px) !important;
+      }
+
+      .hardware-card {
+        width: 33.333%;
+        margin: 0;
+      }
+
+      .hardware-card img {
+        height: 120px;
+      }
+
+      .link-swarm {
+        position: relative;
+        inset: auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        margin: 4px 0;
+      }
+
+      .link-swarm a,
+      .link-swarm span,
+      .link-swarm > :nth-child(n) {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        margin: 2px;
+        font-size: 1.25rem;
+      }
+
+      .tiny-rant {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 4px 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hi, my name is Summer!</h1>
+  <main class="page">
+    <span class="sign open">
+      Summer's personal site!!!!!!!!
+      <button class="plain-toggle" id="plain-toggle" type="button">HTML IF UR EYES HURT</button>
+    </span>
+    <a class="sign poster-click" href="/dreu/logs/week-08.html">Have your poster explained !! please click here !!</a>
+    <a class="sign apollo-click" href="/apollors/">Apollo 11 click here !!</a>
+    <a class="sign qft" href="/dreu/logs/week-08.html">QFT precision noise constants</a>
+    <span class="sign bride">Summer's is here to compute !!</span>
 
-  <p>This site is still awaiting updates!</p>
+    <div class="link-swarm" aria-label="More links and research notes">
+      <a href="/presentations/">WHERE HAVE I PRESENTED??</a>
+      <a
+        class="aws-button"
+        href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna"
+        target="_blank"
+        rel="noreferrer"
+      >AWS STUDENT BUILDER CAMPUS LEADER - AMBASSADOR</a>
+      <span>CIRCUIT COMPLEXITY???</span>
+      <a href="https://lnkd.in/p/dszVZ6p9">READ THE PRESENTATION POST</a>
+    </div>
 
-  <p>
-    To view my DREU research updates, click
-    <a href="/dreu/">here</a>.
-  </p>
+    <span class="spatial-crumb one">POINT CLOUDS / MESHES / GRAPHS</span>
+    <span class="spatial-crumb two">BFS / DIJKSTRA / A* / LIVE RE-PLANNING</span>
+    <a class="spatial-link" href="/spatial-computing/">
+      Spatial computing past work - enter here !!
+    </a>
+    <a class="qml-outreach-link" href="/qml-outreach/">
+      QML outreach / CAIR division lead / open my archive!!!
+    </a>
 
-  <p>
-    To see where I have presented, click
-    <a href="/presentations/">here</a>.
-  </p>
+    <p class="scrap about">
+      I study quantum algorithms, spatial computing, computing systems,
+      research experiments, and the chaotic process of making hard ideas
+      understandable.
+    </p>
 
-  <p>
-    You can also find me on
-    <a href="https://www.linkedin.com/in/summermalik/" target="_blank">LinkedIn</a>.
-  </p>
+    <p class="scrap badge">
+      DREU / QFT / LLL / RSA / poster / tests / noisy circuits / handmade web
+    </p>
 
-  <p>
-    I am also working on
-    <a href="/apollors/">ApolloRS</a>, converting the original apollo 11 code in assembly to rust!
-  </p>
+    <div class="note-strip">
+      <span>factorization</span>
+      <span>but explain it</span>
+      <span>then test it</span>
+      <span>then explain it again</span>
+    </div>
+
+    <span class="sticker b">rsa makes factoring click</span>
+    <span class="sticker c">built by hand</span>
+
+    <div class="tiny-rant">
+      point clouds meshes graphs arkit qft lattices rust reproducibility circuit complexity post-processing spatial memory pathfinding
+    </div>
+
+    <img
+      class="photo one"
+      src="dreu/assets/1785289037710.jpeg"
+      alt="Summer presenting research work"
+    >
+
+    <img
+      class="photo two"
+      src="dreu/assets/1785289038892.jpeg"
+      alt="Summer at a research presentation"
+    >
+
+    <img
+      class="photo four"
+      src="dreu/assets/1785289038892.jpeg"
+      alt="Summer at a research presentation"
+    >
+
+    <section class="uiuc-cluster" aria-label="Summer at UIUC research">
+      <a href="/dreu/" aria-label="Summer at UIUC, read my DREU logs">
+        <img
+          class="photo five"
+          src="index_me_images/me-06.png"
+          alt="Summer at UIUC"
+        >
+      </a>
+      <p class="uiuc-note">
+        Summer at UIUC -
+        <a href="/dreu/">read my research logs</a>
+      </p>
+    </section>
+
+    <img
+      class="photo six"
+      src="dreu/assets/1785289038892.jpeg"
+      alt="Summer at a research presentation"
+    >
+
+    <img
+      class="photo seven"
+      src="dreu/assets/1785289037710.jpeg"
+      alt="Summer presenting research work"
+    >
+
+    <img
+      class="apollo-pic"
+      src="index_me_images/apollo-11.png"
+      alt="Apollo 11 rocket on the launch pad"
+    >
+
+    <img
+      class="booth-one"
+      src="index_me_images/photo-booth1.png"
+      alt="Photo Booth picture of Summer"
+    >
+
+    <img
+      class="booth-two"
+      src="index_me_images/photobooth-2.png"
+      alt="Photo Booth picture of Summer with heart effect"
+    >
+
+    <img
+      class="chaos-photo personal-two"
+      src="index_me_images/me-03.png"
+      alt="Summer using a Photo Booth effect"
+    >
+
+    <section class="apollo-note">
+      <h2>ApolloRS</h2>
+      <p>
+        ApolloRS is my Rust project for bringing Apollo 11 guidance software
+        into a modern, inspectable form: preserving the original machine words,
+        executing them, tracing behavior, and checking what the computer
+        actually did.
+      </p>
+      <a href="/apollors/">click here to see it</a>
+    </section>
+
+    <section class="ugly-links">
+      <h2>click stuff</h2>
+      <ul>
+        <li><a href="/dreu/">DREU logs</a></li>
+        <li><a href="/qml-outreach/">QML outreach</a></li>
+        <li><a href="/spatial-computing/">spatial computing</a></li>
+        <li><a href="/presentations/">presentations</a></li>
+        <li><a href="/apollors/">ApolloRS</a></li>
+        <li><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+      </ul>
+    </section>
+
+    <div class="hardware-scraps" aria-label="Hardware photos">
+      <a
+        class="hardware-card"
+        href="https://github.com/simransummermalik"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="See Summer's hardware work on GitHub"
+      >
+        <img
+          src="index_me_images/me-04.png"
+          alt="A 3D printer producing a bright pink city model"
+        >
+      </a>
+
+      <a
+        class="hardware-card"
+        href="https://github.com/simransummermalik"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="See Summer's hardware work on GitHub"
+      >
+        <img
+          src="index_me_images/me-05.png"
+          alt="A Raspberry Pi held in front of a laptop"
+        >
+      </a>
+
+      <a
+        class="hardware-card"
+        href="https://github.com/simransummermalik"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="See Summer's hardware work on GitHub"
+      >
+        <img
+          src="index_me_images/hardware-1.png"
+          alt="A wired hardware module connected to a breadboard"
+        >
+      </a>
+    </div>
+
+    <section class="plain-page" aria-labelledby="plain-title">
+      <h1 id="plain-title">Summer Malik</h1>
+      <h2>Important links</h2>
+      <ul>
+        <li><a href="/dreu/">Summer at UIUC research logs</a></li>
+        <li><a href="/qml-outreach/">QML Outreach and CAIR division work</a></li>
+        <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
+        <li><a href="/presentations/">Where I have presented</a></li>
+        <li><a href="/apollors/">ApolloRS</a></li>
+        <li><a href="https://github.com/simransummermalik">GitHub</a></li>
+        <li>
+          <a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">
+            AWS article: The Fastest-Growing Data Problem in the World Might Be DNA
+          </a>
+        </li>
+        <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
+      </ul>
+      <button id="chaos-toggle" type="button">return to ugly html</button>
+    </section>
+
+    <nav class="links" aria-label="Main site links">
+      <a href="/dreu/">DREU logs</a>
+      <a href="/qml-outreach/">QML outreach</a>
+      <a href="/spatial-computing/">spatial computing</a>
+      <a href="/presentations/">where I presented</a>
+      <a href="/apollors/">ApolloRS</a>
+      <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a>
+    </nav>
+  </main>
+  <script>
+    const plainToggle = document.getElementById("plain-toggle");
+    const chaosToggle = document.getElementById("chaos-toggle");
+
+    plainToggle.addEventListener("click", () => {
+      document.body.classList.add("plain-mode");
+      window.scrollTo(0, 0);
+    });
+
+    chaosToggle.addEventListener("click", () => {
+      document.body.classList.remove("plain-mode");
+      window.scrollTo(0, 0);
+    });
+  </script>
 </body>
 </html>

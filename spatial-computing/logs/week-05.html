@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 05 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 05 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>March 30, 2026 - April 5, 2026</p>
+
+  <h2>Persistent State Manager</h2>
+  <p>
+    I translated the live-modeling direction into a more concrete software
+    target: a persistent spatial-state manager inside the visionOS app. This
+    component would accumulate reconstruction data over time, preserve it in a
+    stable internal structure, and make it available to later abstraction and
+    pathfinding components.
+  </p>
+
+  <h2>Staged Internal Pipeline</h2>
+  <p>
+    I separated the runtime into four responsibilities:
+  </p>
+
+  <ol>
+    <li>Receive reconstruction input.</li>
+    <li>Aggregate and normalize persistent spatial state.</li>
+    <li>Promote stable information into a decision-level abstraction.</li>
+    <li>Allow graph and pathfinding algorithms to query that abstraction.</li>
+  </ol>
+
+  <h2>Multiple Coexisting Models</h2>
+  <p>
+    A single representation was unlikely to satisfy every requirement. A
+    geometry-heavy model preserves fidelity but is expensive and volatile. A
+    graph or region-based model is easier to search but necessarily removes
+    detail. I therefore began treating layered, coexisting representations as
+    a core architectural requirement.
+  </p>
+
+  <h2>Graph Maintenance and Decision Timing</h2>
+  <p>
+    I compared full graph recomputation against selective local revision. I
+    also began framing pathfinding as a model-sufficiency problem: the system
+    may have only a partial environment model but still possess enough
+    information for a local decision. This made the timing of re-planning part
+    of the research question.
+  </p>
+
+  <h2>Literature Direction</h2>
+  <p>
+    Reading on incremental mapping, partially observed environments, and
+    real-time model updates reinforced the importance of maintaining a
+    representation that is both computationally tractable and relevant to the
+    decisions being made.
+  </p>
+
+  <p>
+    <a href="week-04.html">Previous: Week 04</a> |
+    <a href="week-06.html">Next: Week 06</a>
+  </p>
+</body>
+</html>

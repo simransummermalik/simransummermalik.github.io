@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 04 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 04 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>March 23, 2026 - March 29, 2026</p>
+
+  <h2>Persistent Spatial Representations</h2>
+  <p>
+    This week focused on how a live immersive application can maintain a model
+    that is stable enough for algorithmic reasoning while still responding to
+    new scene geometry. Raw mesh updates alone are too volatile. The system
+    needs an intermediate layer that preserves spatial state across local
+    changes.
+  </p>
+
+  <p>
+    I began developing a layered representation strategy: a lower-level
+    geometric layer would preserve reconstruction data, while a higher-level
+    graph or occupancy structure would expose decision-relevant information.
+    The higher-level model could then be revised selectively instead of rebuilt
+    after every incoming update.
+  </p>
+
+  <h2>Search in Partially Known Space</h2>
+  <p>
+    The offline graph had been generated from a complete dataset. A live model,
+    however, is incomplete and uncertain while scanning continues. I started
+    treating BFS, Dijkstra, and A* as algorithms operating over the system's
+    current belief about space rather than over a final map.
+  </p>
+
+  <h2>Evaluation Criteria</h2>
+  <ul>
+    <li>Stability under new geometric updates</li>
+    <li>Efficiency of local or incremental revision</li>
+    <li>Interpretability of paths and reachability decisions</li>
+    <li>Fidelity to constraints that matter for navigation</li>
+    <li>Ability to support provisional decisions and later re-planning</li>
+  </ul>
+
+  <h2>Runtime Architecture</h2>
+  <p>
+    The visionOS application became part of the methodology rather than only a
+    viewer. I used the Xcode prototype to reason about where spatial state
+    should live, how updates should propagate, and what changes should trigger
+    a new algorithmic query.
+  </p>
+
+  <p>
+    <a href="week-03.html">Previous: Week 03</a> |
+    <a href="week-05.html">Next: Week 05</a>
+  </p>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 01 Spatial Computing Research Log</title>
+  <style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 01 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>March 4, 2026 - March 8, 2026</p>
+
+  <h2>Focus</h2>
+  <p>
+    This week I reframed the project around a more precise question: how does
+    the representation of the same physical environment change an algorithm's
+    decisions? I separated the work into spatial data acquisition and
+    algorithm development, then defined an initial pipeline using point clouds,
+    meshes, and graph-based abstractions.
+  </p>
+
+  <h2>Prototype Development</h2>
+  <p>
+    I built the first working visionOS application in Xcode with Swift,
+    SwiftUI, and RealityKit. I configured an immersive space and added a test
+    sphere to verify that custom three-dimensional content could render
+    correctly.
+  </p>
+
+  <p>
+    I then added an ARKitSession and a SceneReconstructionProvider availability
+    check. The simulator could not provide live scene reconstruction, but the
+    console confirmed that the immersive environment opened, the startup logic
+    executed, and the support check worked. This prepared the application for
+    later testing on Apple Vision Pro hardware.
+  </p>
+
+  <figure>
+    <img
+      src="../assets/vision-pro-sphere-test.png"
+      alt="Xcode and Apple Vision Pro simulator showing a test sphere in an immersive scene"
+      width="700"
+    >
+    <figcaption>First rendered object inside the immersive scene.</figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="../assets/vision-pro-immersive-view.png"
+      alt="Xcode project and Apple Vision Pro simulator showing the immersive-space interface"
+      width="800"
+    >
+    <figcaption>
+      Early visionOS application scaffold and immersive-space control.
+    </figcaption>
+  </figure>
+
+  <h2>Algorithm Track</h2>
+  <p>
+    To continue making progress without live reconstruction hardware, I also
+    outlined the graph reasoning pipeline. Spatial input would be simplified
+    into an algorithm-friendly representation before running breadth-first
+    search, Dijkstra, and A*. This made the purpose of the project more than
+    scanning a room: the main question became what computational tradeoffs are
+    introduced by each abstraction.
+  </p>
+
+  <h2>Results</h2>
+  <ul>
+    <li>A clearer research question centered on representation choice.</li>
+    <li>A staged workflow connecting spatial input to algorithmic analysis.</li>
+    <li>A functioning visionOS immersive-space prototype.</li>
+    <li>Validated ARKit scene-reconstruction startup and support checks.</li>
+  </ul>
+
+  <p><a href="week-02.html">Next: Week 02</a></p>
+</body>
+</html>

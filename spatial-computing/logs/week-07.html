@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 07 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 07 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>April 13, 2026 - April 19, 2026</p>
+
+  <h2>Persistence Under Local Change</h2>
+  <p>
+    I focused on how much of the internal model should survive when new spatial
+    evidence arrives. The system needs to absorb real changes without
+    discarding every previous conclusion. This introduced questions about
+    spatial memory, revision boundaries, and the difference between a local
+    update and a change large enough to invalidate the model.
+  </p>
+
+  <h2>Stability Versus Adaptability</h2>
+  <p>
+    The representation must remain flexible enough to incorporate new
+    geometry, but stable enough that algorithmic outputs remain interpretable.
+    I began using this tension as a central evaluation lens for both the data
+    structure and the search behavior.
+  </p>
+
+  <h2>Event-Driven Re-Planning</h2>
+  <p>
+    Re-planning after every small reconstruction update would be expensive and
+    unstable. Waiting too long could leave the system using outdated
+    assumptions. I therefore began framing re-computation as an event-driven
+    process triggered by meaningful changes in decision-relevant structure.
+  </p>
+
+  <h2>Decision-Relevant Structure</h2>
+  <p>
+    The purpose of the internal model is not to retain every geometric detail.
+    It should preserve the parts of space that matter for reachability, path
+    plausibility, local continuity, and route revision. This made the
+    representation goal more precise.
+  </p>
+
+  <h2>Component Order</h2>
+  <p>
+    I finalized the intended sequence as retention -&gt; stabilization -&gt;
+    abstraction -&gt; algorithmic reasoning. Additional reading on navigation
+    under uncertainty and incremental modeling supported this systems-level
+    focus.
+  </p>
+
+  <p>
+    <a href="week-06.html">Previous: Week 06</a> |
+    <a href="week-08.html">Next: Week 08</a>
+  </p>
+</body>
+</html>

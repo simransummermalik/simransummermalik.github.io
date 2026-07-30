@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QML Torch Interest Meeting - Summer Malik</title>
+  <style>
+    img {
+      width: 720px;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html">Back to QML Outreach</a></p>
+
+  <h1>QML Torch Interest Meeting</h1>
+
+  <p><strong>Academic year:</strong> 2025-2026</p>
+
+  <p>
+    <strong>Status:</strong>
+    Working plan. Everything in this deck is subject to change as the group and
+    framework develop.
+  </p>
+
+  <img
+    src="../assets/interest-meeting-cover.png"
+    alt="Cover of the QML Torch interest meeting presentation"
+  >
+
+  <h2>The Pitch</h2>
+
+  <p>
+    I introduced QML Torch as an open-source framework for integrating quantum
+    computing into machine learning workflows using a PyTorch-style interface.
+    Existing tools such as PennyLane and Qiskit are powerful, but a beginner
+    can still spend a lot of time configuring devices, writing encodings and
+    ansatzes, wrapping QNodes, managing batches, and debugging gradient shapes.
+    QML Torch aims to place those concerns behind reusable components so a
+    student can focus on the experiment.
+  </p>
+
+  <p>
+    The long-term interface is intentionally familiar: import the library and
+    add a quantum layer in the same spirit as adding an ordinary neural-network
+    layer. Built-in choices can handle encoding, circuit architecture, readout,
+    batching, gradients, and device setup.
+  </p>
+
+  <h2>Roadmap Presented to the Group</h2>
+
+  <ol>
+    <li>
+      Onboarding and teaching: Python, PyTorch, scikit-learn, PennyLane,
+      Qiskit, basic circuits, and a small quantum-kernel exercise.
+    </li>
+    <li>
+      Core toolkit: reusable PyTorch quantum layers, sklearn-style kernels,
+      tests, continuous integration, and reproducible environments.
+    </li>
+    <li>
+      Case studies: cybersecurity, optimization, natural language processing,
+      recommendation, and bioinformatics.
+    </li>
+    <li>
+      Documentation and outreach: tutorials, API documentation, notebooks,
+      demos, packaging, and student-facing explanations.
+    </li>
+  </ol>
+
+  <h2>How We Think About Quantum Advantage</h2>
+
+  <p>
+    The deck makes an important boundary explicit: the group is not promising
+    that quantum always beats classical machine learning. We use simulators and
+    available cloud tools, build hybrid models at realistic scales, and compare
+    them with classical baselines. The research question is where quantum
+    representations, sampling behavior, or circuit structure can offer
+    something useful enough to justify the added complexity.
+  </p>
+
+  <h2>Source Material</h2>
+
+  <p>
+    <a
+      href="../assets/qml-torch-interest-meeting-2025-2026.pdf"
+      target="_blank"
+    >
+      Open the complete 17-page interest-meeting deck
+    </a>
+  </p>
+</body>
+</html>

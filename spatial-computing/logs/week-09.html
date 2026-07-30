@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 09 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 09 Spatial Computing Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>April 25, 2026 - April 27, 2026</p>
+
+  <h2>Spatial-State Manager Design</h2>
+  <p>
+    I translated the persistent-state idea into a clearer software design. The
+    Vision Pro application would need to retain reconstruction-derived
+    geometry, update timestamps, and simplified spatial regions that could
+    later be queried by pathfinding algorithms.
+  </p>
+
+  <p>
+    Instead of treating every incoming update as equally important, the system
+    should filter and preserve changes that affect decision-relevant
+    structure. This separates raw scene input from the stable model that the
+    algorithms actually use.
+  </p>
+
+  <h2>Connecting Offline and Live Experiments</h2>
+  <p>
+    I reviewed how the Scaniverse workflow converted a finished point cloud
+    into a graph and compared it with the needs of the live application. The
+    offline experiment builds from a complete dataset. The live system must
+    build and revise its model gradually.
+  </p>
+
+  <p>
+    This confirmed that the offline graph remains a useful controlled baseline,
+    while the live system introduces additional variables: update timing,
+    model stability, and the conditions that should trigger recomputation.
+  </p>
+
+  <h2>Result</h2>
+  <p>
+    By the end of this period, the persistent-state layer had a clearer purpose,
+    a clearer set of stored information, and a stronger relationship to the
+    earlier graph experiments.
+  </p>
+
+  <p>
+    <a href="week-08.html">Previous: Week 08</a> |
+    <a href="week-10.html">Next: Week 10</a>
+  </p>
+</body>
+</html>

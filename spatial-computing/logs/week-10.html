@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 10 Spatial Computing Research Log</title>
+</head>
+<body>
+  <p><a href="../index.html">Back to Spatial Computing Research Log</a></p>
+
+  <h1>Week 10 Spatial Computing Research Log</h1>
+
+  <h2>Date</h2>
+  <p>April 30, 2026</p>
+
+  <h2>Consolidation</h2>
+  <p>
+    I consolidated the project into a stronger research architecture for live
+    scene reconstruction and algorithmic reasoning. The system needs to
+    remember what it has sensed, stabilize that information into a usable
+    abstraction, and allow BFS, Dijkstra, or A* to query the model without
+    being disrupted by every small geometry update.
+  </p>
+
+  <h2>Final Research Direction</h2>
+  <p>
+    The work began as a comparison of spatial representations and pathfinding
+    behavior. It developed into a broader systems question about how an
+    immersive application constructs and maintains a decision-relevant model
+    over time.
+  </p>
+
+  <p>
+    The offline point-cloud results established a controlled baseline for
+    graph construction and search. The live Vision Pro direction added the
+    harder problems of partial observability, model sufficiency, stability,
+    update timing, and event-driven re-planning.
+  </p>
+
+  <h2>Next Engineering Step</h2>
+  <p>
+    The next step is to implement the persistent spatial-state layer inside the
+    visionOS application, connect it to a simplified decision-level
+    representation, and test future pathfinding and reachability behavior as
+    that representation changes.
+  </p>
+
+  <h2>Source Documents</h2>
+  <ul>
+    <li><a href="../assets/research-abstract.pdf">Research abstract (PDF)</a></li>
+    <li><a href="../assets/logs-from-vscode.pdf">Complete original logs (PDF)</a></li>
+  </ul>
+
+  <p><a href="week-09.html">Previous: Week 09</a></p>
+</body>
+</html>
