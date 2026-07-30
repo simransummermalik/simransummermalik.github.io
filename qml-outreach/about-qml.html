@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Quantum Machine Learning - Summer Malik</title>
+</head>
+<body>
+  <p><a href="index.html">Back to QML Outreach</a></p>
+
+  <h1>About Quantum Machine Learning</h1>
+
+  <h2>What Is QML?</h2>
+
+  <p>
+    Quantum machine learning, usually shortened to QML, studies how quantum
+    computing can be used inside machine learning systems. It sits between two
+    fields: machine learning, where models learn patterns from data, and
+    quantum computing, where information is represented and transformed using
+    qubits and quantum circuits.
+  </p>
+
+  <p>
+    Most QML work today is hybrid rather than completely quantum. A classical
+    computer still prepares the data, manages the training process, updates
+    parameters, and evaluates the model. A quantum circuit handles a particular
+    representation, transformation, kernel, sampling step, or trainable layer.
+    The classical and quantum parts pass information back and forth.
+  </p>
+
+  <h2>What Can the Quantum Part Add?</h2>
+
+  <p>
+    A quantum circuit can map data into a complex feature space, create
+    relationships through entanglement, use interference to strengthen or
+    cancel computational paths, and sample from probability distributions that
+    may be difficult to reproduce classically. These properties create new
+    ways to represent information and organize a model.
+  </p>
+
+  <p>
+    That does not mean every quantum model is better. The useful question is
+    whether a specific quantum representation or circuit improves something
+    that matters: accuracy, sample efficiency, expressivity, optimization,
+    robustness, runtime, or another measurable property. The answer can change
+    with the dataset, task, circuit, hardware, noise level, and classical
+    baseline.
+  </p>
+
+  <h2>What Is Quantum Advantage?</h2>
+
+  <p>
+    Quantum advantage means demonstrating that a quantum method provides a
+    meaningful benefit over the best relevant classical alternatives. A model
+    does not show quantum advantage simply because it contains qubits or a
+    quantum layer. The comparison must be controlled, reproducible, and honest
+    about computational cost.
+  </p>
+
+  <p>
+    In QML, this is especially important because small simulations can be
+    expensive, current hardware is noisy, and a classical model may solve the
+    same task more simply. Strong QML research therefore includes classical
+    baselines, repeated experiments, clear metrics, resource estimates, and an
+    explanation of what the quantum component contributes.
+  </p>
+
+  <h2>Why Hybrid Models?</h2>
+
+  <p>
+    Hybrid models let researchers study quantum behavior without requiring an
+    entire machine learning pipeline to run on quantum hardware. They also make
+    it possible to use mature classical tools for data processing and
+    optimization while testing a targeted quantum component. This makes hybrid
+    QML a practical environment for learning, experimentation, and careful
+    comparison.
+  </p>
+
+  <h2>How This Connects to QML Torch</h2>
+
+  <p>
+    QML Torch is meant to make these experiments easier to build and compare.
+    Its goal is a familiar PyTorch-style workflow where students can test
+    quantum layers and kernels without rewriting the same setup around every
+    circuit. Just as importantly, the framework should make it easier to compare
+    multiple hybrid architectures with classical baselines.
+  </p>
+
+  <p>
+    The purpose is not to hide the science or promise that quantum always wins.
+    It is to reduce unnecessary setup, make the important choices visible, and
+    help students investigate where quantum methods are genuinely useful.
+  </p>
+
+  <h2>Why Outreach Matters</h2>
+
+  <p>
+    QML can feel inaccessible because it combines unfamiliar mathematics,
+    physics, machine learning, and software tools. Outreach creates a path into
+    the field through visual explanations, small experiments, peer learning,
+    and projects that connect new ideas to concepts students already know.
+  </p>
+
+  <p>
+    My goal as the CAIR Quantum Machine Learning Division Lead is to make that
+    path clearer without pretending the field is simpler or more certain than
+    it is. Students should be able to ask ambitious questions while still
+    testing every claim carefully.
+  </p>
+</body>
+</html>
