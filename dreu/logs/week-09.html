@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 09 Research Log</title>
+  <style>
+    body {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+      font-family: "Times New Roman", Times, serif;
+      line-height: 1.45;
+    }
+
+    figure {
+      margin: 20px 0;
+    }
+
+    figure img {
+      width: 760px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    figcaption {
+      max-width: 760px;
+      margin-top: 5px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <p><a href="../index.html">Back to DREU Research Log</a></p>
+
+  <h1>Week 09 Research Log</h1>
+
+  <h2>Dates</h2>
+  <p>August 3, 2026 - August 9, 2026</p>
+
+  <p><strong>Status:</strong> In progress</p>
+
+  <h2>The Question I Am Working On</h2>
+  <p>
+    This week I am continuing the direction our professor gave us: determine
+    the constants inside the circuit, study the complexity synthetically, and
+    compare the simulation models instead of relying on one high-level
+    asymptotic expression. The goal is to connect the theorem, the source code,
+    the expanded gates, and the final factor-recovery experiment without
+    pretending that they are interchangeable kinds of evidence.
+  </p>
+
+  <p>
+    This has become two connected pieces of work. The first is an independent
+    complexity-fidelity validation of the supplied Regev implementation. The
+    second is a new Factor-or-Fuse study that asks whether dependencies among
+    the chosen modular bases can be used before the quantum circuit is built.
+  </p>
+
+  <h2>Independent Complexity-Fidelity Validation</h2>
+  <p>
+    I am testing the circuit-complexity result several ways instead of trusting
+    one counting script. The validation now includes static syntax-tree checks,
+    direct Qiskit gate expansion, exact recursive source-gate counts,
+    dimensional-splitting experiments, compiler optimization comparisons, and
+    negative controls.
+  </p>
+
+  <p>
+    The central test holds the total binary exponent schedule fixed at
+    <code>dq = 2n</code> while changing how those bits are split across registers.
+    The executed arithmetic does not shrink, because every controlled constant
+    multiplier still loops over the full <code>n</code>-bit result register. In
+    other words, shorter-looking exponent registers do not create an
+    asymptotic saving by themselves; the arithmetic architecture also has to
+    change.
+  </p>
+
+  <figure>
+    <img
+      src="../assets/week-09-dimension-splitting-invariance.png"
+      alt="Plot showing that splitting exponent bits across registers does not reduce the executed modular-addition count"
+    >
+    <figcaption>
+      Holding <code>dq</code> fixed leaves the executed full-width arithmetic
+      constant, even as the width of each exponent register changes.
+    </figcaption>
+  </figure>
+
+  <p>
+    The current evidence supports <code>Theta(n<sup>3</sup> log n)</code> for
+    this frozen source implementation, while the associated implementation
+    analysis reports <code>O(n<sup>5/2</sup> log n)</code>. I am being careful
+    with the wording: this is a reproducible paper-to-code discrepancy for the
+    audited implementation, not a refutation of Regev's theoretical factoring
+    algorithm and not a physical hardware estimate.
+  </p>
+
+  <h2>Factor-or-Fuse</h2>
+  <p>
+    The second part of this week's work asks whether the circuit inputs contain
+    public algebraic dependencies that should be handled before paying for the
+    quantum arithmetic. Regev-style inputs store roots <code>b<sub>i</sub></code>
+    and use squared bases <code>a<sub>i</sub> = b<sub>i</sub><sup>2</sup></code>
+    modulo <code>N</code>. If one selected base is a bounded power of another,
+    the stored roots tell us which of two branches we are in.
+  </p>
+
+  <ul>
+    <li>If the root-level relation gives a nontrivial square root of one, a GCD can recover a factor before the circuit is built.</li>
+    <li>If the root-level value is only <code>+1</code> or <code>-1</code>, the dependency may be fused into a cheaper exactly equivalent arithmetic oracle, but only when the full reversible cost calculation says it is actually cheaper.</li>
+    <li>If neither branch is useful, the method returns the original serial circuit unchanged.</li>
+  </ul>
+
+  <p>
+    This immediately exposed a benchmark-integrity problem in a familiar toy
+    input. For <code>N = 15</code>, the advertised bases <code>4</code> and
+    <code>49</code> are the same residue modulo 15. Their stored roots
+    <code>2</code> and <code>7</code> reveal the factors 3 and 5 before a quantum
+    circuit is needed. A nominally two-dimensional example can therefore be
+    algebraically one-dimensional, which makes it a bad example for claiming
+    general circuit behavior.
+  </p>
+
+  <h2>Current Held-Out Result</h2>
+  <p>
+    The frozen held-out test is useful precisely because it did not give the
+    exciting answer I initially hoped for. Across 24 unseen semiprimes, the
+    complete method found zero pre-circuit factors, one strictly cheaper exact
+    fusion, and 23 exact-baseline fallbacks. The mean canonical-CX saving was
+    <strong>0.354%</strong>, with a 95% modulus-level bootstrap interval from
+    <strong>0% to 1.062%</strong>. The preregistered broad-speedup hypothesis did
+    not pass.
+  </p>
+
+  <figure>
+    <img
+      src="../assets/week-09-factor-or-fuse-heldout-outcomes.png"
+      alt="Stacked bar chart showing Factor-or-Fuse outcomes on 24 held-out semiprimes"
+    >
+    <figcaption>
+      Only one held-out modulus produced a profitable exact fusion; the other
+      23 correctly fell back to the unchanged baseline.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="../assets/week-09-factor-or-fuse-cx-savings.png"
+      alt="Bar chart of mean quantum arithmetic CX savings with bootstrap intervals"
+    >
+    <figcaption>
+      The uncertainty interval includes zero, so the current evidence does not
+      support a general quantum-resource speedup.
+    </figcaption>
+  </figure>
+
+  <p>
+    I do not see that as a useless result. The method still works as an exact
+    compiler rule when a profitable dependency exists, and it catches toy
+    benchmarks that secretly expose their factors before the circuit. More
+    importantly, the fallback behavior means the preprocessing does not force
+    a worse circuit just to make the method look active.
+  </p>
+
+  <h2>Simulation Comparison in Progress</h2>
+  <p>
+    I am also continuing to compare the finite sampling models under the same
+    LLL endpoint. Week 8 showed that a theorem-consistent noisy-dual generator
+    can recover factors far more often than the finite hard-box, finite-Gaussian,
+    or readout-corruption models. This week I am tightening the interpretation:
+    a synthetic generator is useful for testing post-processing, but it is not
+    automatically evidence for the behavior of the executable quantum circuit.
+  </p>
+
+  <p>
+    The comparison needs to keep input distributions, QFT precision, shot
+    counts, arithmetic cost, and recovery criteria visible at the same time.
+    Otherwise it is very easy to compare two numbers that answer different
+    questions.
+  </p>
+
+  <h2>Next Steps</h2>
+  <p>
+    Week 9 is still in progress. My next steps are to review the
+    complexity-fidelity claim with our advisor, keep the source and protocol
+    hashes frozen, extend the Factor-or-Fuse scaling census, test all bounded
+    witnesses instead of stopping at the first relation, and finish the
+    simulator comparison under matched conventions. I also want the final
+    explanation to preserve the negative results, because reproducibility means
+    documenting when an idea falls back or fails its hypothesis, not only when
+    it produces a dramatic graph.
+  </p>
+
+  <h2>Related Materials</h2>
+  <ul>
+    <li><a href="https://github.com/simransummermalik/TheoreticalComputing" target="_blank" rel="noreferrer">Theoretical Computing repository</a></li>
+    <li><a href="https://github.com/simransummermalik/TheoreticalComputing/tree/main/complexity_fidelity_study" target="_blank" rel="noreferrer">Independent Complexity-Fidelity Validation</a></li>
+    <li><a href="https://github.com/simransummermalik/TheoreticalComputing/tree/main/factor_or_fuse_study" target="_blank" rel="noreferrer">Factor-or-Fuse study</a></li>
+    <li><a href="week-08.html">Week 08: circuit constants and simulator comparison</a></li>
+  </ul>
+</body>
+</html>

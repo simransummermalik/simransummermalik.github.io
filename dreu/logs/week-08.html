@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Week 08 Research Log</title>
   <style>
+    body {
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+      font-family: "Times New Roman", Times, serif;
+      line-height: 1.45;
+    }
+
     .photo-gallery {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
+    }
+
+    figure {
+      margin: 16px 0;
     }
 
     .photo-gallery figure {
@@ -18,6 +32,18 @@
       max-width: 100%;
       height: auto;
     }
+
+    .research-figure img {
+      width: 760px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    figcaption {
+      max-width: 760px;
+      margin-top: 5px;
+      font-size: 0.95rem;
+    }
   </style>
 </head>
 <body>
@@ -28,64 +54,164 @@
   <h2>Dates</h2>
   <p>July 27, 2026 - August 2, 2026</p>
 
-  <p><strong>Status:</strong> In progress</p>
+  <p><strong>Status:</strong> Complete</p>
 
-  <h2>Presentation Reflection</h2>
-  <p>This week is still in progress, but one of the biggest things so far is that I presented the poster. Presenting was honestly really nice. People were interested in the project, and it felt good to see that the work could start a conversation instead of only living in code, notes, and experiments.</p>
-
+  <h2>Presenting the Project</h2>
   <p>
-    I also shared a post about the presentation here:
-    <a href="https://lnkd.in/p/dszVZ6p9" target="_blank">LinkedIn post</a>.
+    This week I presented our poster. It was honestly really nice to watch the
+    work become a conversation instead of something that only lived in code,
+    notes, and experiment folders. People were interested and asked questions,
+    which helped me see where the explanation was working and where I was still
+    compressing too much at once.
   </p>
 
-  <p>One thing that helped a lot was comparing the motivation to RSA encryption. Since many people have heard that RSA depends on factoring being hard, it gave the audience a familiar doorway into the project. From there, it was easier to explain why quantum factoring algorithms matter, why Shor's algorithm is important, and why newer Regev-style approaches are interesting to study. That comparison made the project feel much less abstract for people who were not already thinking about quantum algorithms every day.</p>
+  <p>
+    Comparing the motivation to RSA encryption helped a lot. Most people already
+    understand the basic idea that RSA depends on factoring being hard, so that
+    gave me a familiar doorway into Shor's algorithm, Regev-style factoring,
+    QFT precision, and lattice post-processing. Saying the work out loud also
+    reminded me that explaining a technical result is part of doing the research.
+  </p>
 
-  <p>I also noticed that explaining the work out loud is different from writing about it. In the poster, I had to compress a lot: quantum circuits, QFT precision, lattice post-processing, noise, tests, and reproducibility. During the presentation, I could slow down and respond to what people actually understood or asked about. That made the project feel more alive. It also showed me which explanations are working and which parts still need a better story.</p>
+  <p>
+    I shared more from the presentation in this
+    <a href="https://lnkd.in/p/dszVZ6p9" target="_blank" rel="noreferrer">LinkedIn post</a>.
+  </p>
 
-  <h2>Presentation Photos</h2>
   <div class="photo-gallery">
     <figure>
       <img
         src="../assets/1785289037710.jpeg"
-        alt="Photo from my Week 08 DREU poster presentation"
+        alt="Summer presenting the Week 08 quantum factoring poster"
       >
     </figure>
-
     <figure>
       <img
         src="../assets/1785289038892.jpeg"
-        alt="Photo from my Week 08 DREU poster presentation"
+        alt="The Week 08 quantum factoring poster on display"
       >
     </figure>
   </div>
 
-  <h2>Current Research Direction</h2>
-  <p>Our advisor has also been talking with us about studying constants more carefully and adding that into the experiments. I understand this as moving beyond only saying what the asymptotic complexity should be and asking what the actual finite-resource costs look like in the regimes we can test.</p>
+  <h2>Turning Advisor Feedback into a Measurable Question</h2>
+  <p>
+    Our advisor asked us to study the constants inside the circuit and compare
+    the complexity synthetically. That changed my question from only, "Does the
+    endpoint recover a factor?" to, "What work does the implementation actually
+    execute, what constant accompanies that work, and does the finite simulation
+    support the asymptotic story?"
+  </p>
 
-  <p>For this project, that means paying closer attention to the hidden constants inside the circuit complexity and post-processing pipeline. A theoretical expression can say that one approach scales better, but the constant factors still matter a lot when the circuits are finite, noisy, and meant to be simulated or estimated concretely. If those constants are large, the practical resource picture can look very different from the high-level asymptotic story.</p>
+  <p>
+    I separated four quantities that are easy to blur together: logical qubits,
+    source-level gates, a declared canonical-CX conversion, and physical hardware
+    cost. The repository can measure the first three under explicit assumptions;
+    it does not estimate routing, calibrated native gates, error correction, or
+    physical qubits.
+  </p>
 
-  <p>The next version of the experiments should make that more visible. Instead of only comparing whether a sample or lattice instance succeeds, we can also track quantities like circuit size, gate counts, QFT precision requirements, number of dimensions, number of shots, synthetic input sizes, post-processing cost, and how these quantities change as parameters grow. This would make it easier to compare the circuit complexity in a more concrete way.</p>
+  <h2>What the Source-Level Audit Found</h2>
+  <p>
+    I traced the complete call graph instead of timing Python or fitting a curve
+    to a few tiny circuits. In the supplied binary Regev-style implementation,
+    there are <code>d</code> exponent registers of width <code>q</code>, but each
+    controlled modular multiplier still traverses the full <code>n</code>-bit
+    result register. The executed modular-addition count is therefore
+    <code>2dqn</code>, not <code>2dq<sup>2</sup></code>.
+  </p>
 
-  <p>I think the advisor's point is that the project should not only ask, "Does this work on this example?" It should also ask, "What is the real cost of making it work, and how do those costs grow?" That is a sharper question, and it connects the experimental part of the project back to the theoretical resource claims.</p>
+  <p>
+    Under the notebook's parameter rule, <code>dq = 2n + O(sqrt(n))</code>. With
+    the exact recursive adder used in this source tree, the leading arithmetic
+    count becomes approximately <code>80n<sup>3</sup>log<sub>2</sub>(n)</code>
+    source-level Toffoli gates. The implementation associated with the paper had
+    been described with an <code>O(n<sup>5/2</sup> log n)</code> bound, so the
+    extra full-width loop creates a growing <code>n/q</code> discrepancy.
+  </p>
 
-  <h2>In Progress</h2>
-  <p>Right now I am still working through how to add this cleanly. I want the constant and circuit-complexity experiments to fit with the rest of the pipeline instead of becoming a separate pile of numbers. Ideally, the experiments should connect the mathematical parameters, the generated circuits, the noisy sampling behavior, and the lattice endpoint in one reproducible path.</p>
+  <p>
+    This is a finding about this frozen serial binary implementation, not a claim
+    that Regev's theoretical algorithm is wrong. The theoretical algorithm uses
+    a different arithmetic organization. That scope distinction matters as much
+    as the count itself.
+  </p>
 
-  <p>I am also continuing to think about how to explain the project more clearly. The presentation helped me see that familiar examples, like RSA encryption, can make the work much easier to understand. I want to keep using that kind of explanation while still being honest about the technical details.</p>
+  <figure class="research-figure">
+    <img
+      src="../assets/week08-complexity-gap.png"
+      alt="Comparison between the implementation paper's displayed modular-addition count and the count executed by the source code"
+    >
+    <figcaption>
+      The displayed analysis uses the shorter exponent width <code>q</code>
+      where the executable multiplier loops over the full <code>n</code>-bit
+      result register.
+    </figcaption>
+  </figure>
 
-  <h2>Next Steps</h2>
-  <p>For the rest of this week, I want to keep refining the constant-factor and circuit-complexity direction. The goal is to design experiments that compare resource costs synthetically across parameter choices, while still connecting those costs to the actual Regev-style circuit and lattice recovery pipeline.</p>
+  <h2>Matched Regev and Shor Resource Comparison</h2>
+  <p>
+    I compared the supplied Regev and Shor builders using the same arithmetic
+    definitions and gate conventions. Their QFTs are genuinely different: the
+    Regev product QFT is smaller. However, the QFT is lower order beside the
+    serial modular arithmetic in these implementations, so both circuits have
+    the same leading source-Toffoli term in this model.
+  </p>
 
-  <p>I also want to keep improving the presentation story, because the audience questions gave me a better sense of what people need first: why factoring matters, how RSA connects to the problem, what quantum algorithms change, and why finite noisy experiments are important.</p>
+  <p>
+    Exact synthetic resource probes were generated through 64-bit inputs without
+    factoring those integers. At 64 bits, the Regev builder used about
+    <strong>1.01 times</strong> Shor's source CCX count and
+    <strong>1.02 times</strong> its canonical CX count. These finite numbers
+    support the source proof; they are not hardware-runtime estimates.
+  </p>
+
+  <h2>Comparing the Simulation Models</h2>
+  <p>
+    I also compared four finite sampling models while keeping the same lattice
+    endpoint. Their factor-recovery probabilities were very different: about
+    <strong>9.69%</strong> for the uniform hard box, <strong>10.31%</strong> for
+    the finite discrete Gaussian, <strong>94.84%</strong> for synthetic noisy-dual
+    samples, and <strong>8.91%</strong> for the readout-corruption surrogate.
+    The large gap is a warning that a theorem-consistent input generator cannot
+    automatically be described as a simulation of the executable circuit.
+  </p>
+
+  <figure class="research-figure">
+    <img
+      src="../assets/week-08-simulation-model-comparison.png"
+      alt="Bar chart comparing factor-recovery probability across four finite sampling models"
+    >
+    <figcaption>
+      The same LLL endpoint behaves very differently under different data
+      generators, so each simulator claim needs to state exactly what is being
+      sampled.
+    </figcaption>
+  </figure>
+
+  <h2>What I Learned</h2>
+  <p>
+    The biggest lesson this week was that a local optimization is not the same
+    thing as an end-to-end improvement. Omitting one QFT layer saved between
+    4.9% and 20.5% of the QFT-only CX cost in the finite cells, but the exact QFT
+    was at most 0.0341% of the fully expanded circuit cost in this source model.
+    Once the arithmetic was included, the apparent saving did not consistently
+    survive.
+  </p>
+
+  <p>
+    This was also a reproducibility lesson. A circuit diagram can look like the
+    theory while a helper gate quietly changes the scaling. The only way I could
+    make the comparison honest was to document the parameter rules, freeze the
+    source hashes, count through the imported gates, add negative controls, and
+    keep the claims narrower than the experiment.
+  </p>
 
   <h2>Related Materials</h2>
   <ul>
     <li><a href="../assets/quantumalgorithms%20CS%20SRP.pptx-3.pdf" target="_blank">Quantum Algorithms CS SRP Poster</a></li>
-    <li><a href="https://lnkd.in/p/dszVZ6p9" target="_blank">LinkedIn post about the presentation</a></li>
-    <li><a href="https://github.com/simransummermalik/RegevsCircutandLatticePostProcessing" target="_blank">Regev Circuit and Lattice Post-Processing Repository</a></li>
-    <li>Poster presentation notes</li>
-    <li>Constant-factor and circuit-complexity experiment planning</li>
-    <li>RSA explanation for audience-facing motivation</li>
+    <li><a href="https://lnkd.in/p/dszVZ6p9" target="_blank" rel="noreferrer">LinkedIn post about the presentation</a></li>
+    <li><a href="https://github.com/simransummermalik/TheoreticalComputing" target="_blank" rel="noreferrer">Theoretical Computing repository</a></li>
+    <li><a href="https://github.com/simransummermalik/TheoreticalComputing/blob/main/WEEK_8_README.md" target="_blank" rel="noreferrer">Full Week 8 technical report</a></li>
   </ul>
 </body>
 </html>
