@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Summer Malik's research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
   <title>Summer Malik</title>
   <style>
     * {
@@ -1627,13 +1628,81 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/site-navigation.css">
+  <link rel="stylesheet" href="/home-highlights.css">
 </head>
 <body>
+  <a class="skip-link" href="#site-directory">Skip to project directory</a>
   <main class="page">
-    <span class="sign open">
+    <h1 class="sign open">
       Summer's personal site!!!!!!!!
-      <button class="plain-toggle" id="plain-toggle" type="button">HTML IF UR EYES HURT</button>
-    </span>
+      <button class="plain-toggle" id="plain-toggle" type="button" aria-pressed="false" aria-controls="plain-page">Plain view / simple HTML</button>
+    </h1>
+
+    <nav class="ugly-links" id="site-directory" aria-labelledby="directory-title" tabindex="-1">
+      <h2 id="directory-title">Start here</h2>
+      <ul>
+        <li><a href="/publications/">Publications<span class="directory-summary">Published papers &amp; conference posters</span></a></li>
+        <li><a href="/dreu/">Quantum research / DREU<span class="directory-summary">UIUC research logs &amp; factoring manual</span></a></li>
+        <li><a href="/qml-outreach/">QML outreach<span class="directory-summary">CAIR projects, lessons &amp; resources</span></a></li>
+        <li><a href="/spatial-computing/">Spatial computing<span class="directory-summary">Vision Pro, pathfinding &amp; research logs</span></a></li>
+        <li><a href="/jackson-laboratory/">Jackson Lab genomics<span class="directory-summary">Cancer genomics &amp; computational work</span></a></li>
+        <li><a href="/apollors/">ApolloRS<span class="directory-summary">Apollo 11 guidance software in Rust</span></a></li>
+        <li><a href="/wearable/">LilyGO wearable clip<span class="directory-summary">Demo and build notes</span></a></li>
+        <li><a href="/presentations/">Presentations &amp; posters<span class="directory-summary">Conference posters &amp; presentation photos</span></a></li>
+      </ul>
+      <div class="directory-social">
+        <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
+    </nav>
+
+    <section class="cra-feature" aria-labelledby="cra-feature-title">
+      <p class="feature-sticker">CRA feature &starf; October 2026</p>
+      <a
+        class="feature-photo-link"
+        href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/"
+        aria-label="Read CRA's story about our DREU-QIS cohort at IEEE Quantum Week"
+      >
+        <img
+          src="index_me_images/dreu-ieee-quantum-week-2026.png"
+          width="1030"
+          height="577"
+          alt="DREU-QIS students gathered in front of the IEEE Quantum Week 2026 and DREU display"
+        >
+      </a>
+      <div class="feature-caption">
+        <h2 id="cra-feature-title">we made the news!!</h2>
+        <p>Our DREU-QIS crew at IEEE Quantum Week in Toronto.</p>
+        <a
+          class="feature-story-link"
+          href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/"
+        >Read the CRA story &rarr;</a>
+      </div>
+    </section>
+
+    <section class="wearable-feature" aria-labelledby="wearable-feature-title">
+      <h2 id="wearable-feature-title">LilyGO wearable clip</h2>
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Looping video of Summer's LilyGO wearable clip with a custom design"
+      >
+        <source src="video/04C56E65-889B-4F5B-A8E4-380DD8DAF9BF.mov" type="video/mp4">
+        Your browser cannot play this wearable clip.
+      </video>
+      <p>A wearable clip I built with a LilyGO board and a custom design.</p>
+      <a href="/wearable/">Learn how I made it &rarr;</a>
+    </section>
+
+    <p class="scrap about">
+      I study quantum algorithms, spatial computing, computing systems,
+      research experiments, and the chaotic process of making hard ideas
+      understandable.
+    </p>
     <a class="sign poster-click" href="/dreu/logs/week-08.html">Have your poster explained !! please click here !!</a>
     <a class="sign apollo-click" href="/apollors/">Apollo 11 click here !!</a>
     <a class="sign qft" href="/dreu/logs/week-08.html">QFT precision noise constants</a>
@@ -1662,12 +1731,6 @@
     <a class="jax-link" href="/jackson-laboratory/">
       The Jackson Laboratory / computational genomics / summer 2025
     </a>
-
-    <p class="scrap about">
-      I study quantum algorithms, spatial computing, computing systems,
-      research experiments, and the chaotic process of making hard ideas
-      understandable.
-    </p>
 
     <p class="scrap badge">
       DREU / QFT / LLL / RSA / poster / tests / noisy circuits / handmade web
@@ -1763,20 +1826,7 @@
         executing them, tracing behavior, and checking what the computer
         actually did.
       </p>
-      <a href="/apollors/">click here to see it</a>
-    </section>
-
-    <section class="ugly-links">
-      <h2>click stuff</h2>
-      <ul>
-        <li><a href="/dreu/">DREU logs</a></li>
-        <li><a href="/qml-outreach/">QML outreach</a></li>
-        <li><a href="/spatial-computing/">spatial computing</a></li>
-        <li><a href="/presentations/">presentations</a></li>
-        <li><a href="/apollors/">ApolloRS</a></li>
-        <li><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a></li>
-      </ul>
+      <a href="/apollors/">Explore ApolloRS</a>
     </section>
 
     <div class="hardware-scraps" aria-label="Hardware photos">
@@ -1820,16 +1870,26 @@
       </a>
     </div>
 
-    <section class="plain-page" aria-labelledby="plain-title">
-      <h1 id="plain-title">Summer Malik</h1>
-      <h2>Important links</h2>
+    <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
+      <h1 id="plain-title" tabindex="-1">Summer Malik</h1>
+      <p>I study quantum algorithms, spatial computing, computing systems,
+        research experiments, and the chaotic process of making hard ideas understandable.</p>
+      <h2>Publications</h2>
+      <p><a href="/publications/">Research publications &amp; conference posters</a></p>
+      <h2>In the news</h2>
+      <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a>
+        &mdash; Computing Research News, October 2026.</p>
+      <h2>Research &amp; projects</h2>
       <ul>
-        <li><a href="/dreu/">Summer at UIUC research logs</a></li>
+        <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
         <li><a href="/qml-outreach/">QML Outreach and CAIR division work</a></li>
         <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
         <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
         <li><a href="/presentations/">Where I have presented</a></li>
-        <li><a href="/apollors/">ApolloRS</a></li>
+        <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      </ul>
+      <h2>Elsewhere</h2>
+      <ul>
         <li><a href="https://github.com/simransummermalik">GitHub</a></li>
         <li>
           <a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">
@@ -1838,32 +1898,43 @@
         </li>
         <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
       </ul>
-      <button id="chaos-toggle" type="button">return to ugly html</button>
+      <button id="chaos-toggle" type="button">Back to collage view</button>
     </section>
-
-    <nav class="links" aria-label="Main site links">
-      <a href="/dreu/">DREU logs</a>
-      <a href="/qml-outreach/">QML outreach</a>
-      <a href="/spatial-computing/">spatial computing</a>
-      <a href="/presentations/">where I presented</a>
-      <a href="/apollors/">ApolloRS</a>
-      <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a>
-    </nav>
   </main>
   <script>
     const plainToggle = document.getElementById("plain-toggle");
     const chaosToggle = document.getElementById("chaos-toggle");
+    const skipLink = document.querySelector(".skip-link");
 
-    plainToggle.addEventListener("click", () => {
-      document.body.classList.add("plain-mode");
-      window.scrollTo(0, 0);
-    });
+    function setPlainMode(enabled, moveFocus = true) {
+      document.body.classList.toggle("plain-mode", enabled);
+      plainToggle.setAttribute("aria-pressed", String(enabled));
+      skipLink.href = enabled ? "#plain-title" : "#site-directory";
+      skipLink.textContent = enabled ? "Skip to projects" : "Skip to project directory";
 
-    chaosToggle.addEventListener("click", () => {
-      document.body.classList.remove("plain-mode");
-      window.scrollTo(0, 0);
-    });
+      try {
+        localStorage.setItem("summer-site-view", enabled ? "plain" : "collage");
+      } catch {
+        // The view switch also works when browser storage is unavailable.
+      }
+
+      if (moveFocus) {
+        const target = enabled ? document.getElementById("plain-title") : plainToggle;
+        target.focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+    }
+
+    plainToggle.addEventListener("click", () => setPlainMode(true));
+    chaosToggle.addEventListener("click", () => setPlainMode(false));
+
+    try {
+      if (localStorage.getItem("summer-site-view") === "plain") {
+        setPlainMode(true, false);
+      }
+    } catch {
+      // Default to the collage when browser storage is unavailable.
+    }
   </script>
 </body>
 </html>

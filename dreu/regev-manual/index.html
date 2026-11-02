@@ -1,15 +1,19 @@
-from pathlib import Path
-
-html = r'''<!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manual for the Regev-Style Circuit and Lattice Post-Processing Repository</title>
+  <link rel="stylesheet" href="/site-navigation.css">
 </head>
 <body id="top">
-
-  <p><a href="../">Back to DREU Research Log</a></p>
+  <nav class="site-trail" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/dreu/">Quantum research / DREU</a></li>
+      <li aria-current="page">Regev research manual</li>
+    </ol>
+  </nav>
 
   <h1>Manual for the Regev-Style Circuit and Lattice Post-Processing Repository</h1>
 
@@ -444,7 +448,7 @@ ai = bi² mod N
   </p>
 
   <p>
-    ApolloRS—sorry, this repository—avoids that error by keeping every pair
+    This repository avoids that error by keeping every pair
     <code>(bi, ai)</code> together in an immutable rooted-base object.
   </p>
 
@@ -2115,16 +2119,3 @@ PYTHONPATH=. \
 
 </body>
 </html>
-'''
-
-# Correct one accidental project-name slip before writing.
-html = html.replace(
-    "ApolloRS—sorry, this repository—avoids that error",
-    "This repository avoids that error"
-)
-
-path = Path("/mnt/data/regev-style-factoring-manual.html")
-path.write_text(html, encoding="utf-8")
-
-print(f"Created {path}")
-print(f"Size: {path.stat().st_size:,} bytes")
