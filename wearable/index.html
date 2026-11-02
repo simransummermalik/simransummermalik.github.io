@@ -3,22 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="How Summer Malik made a LilyGO wearable clip with a custom design.">
-  <title>How I Made the LilyGO Wearable Clip - Summer Malik</title>
+  <meta name="description" content="How Summer Malik made a tiny LilyGO computer wearable as an animated hair clip.">
+  <title>How I Made a Tiny Computer Wearable - Summer Malik</title>
   <style>
     main {
-      max-width: 860px;
+      max-width: 960px;
     }
 
-    .build-card {
-      margin: 24px 0;
+    .dek {
+      margin-top: -8px;
+      font-size: 1.2rem;
+      font-style: italic;
+    }
+
+    .build-card,
+    .build-section,
+    .materials-card,
+    .safety-note {
+      margin: 28px 0;
       padding: 18px;
+      color: #111111;
       background: #b7fff5;
       border: 5px solid #ff00a8;
       outline: 3px dashed #00ffe1;
       outline-offset: 5px;
       box-shadow: 9px 9px 0 #1515ff;
-      color: #111111;
     }
 
     .build-card video {
@@ -31,12 +40,85 @@
     }
 
     .build-card p,
-    .build-card li {
-      line-height: 1.5;
+    .build-section p,
+    .materials-card li,
+    .safety-note p {
+      line-height: 1.55;
     }
 
+    .build-section h2,
+    .materials-card h2,
+    .safety-note h2 {
+      margin-top: 0;
+      color: #0015ff;
+    }
+
+    .section-number {
+      color: #ff00a8;
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 28px;
+      margin: 0;
+      padding-left: 24px;
+    }
+
+    .safety-note {
+      background: #fff6ba;
+      border-color: #ccff00;
+    }
+
+    .safety-note strong {
+      color: #a000a8;
+    }
+
+    .tech-table {
+      width: 100%;
+      max-width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      color: #111111;
+      background: #ffffff;
+    }
+
+    .tech-table th,
+    .tech-table td {
+      padding: 8px;
+      border: 2px solid #111111;
+      text-align: left;
+      vertical-align: top;
+      overflow-wrap: anywhere;
+    }
+
+    .tech-table th {
+      background: #ffb5ee;
+    }
+
+    .build-section a,
     .build-card a {
       color: #0000aa;
+    }
+
+    @media (max-width: 680px) {
+      .materials-grid {
+        display: block;
+      }
+
+      .tech-table {
+        font-size: 0.88rem;
+      }
+
+      .tech-table th,
+      .tech-table td {
+        padding: 6px;
+      }
     }
   </style>
   <link rel="stylesheet" href="/site-navigation.css">
@@ -50,24 +132,117 @@
   </nav>
 
   <main>
-    <h1>How I made the LilyGO wearable clip</h1>
-    <p>This is my build page for the wearable clip demo on the homepage.</p>
+    <h1>How I Made a Tiny Computer Wearable</h1>
+    <p class="dek">An animated hair clip, an ESP32, and an unreasonable amount of troubleshooting.</p>
 
-    <section class="build-card" aria-labelledby="build-card-title">
-      <h2 id="build-card-title">The build</h2>
+    <p>I started with an idea that felt both adorable and slightly ridiculous: a hair clip with a tiny screen that could display animated characters. I wanted expressions, changing colors, and eventually a character that could react to movement. Imagine jumping and having the little face in your hair get dizzy.</p>
+
+    <p>I also wanted to build the whole thing myself. That meant finding a computer small and light enough to wear, giving it a battery, making the display behave, and figuring out how to turn a development board into an actual hair accessory.</p>
+
+    <section class="build-card" aria-labelledby="demo-title">
+      <h2 id="demo-title">The wearable clip</h2>
       <video autoplay muted loop playsinline preload="metadata" controls aria-label="LilyGO wearable clip demo">
         <source src="/video/04C56E65-889B-4F5B-A8E4-380DD8DAF9BF.mov" type="video/mp4">
         Your browser cannot play this wearable clip.
       </video>
-      <p>I built this wearable clip with a LilyGO board and added the custom design shown in the demo.</p>
-      <ul>
-        <li><strong>Platform:</strong> LilyGO wearable hardware</li>
-        <li><strong>Form:</strong> a clip-on wearable object</li>
-        <li><strong>Design:</strong> a custom visual treatment applied to the clip</li>
-      </ul>
-      <p>I’m keeping this page as the build log, so I can add the exact board model, wiring, code, and design files as I document them.</p>
+      <p>This is the little wearable computer in action: a LilyGO board, a battery, a clip, and a custom visual design.</p>
     </section>
 
+    <section class="build-section" id="board" aria-labelledby="board-title">
+      <p class="section-number">01 / Finding a board that could actually work</p>
+      <h2 id="board-title">The board decision</h2>
+      <p>I did not want to solder a pile of separate components together. I wanted something compact, rechargeable, and close to self-contained, with a display already attached.</p>
+      <p>I compared several ESP32 development boards, including Waveshare ESP32-S3 display boards and the LILYGO T-Display line. The LILYGO T-Display S3 ended up making the most sense: it has an ESP32-S3, a 170 &times; 320 color LCD, and an integrated battery interface and charging circuit for a compatible lithium battery.</p>
+      <p>That last part mattered. It meant I could keep the power system smaller and avoid designing a separate charging circuit before I even got to the fun part.</p>
+    </section>
+
+    <section class="build-section" id="power" aria-labelledby="power-title">
+      <p class="section-number">02 / Making it run without a computer</p>
+      <h2 id="power-title">The battery problem</h2>
+      <p>I used a 3.7V lithium-polymer battery. Connecting it was not as simple as plugging in a USB cable: the connector was tiny, polarity mattered, and the board needed to receive power through the correct battery input.</p>
+      <p>I used a small adapter with red and black wires, matched the connection carefully, and secured it with tape because I was determined to make the project work without soldering. Then it powered on. A tiny computer was running independently from a battery, and suddenly wearing it in my hair seemed much more realistic.</p>
+    </section>
+
+    <section class="safety-note" aria-labelledby="safety-title">
+      <h2 id="safety-title">The serious part: battery safety</h2>
+      <p>I had to be careful because a lithium battery and exposed electronics are not a cute little craft problem. I kept the battery leads from shorting, used insulating layers where the battery could touch the board, and treated heat, charging, and adhesive placement as real constraints.</p>
+      <p><strong>I was very aware that I did not want anything catching on fire.</strong> The wearable was never something to leave charging unattended, and I checked that the battery was not being squeezed against exposed contacts.</p>
+    </section>
+
+    <section class="build-section" id="screen" aria-labelledby="screen-title">
+      <p class="section-number">03 / Discovering that the screen was its own problem</p>
+      <h2 id="screen-title">Getting the display to behave</h2>
+      <p>I moved into Arduino IDE and installed the ESP32 board support package. I had to choose the correct board, flash size, PSRAM mode, USB configuration, and memory partition scheme.</p>
+      <p>For graphics, I used TFT_eSPI and configured it for the display controller and pin assignments used by the LILYGO board. I worked with the <code>Setup206_LilyGo_T_Display_S3</code> configuration and learned that powering the microcontroller does not automatically make the display cooperate. The display power circuitry also has to be initialized correctly.</p>
+      <p>Eventually I got my first screen test running. It displayed <strong>hello Summer</strong>. It was not visually impressive, but after all the setup, seeing my own text appear felt amazing.</p>
+    </section>
+
+    <section class="build-section" id="personality" aria-labelledby="personality-title">
+      <p class="section-number">04 / Giving the clip a personality</p>
+      <h2 id="personality-title">Tiny graphics, big opinions</h2>
+      <p>Once the screen worked, I could finally make the part I had imagined first: a little animated character. I experimented with pixel cats, blinking faces, hearts, expressions, and different color palettes.</p>
+      <p>The display is small, so every detail mattered. Eye placement, proportions, timing, and contrast all had to work inside a surprisingly tight space. I wrote several sketches, including <code>CyberCat.ino</code>, <code>GhostByte.ino</code>, and <code>RemClip.ino</code>.</p>
+      <p>These were not just static images. The firmware drew the graphics programmatically and controlled how the character changed over time. Writing C++ and watching it turn into a tiny animated face was easily my favorite part.</p>
+    </section>
+
+    <section class="build-section" id="interaction" aria-labelledby="interaction-title">
+      <p class="section-number">05 / Making it interactive</p>
+      <h2 id="interaction-title">Buttons, color, and future dizziness</h2>
+      <p>I did not want the clip to play the same animation forever. I used the LILYGO's physical buttons as inputs: GPIO 0 changed expressions and GPIO 14 switched color palettes in my CyberCat implementation.</p>
+      <p>I also experimented with sleep and wake behavior in my RemClip sketch. A battery-powered ESP32 still draws some current in deep sleep, which matters when the computer is supposed to be worn for a long time.</p>
+      <p>The next idea is motion. I want the character to get dizzy when I jump or shake my head. I looked into accelerometers for that version, even though the completed firmware currently uses buttons instead.</p>
+    </section>
+
+    <section class="materials-card" id="materials" aria-labelledby="materials-title">
+      <h2 id="materials-title">What I actually used</h2>
+      <ul class="materials-grid">
+        <li>A clip / barrette base</li>
+        <li>LILYGO T-Display S3 board</li>
+        <li>3.7V lithium-polymer battery</li>
+        <li>Paper for spacing and insulation</li>
+        <li>Double-sided tape</li>
+        <li>Superglue</li>
+        <li>Adapter and battery wires</li>
+        <li>A lot of testing and troubleshooting</li>
+      </ul>
+    </section>
+
+    <section class="build-section" id="wearing-it" aria-labelledby="wearing-title">
+      <p class="section-number">06 / Actually wearing the electronics</p>
+      <h2 id="wearing-title">A development board is not automatically a hair accessory</h2>
+      <p>I wanted the finished object to feel like a flat, rectangular barrette rather than a bulky enclosure. The battery had to sit behind the board without pressing against exposed components, and the whole assembly had to stay stable against my hair.</p>
+      <p>Paper helped me test spacing and insulation. Double-sided tape held pieces in place while I adjusted the layout. Superglue helped with the parts that needed to stay fixed. Every material choice affected both comfort and safety, especially around the battery.</p>
+      <p>This was the point where I understood the difference between making electronics function on a desk and making electronics function as something a person can actually wear.</p>
+    </section>
+
+    <section class="build-section" id="learned" aria-labelledby="learned-title">
+      <p class="section-number">07 / What I learned</p>
+      <h2 id="learned-title">A tiny accessory can hide an entire computer</h2>
+      <p>I went into this project wanting a cute animated hair clip. I came out knowing more about ESP32-S3 configuration, display drivers, embedded graphics, GPIO inputs, battery power, sleep modes, and the physical constraints of wearable hardware.</p>
+      <p>Something as small as choosing a battery can determine which board you use. The board determines which libraries you need. The display changes how you design the graphics. The size of every part determines whether the project can become wearable at all.</p>
+      <p>My favorite part is that the finished concept can look ordinary: a little clip with a character on it. Behind that tiny screen is an embedded system I had to configure, program, power, and physically adapt.</p>
+      <p>I want more accessories that are programmable, more hardware that feels personal, and more tiny computers doing completely unnecessary but delightful things. I still want that little character to get dizzy when I jump.</p>
+    </section>
+
+    <section class="build-section" id="technical-details" aria-labelledby="technical-title">
+      <h2 id="technical-title">Technical details</h2>
+      <table class="tech-table">
+        <tbody>
+          <tr><th scope="row">Microcontroller</th><td>ESP32-S3</td></tr>
+          <tr><th scope="row">Development board</th><td>LILYGO T-Display S3</td></tr>
+          <tr><th scope="row">Display</th><td>170 &times; 320 color LCD</td></tr>
+          <tr><th scope="row">Battery</th><td>3.7V lithium-polymer</td></tr>
+          <tr><th scope="row">Power</th><td>Board-integrated battery interface and charging circuitry</td></tr>
+          <tr><th scope="row">Programming</th><td>C++ in Arduino IDE</td></tr>
+          <tr><th scope="row">Graphics</th><td>TFT_eSPI with <code>Setup206_LilyGo_T_Display_S3</code></td></tr>
+          <tr><th scope="row">User input</th><td>GPIO 0 and GPIO 14</td></tr>
+          <tr><th scope="row">Firmware sketches</th><td>CyberCat, GhostByte, and RemClip</td></tr>
+          <tr><th scope="row">Future extension</th><td>Accelerometer-based motion interaction</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p><em>Built in October 2026.</em></p>
     <p><a href="/">Back to the homepage</a></p>
   </main>
 </body>
