@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simran (Summer) Malik</title>
+  <meta name="description" content="Simran (Summer) Malik: research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
+  <style>
+    :root {
+      --ink: #111111;
+      --paper: #fff6ba;
+      --lime: #ccff00;
+      --pink: #ff00a8;
+      --soft-pink: #ff9dea;
+      --cyan: #00ffe1;
+      --mint: #b7fff5;
+      --blue: #1515ff;
+      --yellow: #fff600;
+      --green: #39ff14;
+      --gray: #d8d8d8;
+      --serif: "Times New Roman", Times, serif;
+      --mono: "Courier New", Courier, monospace;
+      --sans: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: #000000; }
+
+    body {
+      margin: 0;
+      color: #ffffff;
+      font-family: var(--serif);
+      background-color: #000000;
+      background-image:
+        radial-gradient(#ffffff 0.8px, transparent 1px),
+        radial-gradient(#0028ff 0.9px, transparent 1.2px),
+        radial-gradient(#ff00a8 0.7px, transparent 1px);
+      background-position: 0 0, 3px 5px, 8px 2px;
+      background-size: 5px 5px, 9px 9px, 13px 13px;
+    }
+
+    ::selection { color: var(--ink); background: var(--lime); }
+
+    img, video { display: block; max-width: 100%; height: auto; }
+
+    a { color: inherit; }
+
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 100;
+      padding: 10px 14px; color: #0000aa; background: #ffffff;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    /* ---------- masthead ---------- */
+    .masthead {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 34px 24px 10px;
+    }
+
+    .masthead h1 {
+      margin: 0;
+      color: var(--yellow);
+      font-size: clamp(2.6rem, 7.5vw, 6.2rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 var(--blue);
+    }
+
+    .masthead h1 .nick {
+      color: var(--pink);
+      text-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .site-sticker {
+      display: inline-block;
+      position: relative;
+      top: -0.35em;
+      margin-left: 10px;
+      font-size: 1rem;
+      line-height: 1.2;
+      text-shadow: none;
+      padding: 4px 10px;
+      color: var(--ink);
+      background: var(--lime);
+      font-family: var(--sans);
+      font-weight: bold;
+      text-transform: uppercase;
+      transform: rotate(6deg);
+      box-shadow: 4px 4px 0 var(--pink);
+    }
+
+    .tagline {
+      margin: 16px 0 0;
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+      font-weight: bold;
+    }
+
+    .topnav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .topnav a,
+    .topnav button {
+      padding: 5px 10px;
+      color: #0000aa;
+      background: var(--gray);
+      border: 3px outset #ffffff;
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .topnav a:active,
+    .topnav button:active { border-style: inset; }
+
+    /* ---------- board ---------- */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-flow: dense;
+      gap: 34px 26px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 26px 24px 40px;
+    }
+
+    .w-3 { grid-column: span 3; }
+    .w-4 { grid-column: span 4; }
+    .w-5 { grid-column: span 5; }
+    .w-6 { grid-column: span 6; }
+    .w-7 { grid-column: span 7; }
+    .w-8 { grid-column: span 8; }
+    .w-9 { grid-column: span 9; }
+    .w-12 { grid-column: 1 / -1; }
+
+    .card {
+      position: relative;
+      align-self: start;
+      color: var(--ink);
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--shadow, var(--pink));
+      transform: rotate(var(--tilt, 0deg));
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .card.linked:hover,
+    .card.linked:focus-within {
+      transform: rotate(0deg) translate(-3px, -3px);
+      box-shadow: 11px 11px 0 var(--shadow, var(--pink));
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    /* the whole card is clickable through its title link */
+    .card h3 a { text-decoration: none; }
+    .card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+
+    .card .extra-link { position: relative; z-index: 2; }
+
+    .card-body { padding: 12px 14px 14px; }
+
+    .card p { margin: 6px 0 0; font-size: 1.02rem; line-height: 1.3; }
+
+    .card .go {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 1px 6px;
+      color: var(--yellow);
+      background: var(--blue);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .tag {
+      position: absolute;
+      z-index: 3;
+      top: -16px;
+      left: 12px;
+      padding: 2px 8px;
+      color: var(--ink);
+      background: var(--tag, var(--lime));
+      border: 2px solid var(--ink);
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      transform: rotate(-3deg);
+    }
+
+    .card .photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    .sign {
+      grid-column: 1 / -1;
+      justify-self: start;
+      margin: 18px 0 -8px;
+      padding: 2px 10px;
+      color: var(--yellow);
+      background: var(--blue);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .sign.pink { color: var(--ink); background: var(--pink); }
+    .sign.green { color: var(--green); background: #000000; border: 3px solid var(--green); }
+
+    /* hero cards */
+    .intro {
+      padding: 18px 20px 22px;
+      color: var(--pink);
+      background: #000000;
+      border-color: var(--pink);
+      box-shadow: 8px 8px 0 var(--cyan);
+    }
+
+    .intro p {
+      margin: 0;
+      font-size: clamp(1.45rem, 2.4vw, 1.95rem);
+      font-weight: bold;
+      line-height: 1.12;
+    }
+
+    .intro .booth {
+      float: right;
+      width: 42%;
+      margin: 4px 0 10px 16px;
+      border: 4px solid #ffffff;
+      transform: rotate(4deg);
+      box-shadow: 5px 5px 0 var(--lime);
+    }
+
+    .intro .compute {
+      clear: both;
+      display: inline-block;
+      margin-top: 16px;
+      padding: 2px 8px;
+      color: var(--ink);
+      background: var(--lime);
+      font-family: var(--sans);
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .paper {
+      padding: 26px 20px 20px;
+      background: var(--paper);
+      border: 5px double var(--blue);
+      box-shadow: 9px 9px 0 var(--blue);
+    }
+
+    .paper .venue {
+      margin: 0;
+      color: var(--pink);
+      font-family: var(--mono);
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .paper h3 {
+      margin-top: 8px;
+      color: var(--blue);
+      font-size: clamp(1.5rem, 2.3vw, 1.95rem);
+      line-height: 1.05;
+    }
+
+    .burst {
+      position: absolute;
+      z-index: 3;
+      top: -30px;
+      right: -14px;
+      display: grid;
+      place-items: center;
+      width: 96px;
+      height: 96px;
+      color: var(--ink);
+      background: var(--yellow);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: bold;
+      line-height: 1;
+      text-align: center;
+      text-transform: uppercase;
+      clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 84% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 86%, 32% 100%, 26% 78%, 4% 76%, 16% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
+      transform: rotate(12deg);
+    }
+
+    .news .photo { aspect-ratio: 16 / 10; }
+    .news h3 { color: var(--blue); }
+
+    /* ticker */
+    .ticker {
+      grid-column: 1 / -1;
+      overflow: hidden;
+      margin: 0 -24px;
+      color: var(--ink);
+      background: var(--lime);
+      border-block: 3px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      transform: rotate(-1deg);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 45s linear infinite;
+    }
+
+    .ticker-track span { padding: 7px 0; white-space: nowrap; }
+    .ticker-track span::after { content: " \2605 "; color: var(--pink); }
+
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    /* project cards */
+    .dreu .photo { aspect-ratio: 16 / 10; object-position: 50% 30%; }
+    .dreu .extra-link {
+      display: inline-block;
+      margin: 10px 0 0 10px;
+      padding: 1px 6px;
+      color: #ffffff;
+      background: var(--pink);
+      font-weight: bold;
+    }
+
+    .apollo { background: var(--mint); }
+    .spatial { background: #ffffff; }
+    .qml { background: var(--soft-pink); }
+    .jax { background: var(--mint); }
+    .talks { background: var(--paper); }
+    .qml .photo,
+    .talks .photo { object-position: top; }
+
+    /* built by hand */
+    .wearable { background: var(--mint); border-color: var(--pink); }
+    .wearable video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: 430px;
+      object-fit: cover;
+      background: var(--ink);
+      border-bottom: 3px solid var(--ink);
+    }
+
+    .hardware { background: #000000; color: #ffffff; border-color: #ffffff; }
+    .hardware .strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .hardware .strip img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 3px solid var(--ink);
+    }
+    .hardware .strip img:nth-child(1) { border-color: var(--cyan); }
+    .hardware .strip img:nth-child(2) { border-color: var(--lime); }
+    .hardware .strip img:nth-child(3) { border-color: var(--pink); }
+    .hardware h3 a { color: var(--cyan); }
+
+    .hand-stack { display: grid; gap: 34px; align-self: start; }
+    .hand-stack .hardware .strip img { aspect-ratio: 4 / 3; }
+    .hand-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .note-strip {
+      color: var(--ink);
+      background: var(--lime);
+      border: 3px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 1.05rem;
+      transform: rotate(-2deg);
+      box-shadow: 6px 6px 0 var(--pink);
+    }
+    .note-strip span { display: block; padding: 4px 10px; border-bottom: 2px solid var(--ink); }
+    .note-strip span:last-child { border-bottom: 0; }
+
+    .aws {
+      display: block;
+      padding: 10px 12px;
+      color: #161e2d;
+      background: #ff9900;
+      border: 3px solid var(--ink);
+      font-family: var(--sans);
+      font-weight: bold;
+      line-height: 1.15;
+      transform: rotate(2deg);
+      box-shadow: 6px 6px 0 var(--cyan);
+    }
+    .aws small { display: block; margin-top: 4px; font-weight: normal; }
+
+    /* me */
+    .booth-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 12px;
+      background: #ffffff;
+      border: 3px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--cyan);
+      transform: rotate(-1deg);
+    }
+    .booth-strip img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border: 2px solid var(--ink);
+    }
+    .booth-strip figcaption {
+      grid-column: 1 / -1;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-weight: bold;
+      text-align: center;
+    }
+    .booth-strip a { color: #0000aa; }
+
+    .start-here {
+      align-self: start;
+      padding: 8px 12px 12px;
+      color: var(--ink);
+      background: var(--gray);
+      border: 4px ridge #ffffff;
+      transform: rotate(1.5deg);
+    }
+    .start-here h2 { margin: 0 0 4px; color: #0015ff; font-size: 1.6rem; text-decoration: underline; }
+    .start-here ul { margin: 0; padding-left: 22px; }
+    .start-here li { margin: 3px 0; font-size: 1.1rem; }
+    .start-here a { color: #0000aa; }
+
+    .footer {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+      text-align: center;
+    }
+    .footer p { margin: 14px 0 0; color: var(--cyan); font-family: var(--mono); }
+    .footer p.sign { display: inline-block; margin: 0; color: var(--yellow); font-family: var(--serif); font-size: clamp(1.6rem, 5vw, 3rem); }
+
+    /* ---------- plain view ---------- */
+    .plain-page { display: none; }
+    body.plain-mode { color: #000000; background: #ffffff; }
+    body.plain-mode > :not(.plain-page):not(.skip-link) { display: none !important; }
+    body.plain-mode .plain-page { display: block; max-width: 680px; margin: 16px; font-family: var(--serif); }
+    .plain-page a { color: #0000ee; }
+    .plain-page p, .plain-page li { line-height: 1.45; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 1000px) {
+      .board { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .w-3, .w-4 { grid-column: span 3; }
+      .w-5, .w-6, .w-7, .w-8 { grid-column: 1 / -1; }
+      .w-9 { grid-column: span 3; }
+      .hand-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .board { grid-template-columns: minmax(0, 1fr); gap: 30px; padding-inline: 16px; }
+      .w-3, .w-4, .w-5, .w-6, .w-7, .w-8, .w-9 { grid-column: 1 / -1; }
+      .intro .booth { float: none; width: 70%; margin: 0 0 16px; }
+      .card { --tilt: 0deg !important; }
+      .ticker { margin: 0 -16px; }
+      .burst { right: 4px; width: 80px; height: 80px; font-size: 0.8rem; }
+      .booth-strip { grid-template-columns: repeat(2, 1fr); }
+      .wearable video { max-height: 420px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track { animation: none; }
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#board">Skip to content</a>
+
+  <header class="masthead">
+    <h1>Simran <span class="nick">(Summer)</span> Malik <span class="site-sticker" aria-hidden="true">personal site!!!!!!!!</span></h1>
+    <p class="tagline">quantum algorithms / spatial computing / computing systems / handmade web</p>
+    <nav class="topnav" aria-label="Main">
+      <a href="/publications/">Publications</a>
+      <a href="/dreu/">Research logs</a>
+      <a href="/presentations/">Presentations</a>
+      <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <button type="button" class="plain-toggle" aria-pressed="false">Plain view</button>
+    </nav>
+  </header>
+
+  <main class="board" id="board">
+    <!-- hero -->
+    <section class="card intro w-5" style="--tilt:-1deg" aria-label="About me">
+      <img class="booth" src="../assets/booth-1.jpg" alt="Photo Booth picture of Summer" width="900" height="525">
+      <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+      <span class="compute">Summer is here to compute !!</span>
+    </section>
+
+    <article class="card paper linked w-4" style="--tilt:1.2deg">
+      <span class="burst" aria-hidden="true">new<br>paper!!</span>
+      <p class="venue">IEEE Quantum Week 2026 / QML</p>
+      <h3><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a></h3>
+      <p>Published 2-page paper + poster presentation, board 57.</p>
+      <span class="go">read about it &rarr;</span>
+    </article>
+
+    <article class="card news linked w-3" style="--tilt:-2deg; --shadow: var(--lime)">
+      <span class="tag" style="--tag: var(--soft-pink)">CRA feature &starf; Oct 2026</span>
+      <img class="photo" src="../assets/cra-cohort.jpg" alt="DREU-QIS students in front of the IEEE Quantum Week 2026 display" width="1200" height="672">
+      <div class="card-body">
+        <h3><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">we made the news!!</a></h3>
+        <p>Our DREU-QIS crew at IEEE Quantum Week in Toronto.</p>
+      </div>
+    </article>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>point clouds</span><span>meshes</span><span>graphs</span><span>arkit</span><span>qft</span><span>lattices</span><span>rust</span><span>reproducibility</span><span>circuit complexity</span><span>post-processing</span><span>spatial memory</span><span>pathfinding</span><span>rsa makes factoring click</span>
+        <span>point clouds</span><span>meshes</span><span>graphs</span><span>arkit</span><span>qft</span><span>lattices</span><span>rust</span><span>reproducibility</span><span>circuit complexity</span><span>post-processing</span><span>spatial memory</span><span>pathfinding</span><span>rsa makes factoring click</span>
+      </div>
+    </div>
+
+    <h2 class="sign">Research + projects !!</h2>
+
+    <article class="card dreu linked w-6" style="--tilt:-0.8deg; --shadow: var(--cyan)">
+      <span class="tag">DREU @ UIUC / summer 2026</span>
+      <img class="photo" src="../assets/poster-me.jpg" alt="Summer presenting her quantum factoring poster at UIUC" width="1100" height="825">
+      <div class="card-body">
+        <h3><a href="/dreu/">Quantum factoring: Shor &amp; Regev</a></h3>
+        <p>Weekly research logs on the QFT, reversible modular arithmetic, lattice post-processing, and noisy circuits, plus a beginner-readable manual.</p>
+        <span class="go">read my research logs &rarr;</span>
+        <a class="extra-link" href="/dreu/logs/week-08.html">have your poster explained !!</a>
+      </div>
+    </article>
+
+    <article class="card apollo linked w-3" style="--tilt:1.5deg; --shadow: #a000a8">
+      <span class="tag" style="--tag: var(--yellow)">Rust</span>
+      <img class="photo" src="../assets/apollo.jpg" alt="Apollo 11 rocket lifting off" width="900" height="846" style="aspect-ratio: 3 / 4">
+      <div class="card-body">
+        <h3><a href="/apollors/">ApolloRS</a></h3>
+        <p>Apollo 11 guidance software, executed in Rust: real machine words, traced and checked against a reference emulator.</p>
+        <span class="go">Apollo 11 click here !!</span>
+      </div>
+    </article>
+
+    <article class="card spatial linked w-3" style="--tilt:-1.6deg; --shadow: var(--lime)">
+      <span class="tag" style="--tag: var(--cyan)">UNC Charlotte</span>
+      <img class="photo" src="../assets/vision-pro.jpg" alt="Vision Pro immersive view next to Swift code" width="1100" height="621">
+      <div class="card-body">
+        <h3><a href="/spatial-computing/">Spatial computing</a></h3>
+        <p>Vision Pro + point clouds, meshes, graphs. BFS / Dijkstra / A* with live re-planning.</p>
+        <span class="go">enter here !!</span>
+      </div>
+    </article>
+
+    <article class="card qml linked w-4" style="--tilt:1deg; --shadow: var(--blue)">
+      <span class="tag" style="--tag: var(--lime)">founder / division lead</span>
+      <img class="photo" src="../assets/cair-poster.jpg" alt="CAIR quantum machine learning research poster" width="1100" height="880">
+      <div class="card-body">
+        <h3><a href="/qml-outreach/">QML outreach @ CAIR</a></h3>
+        <p>QML Torch: making quantum layers feel like normal PyTorch layers, built with students.</p>
+        <span class="go">open my archive!!!</span>
+      </div>
+    </article>
+
+    <article class="card jax linked w-4" style="--tilt:-1.2deg; --shadow: var(--pink)">
+      <span class="tag" style="--tag: var(--soft-pink)">summer 2025</span>
+      <img class="photo" src="../assets/jax-report.jpg" alt="Cover of the final clinical report" width="900" height="444">
+      <div class="card-body">
+        <h3><a href="/jackson-laboratory/">The Jackson Laboratory</a></h3>
+        <p>Cancer genomics: sequencing data, variant pathogenicity, and clinical tiers with OncoKB, COSMIC, and CIViC.</p>
+        <span class="go">computational genomics &rarr;</span>
+      </div>
+    </article>
+
+    <article class="card talks linked w-4" style="--tilt:1.4deg; --shadow: var(--cyan)">
+      <span class="tag" style="--tag: var(--yellow)">New Orleans / Apr 2026</span>
+      <img class="photo" src="../assets/nola-poster.jpg" alt="Summer's poster at the CRA UR2PhD conference" width="1000" height="753">
+      <div class="card-body">
+        <h3><a href="/presentations/">Where have I presented??</a></h3>
+        <p>CRA UR2PhD National Conference, IEEE Quantum Week, and more posters.</p>
+        <span class="go">see them all &rarr;</span>
+      </div>
+    </article>
+
+    <h2 class="sign pink">Built by hand</h2>
+
+    <article class="card wearable linked w-3" style="--tilt:-1.5deg; --shadow: var(--blue)">
+      <video autoplay muted loop playsinline preload="metadata" poster="../assets/wearable-poster.jpg" aria-label="Looping video of Summer's LilyGO wearable clip">
+        <source src="../assets/wearable-sm.mp4" type="video/mp4">
+      </video>
+      <div class="card-body">
+        <h3><a href="/wearable/">LilyGO wearable clip</a></h3>
+        <p>An ESP32 hair clip with a tiny animated face.</p>
+        <span class="go">how I made it &rarr;</span>
+      </div>
+    </article>
+
+    <div class="hand-stack w-9">
+    <article class="card hardware linked" style="--tilt:0.8deg; --shadow: var(--lime)">
+      <div class="strip">
+        <img src="../assets/printer.jpg" alt="A 3D printer printing a pink city model" width="683" height="800">
+        <img src="../assets/pi.jpg" alt="A Raspberry Pi held in front of a laptop" width="654" height="800">
+        <img src="../assets/breadboard.jpg" alt="A sensor module wired to a breadboard" width="800" height="634">
+      </div>
+      <div class="card-body">
+        <h3><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">Hardware bits</a></h3>
+        <p>3D printing, Raspberry Pis, sensors on breadboards.</p>
+      </div>
+    </article>
+
+    <div class="hand-row">
+      <div class="note-strip" aria-label="How I work">
+        <span>factorization</span>
+        <span>but explain it</span>
+        <span>then test it</span>
+        <span>then explain it again</span>
+      </div>
+      <a class="aws" href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna" target="_blank" rel="noreferrer">
+        AWS Student Builder Campus Leader
+        <small>Read: the fastest-growing data problem in the world might be DNA &rarr;</small>
+      </a>
+    </div>
+    </div>
+
+    <h2 class="sign green">Me !!</h2>
+
+    <figure class="booth-strip w-8">
+      <img src="../assets/booth-2.jpg" alt="Photo Booth picture of Summer with a heart effect" width="900" height="538" loading="lazy">
+      <img src="../assets/cat-filter.jpg" alt="Summer with a cat filter" width="496" height="800" loading="lazy">
+      <img src="../assets/uiuc.jpg" alt="A street at UIUC" width="1000" height="734" loading="lazy">
+      <img src="../assets/poster-easel.jpg" alt="Summer's quantum factoring poster on an easel" width="1100" height="825" loading="lazy">
+      <figcaption>summer at UIUC &mdash; <a href="/dreu/">read my research logs</a></figcaption>
+    </figure>
+
+    <nav class="start-here w-4" aria-labelledby="start-title">
+      <h2 id="start-title">Start here</h2>
+      <ul>
+        <li><a href="/publications/">Publications</a></li>
+        <li><a href="/dreu/">Quantum research / DREU</a></li>
+        <li><a href="/qml-outreach/">QML outreach</a></li>
+        <li><a href="/spatial-computing/">Spatial computing</a></li>
+        <li><a href="/jackson-laboratory/">Jackson Lab genomics</a></li>
+        <li><a href="/apollors/">ApolloRS</a></li>
+        <li><a href="/wearable/">LilyGO wearable clip</a></li>
+        <li><a href="/presentations/">Presentations &amp; posters</a></li>
+        <li><a href="https://lnkd.in/p/dszVZ6p9">Read the presentation post</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <footer class="footer">
+    <p class="sign">Summer is here to compute !!</p>
+    <p>built by hand &starf; <a href="https://github.com/simransummermalik">github</a> &starf; <a href="https://www.linkedin.com/in/summermalik/">linkedin</a></p>
+  </footer>
+
+  <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
+    <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
+    <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+    <h2>Publications</h2>
+    <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
+    <h2>In the news</h2>
+    <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
+    <h2>Research &amp; projects</h2>
+    <ul>
+      <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
+      <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
+      <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
+      <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
+      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      <li><a href="/wearable/">LilyGO wearable clip</a></li>
+      <li><a href="/presentations/">Where I have presented</a></li>
+    </ul>
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href="https://github.com/simransummermalik">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">AWS article: The Fastest-Growing Data Problem in the World Might Be DNA</a></li>
+    </ul>
+    <button type="button" class="collage-toggle">Back to collage view</button>
+  </section>
+
+  <script>
+    function setPlain(on, focus = true) {
+      document.body.classList.toggle("plain-mode", on);
+      document.querySelectorAll(".plain-toggle").forEach((b) => b.setAttribute("aria-pressed", String(on)));
+      try { localStorage.setItem("summer-site-view", on ? "plain" : "collage"); } catch {}
+      if (focus) {
+        (on ? document.getElementById("plain-title") : document.querySelector(".plain-toggle")).focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+    }
+    document.querySelectorAll(".plain-toggle").forEach((b) => b.addEventListener("click", () => setPlain(true)));
+    document.querySelector(".collage-toggle").addEventListener("click", () => setPlain(false));
+    try { if (localStorage.getItem("summer-site-view") === "plain") setPlain(true, false); } catch {}
+  </script>
+</body>
+</html>

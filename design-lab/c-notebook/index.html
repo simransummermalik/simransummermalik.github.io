@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simran (Summer) Malik</title>
+  <meta name="description" content="Simran (Summer) Malik: research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+  <style>
+    :root {
+      --ink: #1b1b2f;
+      --pen: #1515ff;
+      --red-pen: #e0004d;
+      --lime: #ccff00;
+      --pink: #ff00a8;
+      --cyan: #00ffe1;
+      --yellow: #fff600;
+      --paper: #fdfaf0;
+      --grid: rgba(21, 21, 255, 0.08);
+      --margin-line: #ff6b9a;
+      --serif: Georgia, "Times New Roman", Times, serif;
+      --display: "Times New Roman", Times, serif;
+      --mono: "Courier New", Courier, monospace;
+      --hand: "Caveat", "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+      --gutter: 92px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: #000000; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      background-color: #000000;
+      background-image:
+        radial-gradient(#ffffff 0.8px, transparent 1px),
+        radial-gradient(#0028ff 0.9px, transparent 1.2px),
+        radial-gradient(#ff00a8 0.7px, transparent 1px);
+      background-position: 0 0, 3px 5px, 8px 2px;
+      background-size: 5px 5px, 9px 9px, 13px 13px;
+    }
+
+    ::selection { background: var(--lime); }
+
+    img, video { display: block; max-width: 100%; height: auto; }
+
+    a { color: var(--pen); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+    :focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
+
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 100;
+      padding: 10px 14px; color: #0000aa; background: #ffffff;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    /* ---------- notebook page ---------- */
+    .notebook {
+      position: relative;
+      max-width: 1140px;
+      margin: 34px auto 60px;
+      padding: 46px 48px 56px var(--gutter);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(90deg, transparent calc(var(--gutter) - 22px), var(--margin-line) calc(var(--gutter) - 22px) calc(var(--gutter) - 20px), transparent calc(var(--gutter) - 20px)),
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px, 24px 24px;
+      box-shadow: 0 0 0 2px #000000, 16px 16px 0 var(--pink);
+    }
+
+    /* binder holes: the dark desk shows through */
+    .notebook::before {
+      content: "";
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 14px;
+      width: 26px;
+      background: radial-gradient(circle at 13px 13px, #000000 9px, transparent 10px) 0 0 / 26px 64px repeat-y;
+    }
+
+    .hand { font-family: var(--hand); }
+
+    .hl-lime { background: linear-gradient(transparent 52%, var(--lime) 52% 92%, transparent 92%); }
+    .hl-cyan { background: linear-gradient(transparent 50%, rgba(0, 255, 225, 0.7) 50% 92%, transparent 92%); }
+    .hl-pink { background: linear-gradient(transparent 50%, rgba(255, 0, 168, 0.35) 50% 92%, transparent 92%); }
+
+    /* washi tape */
+    .taped { position: relative; }
+    .taped::before {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      top: -13px;
+      left: 50%;
+      width: 96px;
+      height: 26px;
+      background: var(--tape, rgba(255, 0, 168, 0.5));
+      clip-path: polygon(0 8%, 6% 0, 12% 10%, 18% 0, 82% 0, 88% 10%, 94% 0, 100% 8%, 100% 92%, 94% 100%, 88% 90%, 82% 100%, 18% 100%, 12% 90%, 6% 100%, 0 92%);
+      transform: translateX(-50%) rotate(var(--tape-tilt, -4deg));
+    }
+
+    .polaroid {
+      margin: 0;
+      padding: 10px 10px 8px;
+      background: #ffffff;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 4px 6px 14px rgba(0, 0, 0, 0.22);
+      transform: rotate(var(--tilt, 0deg));
+    }
+    .polaroid img, .polaroid video { width: 100%; object-fit: cover; }
+    .polaroid figcaption {
+      margin-top: 6px;
+      color: var(--pen);
+      font-family: var(--hand);
+      font-size: 1.35rem;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .doodle { position: absolute; fill: none; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+
+    /* ---------- header ---------- */
+    .entry-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 18px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .entry-meta button {
+      padding: 0;
+      color: var(--pen);
+      background: none;
+      border: 0;
+      font: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+
+    .hero h1 {
+      position: relative;
+      margin: 8px 0 18px;
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 6.2vw, 5.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+    }
+
+    .hero .thats-me {
+      position: absolute;
+      right: 0;
+      bottom: -26px;
+      color: var(--pink);
+      font-family: var(--hand);
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      transform: rotate(-6deg);
+    }
+
+    .hero .lede {
+      margin: 30px 0 18px;
+      font-size: clamp(1.2rem, 1.9vw, 1.45rem);
+      line-height: 1.5;
+    }
+
+    .currently {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-family: var(--mono);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .currently li::before { content: "\2610  "; color: var(--pen); }
+    .currently li.done::before { content: "\2611  "; }
+
+    .hero-photos { position: relative; min-height: 420px; }
+    .hero-photos .polaroid { position: absolute; width: 66%; }
+    .hero-photos .p1 { top: 0; right: 4%; --tilt: 4deg; z-index: 2; }
+    .hero-photos .p2 { top: 190px; left: 0; --tilt: -6deg; --tape: rgba(204, 255, 0, 0.75); }
+    .hero-photos .p1 img { aspect-ratio: 4 / 3; }
+    .hero-photos .p2 img { aspect-ratio: 1; object-position: 50% 30%; }
+
+    /* ---------- section headings ---------- */
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin: 64px 0 26px;
+      font-family: var(--display);
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      line-height: 1;
+    }
+    .section-title .num { color: var(--red-pen); font-family: var(--mono); font-size: 0.5em; vertical-align: 0.45em; margin-right: 8px; }
+    .section-title svg { left: 0; bottom: -14px; width: 100%; height: 16px; stroke: var(--pink); stroke-width: 3; }
+    .aside-note {
+      margin-left: 16px;
+      color: var(--pen);
+      font-family: var(--hand);
+      font-size: 1.5rem;
+      white-space: nowrap;
+    }
+
+    /* ---------- results ---------- */
+    .results {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 44px;
+      align-items: start;
+    }
+
+    .printout {
+      position: relative;
+      padding: 30px 28px 26px;
+      background: #ffffff;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 5px 8px 16px rgba(0, 0, 0, 0.18);
+      transform: rotate(-1deg);
+    }
+    .printout .venue { margin: 0; color: var(--red-pen); font-family: var(--mono); font-size: 0.9rem; font-weight: bold; text-transform: uppercase; }
+    .printout h3 { margin: 10px 0 8px; font-family: var(--display); font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.08; }
+    .printout .author { margin: 0 0 12px; font-style: italic; }
+    .printout p { margin: 0 0 10px; line-height: 1.45; }
+
+    .stamp {
+      position: absolute;
+      top: -18px;
+      right: -14px;
+      padding: 6px 12px;
+      color: var(--red-pen);
+      border: 3px solid var(--red-pen);
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 1.05rem;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.85);
+      transform: rotate(9deg);
+      mix-blend-mode: multiply;
+    }
+
+    .clipping {
+      position: relative;
+      padding: 18px 18px 22px;
+      background: #f2eee3;
+      clip-path: polygon(0 2%, 4% 0, 9% 1.5%, 15% 0, 22% 1%, 30% 0, 38% 1.5%, 46% 0, 55% 1%, 63% 0, 71% 1.5%, 79% 0, 87% 1%, 94% 0, 100% 1.5%, 99% 30%, 100% 60%, 99% 100%, 92% 98.5%, 84% 100%, 76% 98.5%, 68% 100%, 60% 98.5%, 52% 100%, 44% 98.5%, 36% 100%, 28% 98.5%, 20% 100%, 12% 98.5%, 4% 100%, 0 98.5%, 1% 60%);
+      transform: rotate(1.4deg);
+      filter: drop-shadow(4px 6px 0 rgba(0, 0, 0, 0.12));
+    }
+    .clipping .masthead {
+      margin: 0 0 8px;
+      padding-bottom: 6px;
+      border-bottom: 3px double var(--ink);
+      font-family: var(--display);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .clipping h3 { margin: 0 0 10px; font-family: var(--display); font-size: 1.45rem; line-height: 1.1; }
+    .clipping img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: saturate(0.85) contrast(1.05); }
+    .clipping p { margin: 8px 0 0; font-size: 0.95rem; line-height: 1.4; }
+
+    .news-wrap { position: relative; }
+    .news-wrap .we-made {
+      position: absolute;
+      z-index: 2;
+      top: -40px;
+      left: -18px;
+      color: var(--pink);
+      font-family: var(--hand);
+      font-size: 2rem;
+      font-weight: 700;
+      transform: rotate(-7deg);
+    }
+
+    /* ---------- experiments ---------- */
+    .experiments-head { position: relative; min-height: 150px; }
+
+    .sticky {
+      position: absolute;
+      right: 6px;
+      top: 34px;
+      width: 330px;
+      margin: 0;
+      padding: 12px 18px;
+      background: var(--lime);
+      box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+      font-family: var(--hand);
+      font-size: 1.45rem;
+      line-height: 1.15;
+      transform: rotate(4deg);
+    }
+    .sticky span:nth-child(2)::after { content: ","; }
+    .sticky span:nth-child(2)::before,
+    .sticky span:nth-child(4)::before { content: " "; }
+    .sticky span:nth-child(3) { display: block; }
+
+    .experiments {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 46px 34px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .index-card {
+      position: relative;
+      padding: 16px 16px 18px;
+      background-color: #ffffff;
+      background-image:
+        linear-gradient(transparent 46px, var(--margin-line) 46px 48px, transparent 48px),
+        repeating-linear-gradient(transparent 0 25px, rgba(21, 21, 255, 0.16) 25px 26px);
+      background-position: 0 0, 0 48px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 4px 7px 14px rgba(0, 0, 0, 0.16);
+      transform: rotate(var(--tilt, 0deg));
+      transition: transform 0.15s ease;
+    }
+    .index-card:hover, .index-card:focus-within { transform: rotate(0deg) translateY(-4px); }
+
+    .index-card .exp {
+      display: flex;
+      justify-content: space-between;
+      height: 30px;
+      margin: 0 0 14px;
+      color: var(--red-pen);
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .index-card .shot { margin: 0 0 12px; border: 1px solid rgba(0, 0, 0, 0.2); }
+    .index-card .shot img, .index-card .shot video { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+
+    .index-card h3 { margin: 0 0 8px; font-family: var(--display); font-size: 1.5rem; line-height: 1.05; }
+    .index-card h3 a { color: var(--ink); text-decoration: none; }
+    .index-card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 4; }
+
+    .index-card dl { margin: 0; font-size: 0.98rem; line-height: 1.4; }
+    .index-card dt { float: left; margin-right: 6px; color: var(--pen); font-family: var(--hand); font-size: 1.3rem; line-height: 1.05; }
+    .index-card dd { margin: 0 0 6px; }
+    .index-card .read { display: inline-block; margin-top: 6px; color: var(--pen); font-family: var(--hand); font-size: 1.4rem; font-weight: 700; }
+
+    /* ---------- also ---------- */
+    .also {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 40px 28px;
+      align-items: start;
+    }
+    .also .talks { grid-column: span 5; }
+    .also .hardware { grid-column: span 7; }
+    .also .booth { grid-column: span 7; }
+    .also .aws-wrap { grid-column: span 5; }
+
+    .talks ul { margin: 12px 0 0; padding-left: 0; list-style: none; font-size: 1.05rem; line-height: 1.5; }
+    .talks li { padding-left: 22px; text-indent: -22px; }
+    .talks li::before { content: "\2192  "; color: var(--red-pen); }
+    .talks .polaroid { --tilt: -2deg; }
+    .talks .polaroid img { aspect-ratio: 4 / 3; }
+
+    .hardware .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .hardware .polaroid img { aspect-ratio: 1; }
+    .hardware .polaroid:nth-child(1) { --tilt: -3deg; --tape: rgba(0, 255, 225, 0.6); }
+    .hardware .polaroid:nth-child(2) { --tilt: 2deg; margin-top: 18px; }
+    .hardware .polaroid:nth-child(3) { --tilt: -1deg; --tape: rgba(204, 255, 0, 0.75); }
+
+    .booth .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .booth .polaroid img { aspect-ratio: 3 / 4; }
+    .booth .polaroid:nth-child(1) { --tilt: 2deg; }
+    .booth .polaroid:nth-child(2) { --tilt: -3deg; margin-top: 14px; --tape: rgba(0, 255, 225, 0.6); }
+    .booth .polaroid:nth-child(3) { --tilt: 1deg; }
+
+    .aws {
+      display: block;
+      padding: 18px 20px;
+      color: #161e2d;
+      background: #ff9900;
+      font-family: var(--serif);
+      font-weight: bold;
+      line-height: 1.3;
+      text-decoration: none;
+      box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+      transform: rotate(-2deg);
+    }
+    .aws span { display: block; margin-top: 6px; font-weight: normal; text-decoration: underline; }
+
+    .label {
+      margin: 0 0 14px;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- sign-off ---------- */
+    .signoff {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 70px;
+      padding-top: 18px;
+      border-top: 2px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+    }
+    .signoff .sig { margin: 4px 0 0; color: var(--pen); font-family: var(--hand); font-size: 2.6rem; line-height: 1; }
+    .signoff .line { display: inline-block; width: 60%; border-bottom: 1px solid var(--ink); }
+    .signoff ul { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 10px 0 0; padding: 0; list-style: none; }
+
+    /* ---------- plain view ---------- */
+    .plain-page { display: none; }
+    body.plain-mode { background: #ffffff; color: #000000; font-family: "Times New Roman", Times, serif; }
+    body.plain-mode > :not(.plain-page):not(.skip-link) { display: none !important; }
+    body.plain-mode .plain-page { display: block; max-width: 680px; margin: 16px; }
+    .plain-page a { color: #0000ee; }
+    .plain-page p, .plain-page li { line-height: 1.45; }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 980px) {
+      .experiments { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .also .talks, .also .hardware, .also .booth, .also .aws-wrap { grid-column: 1 / -1; }
+      .experiments-head { min-height: 0; }
+      .sticky { position: relative; top: auto; right: auto; width: auto; max-width: 330px; margin: 0 0 34px auto; }
+    }
+
+    @media (max-width: 720px) {
+      :root { --gutter: 46px; }
+      .notebook { margin: 12px 8px 40px; padding: 30px 18px 40px var(--gutter); box-shadow: 0 0 0 2px #000000, 8px 8px 0 var(--pink); }
+      .notebook::before { left: 6px; width: 20px; background-size: 20px 56px; background-image: radial-gradient(circle at 10px 10px, #000000 7px, transparent 8px); }
+      .entry-meta { flex-direction: column; gap: 4px; }
+      .hero, .results { grid-template-columns: 1fr; gap: 30px; }
+      .hero .thats-me { position: static; display: block; margin-top: 6px; }
+      .hero-photos { min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .hero-photos .polaroid { position: relative; top: auto; left: auto; right: auto; width: auto; }
+      .experiments { grid-template-columns: 1fr; }
+      .aside-note { display: block; margin: 8px 0 0; white-space: normal; }
+      .signoff { grid-template-columns: 1fr; }
+      .news-wrap .we-made { top: -34px; left: 0; }
+      .hardware .row, .booth .row { gap: 10px; }
+      .currently { font-size: 0.9rem; line-height: 1.45; }
+      .currently li { margin-bottom: 6px; }
+      .sticky { margin-top: 22px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .index-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#experiments-title">Skip to projects</a>
+
+  <main class="notebook">
+    <p class="entry-meta">
+      <span>Research notebook &middot; Simran (Summer) Malik</span>
+      <span>Entry 2026-11 &middot; <button type="button" class="plain-toggle" aria-pressed="false">plain view</button></span>
+    </p>
+
+    <!-- hero -->
+    <section class="hero" aria-labelledby="name">
+      <div>
+        <h1 id="name">Simran <span class="hl-lime">(Summer)</span> Malik
+          <span class="thats-me" aria-hidden="true">&larr; that's me!!</span>
+        </h1>
+        <p class="lede">I study quantum algorithms, spatial computing, computing systems, research experiments, and <span class="hl-cyan">the chaotic process of making hard ideas understandable.</span></p>
+        <ul class="currently" aria-label="Currently">
+          <li class="done">student researcher @ UNC Charlotte</li>
+          <li class="done">founder + QML division lead @ CAIR</li>
+          <li class="done">AWS Student Builder Campus Leader</li>
+          <li>summer is here to compute !!</li>
+        </ul>
+      </div>
+      <div class="hero-photos">
+        <figure class="polaroid taped p1">
+          <img src="../assets/booth-1.jpg" alt="Photo Booth picture of Summer" width="900" height="525">
+          <figcaption>me, mid-experiment</figcaption>
+        </figure>
+        <figure class="polaroid taped p2">
+          <img src="../assets/cat-filter.jpg" alt="Summer with a cat filter" width="496" height="800">
+          <figcaption>(field notes)</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- results -->
+    <h2 class="section-title"><span class="num">01</span>Results this year
+      <svg class="doodle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10 C 60 3, 120 14, 180 7 S 270 4, 298 9"/></svg>
+    </h2>
+
+    <div class="results">
+      <article class="printout taped" style="--tape: rgba(0, 255, 225, 0.6)">
+        <span class="stamp">Published!!</span>
+        <p class="venue">IEEE Quantum Week 2026 &middot; QML</p>
+        <h3>Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</h3>
+        <p class="author">Simran Malik</p>
+        <p>Published 2-page conference paper and poster presentation (board 57).</p>
+        <a href="/publications/">see the publication &rarr;</a>
+      </article>
+
+      <div class="news-wrap">
+        <span class="we-made" aria-hidden="true">we made the news!!</span>
+        <article class="clipping">
+          <p class="masthead">Computing Research News &middot; October 2026</p>
+          <h3>DREU-QIS students at IEEE Quantum Week: from summer research to the quantum research community</h3>
+          <img src="../assets/cra-cohort.jpg" alt="DREU-QIS students in front of the IEEE Quantum Week 2026 display" width="1200" height="672">
+          <p>Our DREU-QIS crew in Toronto. <a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">Read the CRA story &rarr;</a></p>
+        </article>
+      </div>
+    </div>
+
+    <!-- experiments -->
+    <div class="experiments-head">
+      <h2 class="section-title" id="experiments-title"><span class="num">02</span>Experiments
+        <svg class="doodle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 70 13, 140 2, 200 9 S 280 12, 298 6"/></svg>
+      </h2>
+      <span class="aside-note">(tap any card for the full write-up)</span>
+      <p class="sticky" aria-label="How I work">
+        <span>factorization,</span><span>but explain it</span>
+        <span>then test it,</span><span>then explain it again</span>
+      </p>
+    </div>
+
+    <ol class="experiments">
+      <li class="index-card taped" style="--tilt:-1.2deg">
+        <p class="exp"><span>Exp. 01</span><span>DREU @ UIUC &middot; 2026</span></p>
+        <figure class="shot" style="margin:0 0 12px"><img src="../assets/poster-me.jpg" alt="Summer presenting her quantum factoring poster at UIUC" width="1100" height="825" loading="lazy"></figure>
+        <h3><a href="/dreu/">Quantum factoring: Shor &amp; Regev</a></h3>
+        <dl>
+          <dt>q:</dt><dd>Where do theoretical speedups meet real circuit and hardware costs?</dd>
+          <dt>log:</dt><dd>9 weekly entries + a beginner-readable manual</dd>
+        </dl>
+        <span class="read">read the logs &rarr;</span>
+      </li>
+
+      <li class="index-card taped" style="--tilt:1deg; --tape: rgba(204, 255, 0, 0.75)">
+        <p class="exp"><span>Exp. 02</span><span>UNC Charlotte</span></p>
+        <figure class="shot" style="margin:0 0 12px"><img src="../assets/vision-pro.jpg" alt="Vision Pro immersive view next to Swift code" width="1100" height="621" loading="lazy"></figure>
+        <h3><a href="/spatial-computing/">Spatial computing</a></h3>
+        <dl>
+          <dt>q:</dt><dd>Does a point cloud, mesh, or graph change which path BFS, Dijkstra, or A* picks?</dd>
+          <dt>log:</dt><dd>10 weekly entries, Apple Vision Pro</dd>
+        </dl>
+        <span class="read">read the logs &rarr;</span>
+      </li>
+
+      <li class="index-card taped" style="--tilt:-0.6deg; --tape: rgba(0, 255, 225, 0.6)">
+        <p class="exp"><span>Exp. 03</span><span>Rust</span></p>
+        <figure class="shot" style="margin:0 0 12px"><img src="../assets/apollo.jpg" alt="Apollo 11 rocket lifting off" width="900" height="846" loading="lazy"></figure>
+        <h3><a href="/apollors/">ApolloRS</a></h3>
+        <dl>
+          <dt>q:</dt><dd>Can Apollo 11's guidance software run in Rust and still behave like the original machine?</dd>
+          <dt>log:</dt><dd>real AGC machine words, traced against a reference emulator</dd>
+        </dl>
+        <span class="read">explore it &rarr;</span>
+      </li>
+
+      <li class="index-card taped" style="--tilt:1.4deg">
+        <p class="exp"><span>Exp. 04</span><span>CAIR &middot; 2025&ndash;now</span></p>
+        <figure class="shot" style="margin:0 0 12px"><img src="../assets/cair-poster.jpg" alt="CAIR quantum machine learning research poster" width="1100" height="880" loading="lazy" style="object-position: top"></figure>
+        <h3><a href="/qml-outreach/">QML Torch @ CAIR</a></h3>
+        <dl>
+          <dt>q:</dt><dd>Can a quantum layer feel as easy as a normal PyTorch layer?</dd>
+          <dt>log:</dt><dd>founder + division lead, lessons and resources</dd>
+        </dl>
+        <span class="read">open the archive &rarr;</span>
+      </li>
+
+      <li class="index-card taped" style="--tilt:-1.5deg; --tape: rgba(204, 255, 0, 0.75)">
+        <p class="exp"><span>Exp. 05</span><span>JAX &middot; 2025</span></p>
+        <figure class="shot" style="margin:0 0 12px"><img src="../assets/jax-report.jpg" alt="Cover of the final clinical report" width="900" height="444" loading="lazy"></figure>
+        <h3><a href="/jackson-laboratory/">The Jackson Laboratory</a></h3>
+        <dl>
+          <dt>q:</dt><dd>How do sequencing results turn into treatment decisions?</dd>
+          <dt>log:</dt><dd>cancer genomics institute, final clinical report</dd>
+        </dl>
+        <span class="read">read more &rarr;</span>
+      </li>
+
+      <li class="index-card taped" style="--tilt:0.8deg; --tape: rgba(0, 255, 225, 0.6)">
+        <p class="exp"><span>Exp. 06</span><span>hardware</span></p>
+        <figure class="shot" style="margin:0 0 12px">
+          <video autoplay muted loop playsinline preload="metadata" poster="../assets/wearable-poster.jpg" aria-label="Looping video of Summer's LilyGO wearable clip">
+            <source src="../assets/wearable-sm.mp4" type="video/mp4">
+          </video>
+        </figure>
+        <h3><a href="/wearable/">LilyGO wearable clip</a></h3>
+        <dl>
+          <dt>q:</dt><dd>Can a tiny computer with an animated face live in my hair?</dd>
+          <dt>result:</dt><dd>yes. nothing caught fire.</dd>
+        </dl>
+        <span class="read">how I made it &rarr;</span>
+      </li>
+    </ol>
+
+    <!-- also -->
+    <h2 class="section-title"><span class="num">03</span>Also in this notebook
+      <svg class="doodle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M2 9 C 50 4, 110 13, 170 8 S 260 3, 298 10"/></svg>
+    </h2>
+
+    <div class="also">
+      <section class="talks" aria-labelledby="talks-title">
+        <p class="label" id="talks-title">Where I've presented</p>
+        <figure class="polaroid taped">
+          <img src="../assets/nola-poster.jpg" alt="Summer's poster at the CRA UR2PhD conference" width="1000" height="753" loading="lazy">
+          <figcaption>New Orleans!!</figcaption>
+        </figure>
+        <ul>
+          <li>IEEE Quantum Week 2026, Toronto</li>
+          <li>CRA UR2PhD National Conference, New Orleans, April 2026</li>
+          <li><a href="/presentations/">all presentations &amp; posters</a> &middot; <a href="https://lnkd.in/p/dszVZ6p9">presentation post</a></li>
+        </ul>
+      </section>
+
+      <section class="hardware" aria-labelledby="hw-title">
+        <p class="label" id="hw-title">Built by hand</p>
+        <div class="row">
+          <figure class="polaroid taped"><img src="../assets/printer.jpg" alt="A 3D printer printing a pink city model" width="683" height="800" loading="lazy"><figcaption>3D printing</figcaption></figure>
+          <figure class="polaroid taped"><img src="../assets/pi.jpg" alt="A Raspberry Pi held in front of a laptop" width="654" height="800" loading="lazy"><figcaption>raspberry pi</figcaption></figure>
+          <figure class="polaroid taped"><img src="../assets/breadboard.jpg" alt="A sensor module wired to a breadboard" width="800" height="634" loading="lazy"><figcaption>sensors</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="booth" aria-labelledby="me-title">
+        <p class="label" id="me-title">Not research (mostly)</p>
+        <div class="row">
+          <figure class="polaroid taped"><img src="../assets/booth-2.jpg" alt="Photo Booth picture of Summer with a heart effect" width="900" height="538" loading="lazy"><figcaption>&lt;3</figcaption></figure>
+          <figure class="polaroid taped"><img src="../assets/uiuc.jpg" alt="A street at UIUC" width="1000" height="734" loading="lazy"><figcaption>summer at UIUC</figcaption></figure>
+          <figure class="polaroid taped"><img src="../assets/poster-easel.jpg" alt="Summer's quantum factoring poster on an easel" width="1100" height="825" loading="lazy"><figcaption><a href="/dreu/logs/week-08.html">poster, explained</a></figcaption></figure>
+        </div>
+      </section>
+
+      <div class="aws-wrap">
+        <p class="label">Writing</p>
+        <a class="aws" href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna" target="_blank" rel="noreferrer">
+          AWS Student Builder Campus Leader
+          <span>The fastest-growing data problem in the world might be DNA &rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- sign-off -->
+    <footer class="signoff">
+      <div>
+        signed:
+        <p class="sig">Summer</p>
+      </div>
+      <div>
+        witnessed &amp; understood by: <span class="line"></span>
+        <ul>
+          <li><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+          <li><a href="/publications/">Publications</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
+    <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
+    <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+    <h2>Publications</h2>
+    <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
+    <h2>In the news</h2>
+    <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
+    <h2>Research &amp; projects</h2>
+    <ul>
+      <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
+      <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
+      <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
+      <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
+      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      <li><a href="/wearable/">LilyGO wearable clip</a></li>
+      <li><a href="/presentations/">Where I have presented</a></li>
+    </ul>
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href="https://github.com/simransummermalik">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">AWS article: The Fastest-Growing Data Problem in the World Might Be DNA</a></li>
+    </ul>
+    <button type="button" class="notebook-toggle">Back to notebook view</button>
+  </section>
+
+  <script>
+    function setPlain(on, focus = true) {
+      document.body.classList.toggle("plain-mode", on);
+      document.querySelectorAll(".plain-toggle").forEach((b) => b.setAttribute("aria-pressed", String(on)));
+      try { localStorage.setItem("summer-site-view", on ? "plain" : "collage"); } catch {}
+      if (focus) {
+        (on ? document.getElementById("plain-title") : document.querySelector(".plain-toggle")).focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+    }
+    document.querySelectorAll(".plain-toggle").forEach((b) => b.addEventListener("click", () => setPlain(true)));
+    document.querySelector(".notebook-toggle").addEventListener("click", () => setPlain(false));
+    try { if (localStorage.getItem("summer-site-view") === "plain") setPlain(true, false); } catch {}
+  </script>
+</body>
+</html>

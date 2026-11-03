@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simran (Summer) Malik</title>
+  <meta name="description" content="Simran (Summer) Malik: research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
+  <style>
+    :root {
+      --ink: #111111;
+      --lime: #ccff00;
+      --pink: #ff00a8;
+      --cyan: #00ffe1;
+      --blue: #1515ff;
+      --yellow: #fff600;
+      --green: #39ff14;
+      --chrome: #c0c0c0;
+      --ui: Tahoma, Verdana, "Segoe UI", Geneva, sans-serif;
+      --serif: "Times New Roman", Times, serif;
+      --mono: "Courier New", Courier, monospace;
+      --raised: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+      --sunken: inset -1px -1px #ffffff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+      --taskbar-h: 42px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: #000000; }
+
+    body {
+      margin: 0;
+      color: #ffffff;
+      font-family: var(--ui);
+      font-size: 14px;
+      background-color: #000000;
+      background-image:
+        radial-gradient(#ffffff 0.8px, transparent 1px),
+        radial-gradient(#0028ff 0.9px, transparent 1.2px),
+        radial-gradient(#ff00a8 0.7px, transparent 1px);
+      background-position: 0 0, 3px 5px, 8px 2px;
+      background-size: 5px 5px, 9px 9px, 13px 13px;
+    }
+
+    img, video { display: block; max-width: 100%; height: auto; }
+
+    :focus-visible { outline: 2px dotted var(--yellow); outline-offset: 2px; }
+
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 2000;
+      padding: 10px 14px; color: #0000aa; background: #ffffff;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+
+    /* ---------- desktop ---------- */
+    .desktop {
+      position: relative;
+      min-height: max(calc(100vh - var(--taskbar-h)), 880px);
+      overflow: hidden;
+    }
+
+    .icons {
+      position: absolute;
+      z-index: 1;
+      top: 14px;
+      left: 10px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(6, 92px);
+      grid-template-columns: repeat(2, 88px);
+      gap: 6px 4px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      height: 100%;
+      padding: 6px 2px;
+      color: #ffffff;
+      background: none;
+      border: 0;
+      font: 12px/1.2 var(--ui);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .icon .label {
+      margin-top: 6px;
+      padding: 1px 3px;
+      text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000;
+      overflow-wrap: anywhere;
+    }
+
+    .icon:hover .label,
+    .icon:focus-visible .label { background: var(--blue); text-shadow: none; }
+
+    /* icon glyphs */
+    .ico { position: relative; display: block; width: 46px; height: 42px; flex: none; }
+
+    .ico.folder::before {
+      content: ""; position: absolute; inset: 6px 0 0 0;
+      background: #d9a400; border: 1px solid #6b5000; border-radius: 2px;
+    }
+    .ico.folder img {
+      position: absolute; z-index: 1; left: 7px; top: 1px;
+      width: 32px; height: 26px; object-fit: cover;
+      border: 2px solid #ffffff; transform: rotate(-7deg);
+    }
+    .ico.folder::after {
+      content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: 24px;
+      background: linear-gradient(#ffe066, #ffcc1a); border: 1px solid #6b5000; border-radius: 2px;
+    }
+
+    .ico.doc {
+      width: 36px; height: 44px;
+      background: repeating-linear-gradient(#ffffff 0 7px, #9db1ff 7px 8px) 0 10px / 100% 100% no-repeat, #ffffff;
+      border: 1px solid #222222;
+      clip-path: polygon(0 0, 70% 0, 100% 24%, 100% 100%, 0 100%);
+    }
+    .ico.doc::after {
+      content: ""; position: absolute; top: 0; right: 0; width: 30%; height: 24%;
+      background: #bdbdbd; clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+    .ico.doc.loud::before {
+      content: "!!"; position: absolute; inset: 12px 0 0; color: var(--pink);
+      font: bold 20px/1 var(--serif); text-align: center;
+    }
+
+    .ico.exe {
+      width: 44px; height: 36px; margin-top: 4px;
+      background: var(--chrome); box-shadow: var(--raised);
+    }
+    .ico.exe::before {
+      content: ""; position: absolute; top: 3px; left: 3px; right: 3px; height: 7px;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
+    }
+    .ico.exe::after {
+      content: "RS"; position: absolute; inset: 12px 0 0; color: #ce412b;
+      font: bold 15px/1 var(--mono); text-align: center;
+    }
+
+    .ico.video {
+      width: 44px; height: 38px; margin-top: 3px;
+      background: #111111; border-inline: 6px dotted #ffffff;
+    }
+    .ico.video::after {
+      content: ""; position: absolute; inset: 9px 9px 9px 11px;
+      background: var(--pink); clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+
+    /* ---------- windows ---------- */
+    .window {
+      position: absolute;
+      z-index: 10;
+      left: calc(200px + var(--fx, 0) * (100% - 220px - var(--w)));
+      top: var(--y, 20px);
+      display: flex;
+      flex-direction: column;
+      width: var(--w, 400px);
+      padding: 3px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised), 7px 7px 0 rgba(0, 0, 0, 0.55);
+    }
+
+    .window[hidden] { display: none; }
+
+    .titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 2px 3px 2px 6px;
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
+      font-weight: bold;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .titlebar:active { cursor: grabbing; }
+
+    .window.inactive .titlebar { background: linear-gradient(90deg, #808080, #b5b5b5); color: #dcdcdc; }
+
+    .titlebar h2 {
+      flex: 1;
+      margin: 0;
+      overflow: hidden;
+      font-size: 13px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .titlebar button {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 18px;
+      padding: 0;
+      color: var(--ink);
+      background: var(--chrome);
+      border: 0;
+      box-shadow: var(--raised);
+      font: bold 12px/1 var(--ui);
+      cursor: pointer;
+    }
+
+    .titlebar button:active { box-shadow: var(--sunken); }
+
+    .menubar {
+      display: flex;
+      gap: 12px;
+      padding: 3px 6px;
+      font-size: 13px;
+    }
+
+    .menubar span::first-letter { text-decoration: underline; }
+
+    .pane {
+      margin: 2px;
+      padding: 14px;
+      overflow: auto;
+      background: #ffffff;
+      box-shadow: var(--sunken);
+    }
+
+    .statusbar {
+      display: flex;
+      gap: 3px;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    .statusbar span { flex: 1; padding: 2px 6px; box-shadow: var(--sunken); }
+    .statusbar span:first-child { flex: 2; }
+
+    .btn {
+      display: inline-block;
+      padding: 5px 12px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised);
+      font: 13px var(--ui);
+      text-decoration: none;
+    }
+    .btn:active { box-shadow: var(--sunken); }
+    .btn.primary { outline: 1px solid #000000; outline-offset: -1px; font-weight: bold; }
+
+    /* notepad */
+    .notepad .pane { font-family: var(--mono); font-size: 15px; line-height: 1.45; }
+    .notepad h1 {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.2vw, 2.7rem);
+      line-height: 0.95;
+    }
+    .notepad h1 span { color: var(--pink); }
+    .notepad p { margin: 0 0 12px; }
+    .notepad ul { margin: 0 0 12px; padding-left: 20px; }
+    .notepad a { color: #0000ee; }
+
+    /* browser */
+    .addressbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 4px;
+      font-size: 13px;
+    }
+    .addressbar .url {
+      flex: 1;
+      overflow: hidden;
+      padding: 3px 6px;
+      background: #ffffff;
+      box-shadow: var(--sunken);
+      font-family: var(--mono);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .browser .pane {
+      padding: 0;
+      background: #fff6ba;
+      font-family: var(--serif);
+    }
+    .browser .paper {
+      position: relative;
+      padding: 18px 16px 16px;
+      border-bottom: 4px solid var(--cyan);
+    }
+    .browser .venue { margin: 0; color: var(--pink); font: bold 13px var(--mono); text-transform: uppercase; }
+    .browser .paper .venue { padding-right: 64px; }
+    .browser .paper h3 { margin: 6px 0 6px; padding-right: 30px; color: var(--blue); font-size: 1.45rem; line-height: 1.05; }
+    .browser .paper p { margin: 0 0 8px; font-size: 1rem; }
+    .browser a { color: var(--blue); font-weight: bold; }
+    .burst {
+      position: absolute; top: -6px; right: 6px;
+      display: grid; place-items: center; width: 74px; height: 74px;
+      color: var(--ink); background: var(--yellow);
+      font: bold 12px/1 var(--ui); text-align: center; text-transform: uppercase;
+      clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 84% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 86%, 32% 100%, 26% 78%, 4% 76%, 16% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
+      transform: rotate(12deg);
+    }
+    .browser .news { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; padding: 12px 16px 16px; }
+    .browser .news img { border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); }
+    .browser .news h3 { margin: 0 0 4px; color: var(--blue); font-size: 1.3rem; }
+    .browser .news p { margin: 0 0 6px; }
+
+    /* terminal */
+    .terminal .pane {
+      color: var(--green);
+      background: #000000;
+      font: 14px/1.45 var(--mono);
+    }
+    .terminal p { margin: 0; }
+    .terminal .dim { color: #7a7a7a; }
+    .terminal .hl { color: var(--yellow); }
+    .terminal a { color: var(--cyan); }
+    .terminal img { float: right; width: 120px; margin: 2px 0 8px 12px; border: 2px solid var(--green); }
+    .cursor { display: inline-block; width: 9px; height: 1em; vertical-align: text-bottom; background: var(--green); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* media player */
+    .player .pane { padding: 0; background: #000000; }
+    .player video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
+    .player .controls { display: flex; align-items: center; gap: 6px; padding: 4px; }
+    .player .seek { flex: 1; height: 8px; box-shadow: var(--sunken); background: linear-gradient(90deg, var(--pink) 0 64%, #ffffff 64%); }
+    .player .caption { margin: 4px 4px 2px; font-size: 13px; line-height: 1.35; }
+    .player .caption a { color: #0000ee; }
+
+    /* explorer */
+    .explorer .pane { display: grid; grid-template-columns: 42% 1fr; gap: 14px; }
+    .explorer .pane > img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid var(--ink); }
+    .explorer h3 { margin: 0 0 6px; color: var(--blue); font: bold 1.35rem/1 var(--serif); }
+    .explorer p { margin: 0 0 10px; font: 15px/1.35 var(--serif); }
+    .files { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0 0 10px; padding: 0; list-style: none; font-size: 13px; }
+    .files a { color: #0000ee; }
+    .files a::before {
+      content: ""; display: inline-block; width: 10px; height: 13px; margin-right: 4px; vertical-align: -2px;
+      background: repeating-linear-gradient(#ffffff 0 2px, #7d93ff 2px 3px) 0 3px / 100% 100% no-repeat, #ffffff;
+      border: 1px solid #333333; clip-path: polygon(0 0, 65% 0, 100% 30%, 100% 100%, 0 100%);
+    }
+
+    /* photo booth */
+    .photos .pane { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; background: #000000; }
+    .photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 3px solid #ffffff; }
+    .photos img:nth-child(2) { border-color: var(--pink); }
+    .photos img:nth-child(3) { border-color: var(--cyan); object-position: 50% 25%; }
+    .photos img:nth-child(4) { border-color: var(--lime); }
+
+    .hardware .pane { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .hardware .pane img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 2px solid var(--ink); }
+    .hardware .pane p { grid-column: 1 / -1; margin: 4px 0 0; font: 15px var(--serif); }
+
+    /* desktop sticky note */
+    .sticky {
+      position: absolute;
+      z-index: 2;
+      left: 22px;
+      bottom: 26px;
+      width: 180px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--pink);
+      font: bold 14px/1.1 var(--mono);
+      transform: rotate(-3deg);
+    }
+    .sticky span { display: block; padding: 4px 8px; border-bottom: 2px solid var(--ink); }
+    .sticky span:last-child { border-bottom: 0; }
+
+    /* ---------- taskbar + start menu ---------- */
+    .taskbar {
+      position: sticky;
+      bottom: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: var(--taskbar-h);
+      padding: 4px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: inset 0 1px #dfdfdf, inset 0 2px #ffffff;
+    }
+
+    .start-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 10px 0 6px;
+      color: var(--ink);
+      background: var(--chrome);
+      border: 0;
+      box-shadow: var(--raised);
+      font: bold 14px var(--ui);
+      cursor: pointer;
+    }
+    .start-btn[aria-expanded="true"] { box-shadow: var(--sunken); }
+
+    .logo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      width: 18px;
+      height: 18px;
+      transform: rotate(-8deg);
+    }
+    .logo i:nth-child(1) { background: var(--pink); }
+    .logo i:nth-child(2) { background: var(--lime); }
+    .logo i:nth-child(3) { background: var(--cyan); }
+    .logo i:nth-child(4) { background: var(--blue); }
+
+    .tasks { display: flex; flex: 1; gap: 4px; min-width: 0; overflow: hidden; }
+
+    .task {
+      flex: 0 1 170px;
+      min-width: 0;
+      height: 32px;
+      padding: 0 8px;
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--chrome);
+      border: 0;
+      box-shadow: var(--raised);
+      font: 13px var(--ui);
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+    .task[aria-pressed="true"] {
+      font-weight: bold;
+      background: repeating-conic-gradient(#ffffff 0 25%, #d4d4d4 0 50%) 0 0 / 2px 2px;
+      box-shadow: var(--sunken);
+    }
+
+    .tray {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 32px;
+      padding: 0 10px;
+      box-shadow: var(--sunken);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .tray a { color: var(--ink); }
+
+    .start-menu {
+      position: fixed;
+      z-index: 1000;
+      left: 4px;
+      bottom: calc(var(--taskbar-h) - 2px);
+      display: flex;
+      width: 290px;
+      padding: 3px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised), 5px 5px 0 rgba(0, 0, 0, 0.5);
+    }
+    .start-menu[hidden] { display: none; }
+
+    .start-menu .band {
+      display: flex;
+      align-items: flex-end;
+      width: 32px;
+      padding: 8px 0;
+      color: #ffffff;
+      background: linear-gradient(0deg, var(--pink), var(--blue));
+      font: bold 20px/1 var(--serif);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .start-menu .band b { color: var(--yellow); }
+
+    .start-menu ul { flex: 1; margin: 0; padding: 2px 0; list-style: none; }
+    .start-menu li a,
+    .start-menu li button {
+      display: block;
+      width: 100%;
+      padding: 7px 10px;
+      color: var(--ink);
+      background: none;
+      border: 0;
+      font: 14px var(--ui);
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .start-menu li a:hover,
+    .start-menu li a:focus-visible,
+    .start-menu li button:hover,
+    .start-menu li button:focus-visible { color: #ffffff; background: var(--blue); outline: none; }
+    .start-menu li a small { display: block; color: inherit; opacity: 0.75; font-size: 12px; }
+    .start-menu .sep { height: 0; margin: 4px 2px; border-top: 1px solid #808080; border-bottom: 1px solid #ffffff; }
+
+    /* ---------- plain view ---------- */
+    .plain-page { display: none; }
+    body.plain-mode { color: #000000; background: #ffffff; font-family: var(--serif); font-size: 16px; }
+    body.plain-mode > :not(.plain-page):not(.skip-link) { display: none !important; }
+    body.plain-mode .plain-page { display: block; max-width: 680px; margin: 16px; }
+    .plain-page a { color: #0000ee; }
+    .plain-page p, .plain-page li { line-height: 1.45; }
+
+    /* ---------- small screens: windows stack ---------- */
+    @media (max-width: 899px) {
+      .desktop { min-height: 0; padding: 14px 12px 40px; overflow: visible; }
+      .icons {
+        position: static;
+        grid-auto-flow: row;
+        grid-template-rows: none;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 4px;
+      }
+      .icon { height: 92px; }
+      .window {
+        position: relative;
+        left: auto !important;
+        top: auto !important;
+        width: auto;
+        margin: 22px 0 0;
+      }
+      .titlebar { cursor: default; }
+      .sticky { position: relative; left: auto; bottom: auto; margin: 26px 0 0 10px; }
+      .player { width: min(100%, 300px); }
+      .tasks { visibility: hidden; }
+      .explorer .pane { grid-template-columns: 1fr; }
+      .browser .news { grid-template-columns: 1fr; }
+      .tray .tray-links { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
+    }
+
+    /* ===== theme: phosphor CRT ===== */
+    :root {
+      --g: #39ff14;
+      --amber: #ffb000;
+      --ui: "Courier New", Courier, monospace;
+      --chrome: #000000;
+      --raised: 0 0 0 1px var(--g);
+      --sunken: inset 0 0 0 1px var(--g);
+    }
+    body {
+      color: var(--g);
+      background-color: #020602;
+      background-image: radial-gradient(rgba(57, 255, 20, 0.18) 0.8px, transparent 1px);
+      background-size: 6px 6px;
+      background-position: 0 0;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1500;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px),
+        radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.55) 100%);
+    }
+    body.plain-mode::after { display: none; }
+    :focus-visible { outline-color: var(--amber); }
+    .window {
+      padding: 0;
+      color: var(--g);
+      background: #000000;
+      box-shadow: 0 0 0 2px var(--g), 0 0 18px rgba(57, 255, 20, 0.35);
+      text-shadow: 0 0 4px rgba(57, 255, 20, 0.55);
+    }
+    .titlebar { color: #000000; background: var(--g); text-shadow: none; }
+    .titlebar h2::before { content: "> "; }
+    .window.inactive .titlebar { color: var(--g); background: #000000; border-bottom: 1px dashed var(--g); }
+    .titlebar button { color: var(--g); background: #000000; }
+    .titlebar button:active { color: #000000; background: var(--g); }
+    .pane { color: var(--g); background: #000000; box-shadow: inset 0 0 0 1px rgba(57, 255, 20, 0.5); }
+    .menubar, .addressbar, .player .controls, .player .caption, .statusbar { color: var(--g); }
+    .addressbar .url { color: var(--g); background: #000000; }
+    .pane a, .player .caption a, .files a { color: var(--amber); }
+    .notepad h1 { color: var(--amber); }
+    .notepad h1 span { color: var(--g); }
+    .browser .pane { background: #000000; }
+    .browser .venue { color: var(--amber); }
+    .browser .paper h3, .browser .news h3 { color: var(--g); }
+    .browser .paper { border-bottom: 1px dashed var(--g); }
+    .browser .news img { border-color: var(--g); box-shadow: none; }
+    .burst { background: var(--amber); }
+    .explorer h3 { color: var(--amber); font-family: var(--ui); }
+    .explorer p, .hardware .pane p { font-family: var(--ui); font-size: 14px; }
+    .terminal .hl { color: var(--amber); }
+    .pane img, .pane video, .ico img {
+      filter: grayscale(1) sepia(1) hue-rotate(55deg) saturate(3) brightness(0.95);
+      transition: filter 0.25s ease;
+    }
+    .pane img:hover, .pane video:hover { filter: none; }
+    .ico { filter: grayscale(1) sepia(1) hue-rotate(55deg) saturate(4); }
+    .photos img:nth-child(n) { border-color: var(--g); }
+    .btn { color: var(--g); background: #000000; }
+    .btn:hover { color: #000000; background: var(--g); }
+    .btn.primary { outline: 0; box-shadow: 0 0 0 2px var(--g); }
+    .player .seek { background: linear-gradient(90deg, var(--g) 0 64%, #000000 64%); }
+    .icon { color: var(--g); }
+    .icon .label { text-shadow: 0 0 4px rgba(57, 255, 20, 0.7); }
+    .icon:hover .label, .icon:focus-visible .label { color: #000000; background: var(--g); text-shadow: none; }
+    .taskbar { color: var(--g); background: #000000; box-shadow: 0 -2px 0 var(--g); text-shadow: 0 0 4px rgba(57, 255, 20, 0.55); }
+    .start-btn { color: var(--g); background: #000000; font-family: var(--ui); }
+    .start-btn[aria-expanded="true"] { color: #000000; background: var(--g); }
+    .logo { transform: none; }
+    .logo i:nth-child(n) { background: var(--g); }
+    .logo i:nth-child(2), .logo i:nth-child(3) { background: var(--amber); }
+    .task { color: var(--g); background: #000000; font-family: var(--ui); }
+    .task[aria-pressed="true"] { color: #000000; background: var(--g); box-shadow: none; }
+    .tray a { color: var(--g); }
+    .start-menu { color: var(--g); background: #000000; box-shadow: 0 0 0 2px var(--g), 0 0 20px rgba(57, 255, 20, 0.35); }
+    .start-menu li a, .start-menu li button { color: var(--g); font-family: var(--ui); }
+    .start-menu li a:hover, .start-menu li a:focus-visible,
+    .start-menu li button:hover, .start-menu li button:focus-visible { color: #000000; background: var(--g); }
+    .start-menu .band { color: #000000; background: var(--g); }
+    .start-menu .band b { color: #000000; }
+    .start-menu .sep { border-top-color: var(--g); border-bottom: 0; }
+    .sticky { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 14px rgba(255, 176, 0, 0.5); }
+    .icon { font-size: 11px; letter-spacing: -0.03em; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#win-about">Skip to about me</a>
+
+  <div class="desktop" id="desktop">
+    <ul class="icons" aria-label="Desktop">
+      <li><button class="icon" type="button" data-open="win-about"><span class="ico doc"></span><span class="label">about_me.txt</span></button></li>
+      <li><button class="icon" type="button" data-open="win-news"><span class="ico doc loud"></span><span class="label">news!!.html</span></button></li>
+      <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="../assets/poster-me.jpg" alt=""></span><span class="label">quantum_factoring</span></button></li>
+      <li><button class="icon" type="button" data-open="win-apollo"><span class="ico exe"></span><span class="label">ApolloRS.exe</span></button></li>
+      <li><button class="icon" type="button" data-open="win-spatial"><span class="ico folder"><img src="../assets/vision-pro.jpg" alt=""></span><span class="label">spatial_computing</span></button></li>
+      <li><button class="icon" type="button" data-open="win-qml"><span class="ico folder"><img src="../assets/cair-poster.jpg" alt=""></span><span class="label">qml_outreach</span></button></li>
+      <li><button class="icon" type="button" data-open="win-jax"><span class="ico folder"><img src="../assets/jax-report.jpg" alt=""></span><span class="label">jackson_lab</span></button></li>
+      <li><button class="icon" type="button" data-open="win-talks"><span class="ico folder"><img src="../assets/nola-poster.jpg" alt=""></span><span class="label">presentations</span></button></li>
+      <li><button class="icon" type="button" data-open="win-wearable"><span class="ico video"></span><span class="label">wearable.mp4</span></button></li>
+      <li><button class="icon" type="button" data-open="win-photos"><span class="ico folder"><img src="../assets/booth-2.jpg" alt=""></span><span class="label">photo_booth</span></button></li>
+      <li><button class="icon" type="button" data-open="win-hardware"><span class="ico folder"><img src="../assets/printer.jpg" alt=""></span><span class="label">hardware</span></button></li>
+      <li><button class="icon" type="button" data-plain><span class="ico doc"></span><span class="label">plain_view.html</span></button></li>
+    </ul>
+
+    <!-- about -->
+    <section class="window notepad" id="win-about" tabindex="-1" style="--fx:0; --y:22px; --w:clamp(360px, 29vw, 430px)" aria-labelledby="t-about">
+      <header class="titlebar">
+        <h2 id="t-about">about_me.txt - Notepad</h2>
+        <button type="button" data-action="min" aria-label="Minimize about_me.txt">_</button>
+        <button type="button" data-action="close" aria-label="Close about_me.txt">&times;</button>
+      </header>
+      <div class="menubar" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+      <div class="pane">
+        <h1>Simran <span>(Summer)</span> Malik</h1>
+        <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+        <ul>
+          <li>student researcher @ UNC Charlotte</li>
+          <li>founder + QML division lead @ CAIR</li>
+          <li>AWS Student Builder Campus Leader</li>
+        </ul>
+        <p><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">github</a> / <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">linkedin</a> / <a href="/publications/">publications</a></p>
+      </div>
+      <div class="statusbar" aria-hidden="true"><span>summer is here to compute !!</span><span>Ln 1, Col 1</span></div>
+    </section>
+
+    <!-- news -->
+    <section class="window browser" id="win-news" tabindex="-1" style="--fx:0.565; --y:16px; --w:clamp(380px, 31vw, 450px)" aria-labelledby="t-news">
+      <header class="titlebar">
+        <h2 id="t-news">news!!.html - Summer Explorer</h2>
+        <button type="button" data-action="min" aria-label="Minimize news">_</button>
+        <button type="button" data-action="close" aria-label="Close news">&times;</button>
+      </header>
+      <div class="addressbar" aria-hidden="true"><span>Address</span><span class="url">summer://news/2026</span></div>
+      <div class="pane">
+        <div class="paper">
+          <span class="burst" aria-hidden="true">new<br>paper!!</span>
+          <p class="venue">IEEE Quantum Week 2026 / QML</p>
+          <h3>Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</h3>
+          <p>Published 2-page paper + poster presentation.</p>
+          <a href="/publications/">read about it &rarr;</a>
+        </div>
+        <div class="news">
+          <img src="../assets/cra-cohort.jpg" alt="DREU-QIS students in front of the IEEE Quantum Week 2026 display" width="1200" height="672">
+          <div>
+            <h3>we made the news!!</h3>
+            <p>CRA featured our DREU-QIS crew at IEEE Quantum Week in Toronto.</p>
+            <a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">read the CRA story &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- wearable -->
+    <section class="window player" id="win-wearable" tabindex="-1" style="--fx:1; --y:22px; --w:250px" aria-labelledby="t-wearable">
+      <header class="titlebar">
+        <h2 id="t-wearable">wearable.mp4</h2>
+        <button type="button" data-action="min" aria-label="Minimize wearable.mp4">_</button>
+        <button type="button" data-action="close" aria-label="Close wearable.mp4">&times;</button>
+      </header>
+      <div class="pane">
+        <video autoplay muted loop playsinline preload="metadata" poster="../assets/wearable-poster.jpg" aria-label="Looping video of Summer's LilyGO wearable clip">
+          <source src="../assets/wearable-sm.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="controls" aria-hidden="true"><span class="btn">&#9654;</span><span class="seek"></span></div>
+      <p class="caption">LilyGO hair clip with a tiny animated face. <a href="/wearable/">how I made it &rarr;</a></p>
+    </section>
+
+    <!-- apollo -->
+    <section class="window terminal" id="win-apollo" tabindex="-1" style="--fx:0.04; --y:462px; --w:450px" aria-labelledby="t-apollo">
+      <header class="titlebar">
+        <h2 id="t-apollo">ApolloRS.exe</h2>
+        <button type="button" data-action="min" aria-label="Minimize ApolloRS">_</button>
+        <button type="button" data-action="close" aria-label="Close ApolloRS">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/apollo.jpg" alt="Apollo 11 rocket lifting off" width="900" height="846">
+        <p class="dim">C:\SUMMER&gt; apollors run</p>
+        <p>[ok] preserve Apollo 11 source</p>
+        <p>[ok] execute real AGC words</p>
+        <p>[ok] record machine trace</p>
+        <p>[ok] compare vs yaAGC</p>
+        <p class="hl">&gt; Apollo 11 guidance software, in Rust.</p>
+        <p><a href="/apollors/">open /apollors/</a> <span class="cursor" aria-hidden="true"></span></p>
+      </div>
+    </section>
+
+    <!-- photo booth -->
+    <section class="window photos" id="win-photos" tabindex="-1" style="--fx:0.6; --y:520px; --w:360px" aria-labelledby="t-photos">
+      <header class="titlebar">
+        <h2 id="t-photos">photo_booth</h2>
+        <button type="button" data-action="min" aria-label="Minimize photo_booth">_</button>
+        <button type="button" data-action="close" aria-label="Close photo_booth">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/booth-1.jpg" alt="Photo Booth picture of Summer" width="900" height="525" loading="lazy">
+        <img src="../assets/booth-2.jpg" alt="Photo Booth picture of Summer with a heart effect" width="900" height="538" loading="lazy">
+        <img src="../assets/cat-filter.jpg" alt="Summer with a cat filter" width="496" height="800" loading="lazy">
+        <img src="../assets/uiuc.jpg" alt="A street at UIUC" width="1000" height="734" loading="lazy">
+      </div>
+      <div class="statusbar" aria-hidden="true"><span>4 object(s)</span><span>summer at UIUC</span></div>
+    </section>
+
+    <!-- closed by default -->
+    <section class="window explorer" id="win-dreu" tabindex="-1" hidden style="--fx:0.3; --y:60px; --w:560px" aria-labelledby="t-dreu">
+      <header class="titlebar">
+        <h2 id="t-dreu">C:\summer\quantum_factoring</h2>
+        <button type="button" data-action="min" aria-label="Minimize quantum_factoring">_</button>
+        <button type="button" data-action="close" aria-label="Close quantum_factoring">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/poster-me.jpg" alt="Summer presenting her quantum factoring poster at UIUC" width="1100" height="825" loading="lazy">
+        <div>
+          <h3>Quantum factoring: Shor &amp; Regev</h3>
+          <p>DREU @ UIUC, summer 2026. The QFT, reversible modular arithmetic, lattice post-processing, and noisy circuits.</p>
+          <ul class="files" aria-label="Research logs">
+            <li><a href="/dreu/logs/week-01.html">week-01</a></li>
+            <li><a href="/dreu/logs/week-02.html">week-02</a></li>
+            <li><a href="/dreu/logs/week-03.html">week-03</a></li>
+            <li><a href="/dreu/logs/week-04.html">week-04</a></li>
+            <li><a href="/dreu/logs/week-05.html">week-05</a></li>
+            <li><a href="/dreu/logs/week-06.html">week-06</a></li>
+            <li><a href="/dreu/logs/week-07.html">week-07</a></li>
+            <li><a href="/dreu/logs/week-08.html">week-08</a></li>
+            <li><a href="/dreu/logs/week-09.html">week-09</a></li>
+            <li><a href="/dreu/regev-manual/">manual</a></li>
+          </ul>
+          <a class="btn primary" href="/dreu/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-spatial" tabindex="-1" hidden style="--fx:0.4; --y:90px; --w:540px" aria-labelledby="t-spatial">
+      <header class="titlebar">
+        <h2 id="t-spatial">C:\summer\spatial_computing</h2>
+        <button type="button" data-action="min" aria-label="Minimize spatial_computing">_</button>
+        <button type="button" data-action="close" aria-label="Close spatial_computing">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/vision-pro.jpg" alt="Vision Pro immersive view next to Swift code" width="1100" height="621" loading="lazy">
+        <div>
+          <h3>Spatial computing</h3>
+          <p>UNC Charlotte research with an Apple Vision Pro: how point clouds, meshes, and graphs change what BFS, Dijkstra, and A* decide.</p>
+          <a class="btn primary" href="/spatial-computing/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-qml" tabindex="-1" hidden style="--fx:0.5; --y:120px; --w:540px" aria-labelledby="t-qml">
+      <header class="titlebar">
+        <h2 id="t-qml">C:\summer\qml_outreach</h2>
+        <button type="button" data-action="min" aria-label="Minimize qml_outreach">_</button>
+        <button type="button" data-action="close" aria-label="Close qml_outreach">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/cair-poster.jpg" alt="CAIR quantum machine learning research poster" width="1100" height="880" loading="lazy">
+        <div>
+          <h3>QML outreach @ CAIR</h3>
+          <p>I founded CAIR's quantum machine learning division. Our main project, QML Torch, makes a quantum layer feel like a normal PyTorch layer.</p>
+          <a class="btn primary" href="/qml-outreach/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-jax" tabindex="-1" hidden style="--fx:0.6; --y:150px; --w:540px" aria-labelledby="t-jax">
+      <header class="titlebar">
+        <h2 id="t-jax">C:\summer\jackson_lab</h2>
+        <button type="button" data-action="min" aria-label="Minimize jackson_lab">_</button>
+        <button type="button" data-action="close" aria-label="Close jackson_lab">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/jax-report.jpg" alt="Cover of the final clinical report" width="900" height="444" loading="lazy">
+        <div>
+          <h3>The Jackson Laboratory</h3>
+          <p>Cancer Genomics Research Summer Institute, 2025: sequencing data, variant pathogenicity, and clinical tiers with OncoKB, COSMIC, and CIViC.</p>
+          <a class="btn primary" href="/jackson-laboratory/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-talks" tabindex="-1" hidden style="--fx:0.7; --y:180px; --w:540px" aria-labelledby="t-talks">
+      <header class="titlebar">
+        <h2 id="t-talks">C:\summer\presentations</h2>
+        <button type="button" data-action="min" aria-label="Minimize presentations">_</button>
+        <button type="button" data-action="close" aria-label="Close presentations">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/nola-poster.jpg" alt="Summer's poster at the CRA UR2PhD conference" width="1000" height="753" loading="lazy">
+        <div>
+          <h3>Where have I presented??</h3>
+          <p>CRA UR2PhD National Conference in New Orleans, IEEE Quantum Week, and more posters.</p>
+          <a class="btn primary" href="/presentations/">Open folder</a>
+          <a class="btn" href="https://lnkd.in/p/dszVZ6p9">Presentation post</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window hardware" id="win-hardware" tabindex="-1" hidden style="--fx:0.45; --y:260px; --w:480px" aria-labelledby="t-hardware">
+      <header class="titlebar">
+        <h2 id="t-hardware">C:\summer\hardware</h2>
+        <button type="button" data-action="min" aria-label="Minimize hardware">_</button>
+        <button type="button" data-action="close" aria-label="Close hardware">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="../assets/printer.jpg" alt="A 3D printer printing a pink city model" width="683" height="800" loading="lazy">
+        <img src="../assets/pi.jpg" alt="A Raspberry Pi held in front of a laptop" width="654" height="800" loading="lazy">
+        <img src="../assets/breadboard.jpg" alt="A sensor module wired to a breadboard" width="800" height="634" loading="lazy">
+        <p>3D printing, Raspberry Pis, sensors on breadboards. <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">more on GitHub</a></p>
+      </div>
+    </section>
+
+    <p class="sticky" aria-label="How I work">
+      <span>factorization</span>
+      <span>but explain it</span>
+      <span>then test it</span>
+      <span>then explain it again</span>
+    </p>
+  </div>
+
+  <footer class="taskbar">
+    <button class="start-btn" id="start-btn" type="button" aria-expanded="false" aria-controls="start-menu">
+      <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>start_here
+    </button>
+    <div class="tasks" id="tasks" aria-label="Open windows"></div>
+    <div class="tray">
+      <span class="tray-links"><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a> &middot; <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a></span>
+      <span id="clock" aria-hidden="true"></span>
+    </div>
+  </footer>
+
+  <nav class="start-menu" id="start-menu" hidden aria-label="Site directory">
+    <div class="band" aria-hidden="true"><span><b>summer</b>.os</span></div>
+    <ul>
+      <li><a href="/publications/">Publications<small>papers &amp; conference posters</small></a></li>
+      <li><a href="/dreu/">Quantum research / DREU<small>UIUC logs &amp; factoring manual</small></a></li>
+      <li><a href="/qml-outreach/">QML outreach<small>CAIR projects &amp; resources</small></a></li>
+      <li><a href="/spatial-computing/">Spatial computing<small>Vision Pro &amp; pathfinding</small></a></li>
+      <li><a href="/jackson-laboratory/">Jackson Lab genomics<small>cancer genomics, summer 2025</small></a></li>
+      <li><a href="/apollors/">ApolloRS<small>Apollo 11 software in Rust</small></a></li>
+      <li><a href="/wearable/">LilyGO wearable clip<small>demo &amp; build notes</small></a></li>
+      <li><a href="/presentations/">Presentations &amp; posters</a></li>
+      <li class="sep" role="separator"></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna" target="_blank" rel="noreferrer">AWS article: DNA data<small>Student Builder Campus Leader</small></a></li>
+      <li class="sep" role="separator"></li>
+      <li><button type="button" data-plain>Plain view (simple HTML)</button></li>
+    </ul>
+  </nav>
+
+  <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
+    <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
+    <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+    <h2>Publications</h2>
+    <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
+    <h2>In the news</h2>
+    <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
+    <h2>Research &amp; projects</h2>
+    <ul>
+      <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
+      <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
+      <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
+      <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
+      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      <li><a href="/wearable/">LilyGO wearable clip</a></li>
+      <li><a href="/presentations/">Where I have presented</a></li>
+    </ul>
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href="https://github.com/simransummermalik">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">AWS article: The Fastest-Growing Data Problem in the World Might Be DNA</a></li>
+    </ul>
+    <button type="button" id="back-to-desktop">Back to desktop view</button>
+  </section>
+
+  <script>
+    const desktop = document.getElementById("desktop");
+    const tasks = document.getElementById("tasks");
+    const startBtn = document.getElementById("start-btn");
+    const startMenu = document.getElementById("start-menu");
+    const wide = window.matchMedia("(min-width: 900px)");
+    let topZ = 20;
+
+    const windows = () => [...document.querySelectorAll(".window")];
+    const titleOf = (win) => win.querySelector(".titlebar h2").textContent;
+    const taskFor = (win) => tasks.querySelector(`[data-win="${win.id}"]`);
+
+    function syncTasks() {
+      windows().forEach((win) => {
+        const task = taskFor(win);
+        if (task) task.setAttribute("aria-pressed", String(!win.hidden && !win.classList.contains("inactive")));
+      });
+    }
+
+    function activate(win) {
+      win.style.zIndex = ++topZ;
+      windows().forEach((w) => w.classList.toggle("inactive", w !== win));
+      syncTasks();
+    }
+
+    function addTask(win) {
+      if (taskFor(win)) return;
+      const task = document.createElement("button");
+      task.type = "button";
+      task.className = "task";
+      task.dataset.win = win.id;
+      task.textContent = titleOf(win);
+      task.addEventListener("click", () => {
+        if (win.hidden) openWindow(win.id);
+        else if (win.classList.contains("inactive")) activate(win);
+        else minimize(win);
+      });
+      tasks.append(task);
+    }
+
+    function setVideo(win, playing) {
+      const video = win.querySelector("video");
+      if (!video) return;
+      if (playing) video.play().catch(() => {});
+      else video.pause();
+    }
+
+    function openWindow(id, moveFocus = true) {
+      const win = document.getElementById(id);
+      if (!win) return;
+      win.hidden = false;
+      addTask(win);
+      activate(win);
+      setVideo(win, true);
+      if (moveFocus) {
+        win.focus({ preventScroll: wide.matches });
+        if (!wide.matches) win.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function minimize(win) {
+      win.hidden = true;
+      win.classList.add("inactive");
+      setVideo(win, false);
+      syncTasks();
+    }
+
+    function closeWindow(win) {
+      minimize(win);
+      taskFor(win)?.remove();
+    }
+
+    document.querySelectorAll("[data-open]").forEach((btn) =>
+      btn.addEventListener("click", () => openWindow(btn.dataset.open)));
+
+    windows().forEach((win) => {
+      win.addEventListener("pointerdown", () => activate(win));
+      win.querySelector('[data-action="min"]').addEventListener("click", () => minimize(win));
+      win.querySelector('[data-action="close"]').addEventListener("click", () => closeWindow(win));
+
+      // drag by the title bar (desktop layout only)
+      const bar = win.querySelector(".titlebar");
+      bar.addEventListener("pointerdown", (e) => {
+        if (!wide.matches || e.button !== 0 || e.target.closest("button")) return;
+        const box = win.getBoundingClientRect();
+        const area = desktop.getBoundingClientRect();
+        const dx = e.clientX - box.left;
+        const dy = e.clientY - box.top;
+        bar.setPointerCapture(e.pointerId);
+        const move = (ev) => {
+          const x = Math.min(Math.max(ev.clientX - area.left - dx, 80 - box.width), area.width - 80);
+          const y = Math.min(Math.max(ev.clientY - area.top - dy, 0), area.height - 40);
+          win.style.left = `${x}px`;
+          win.style.top = `${y}px`;
+        };
+        const stop = () => {
+          bar.removeEventListener("pointermove", move);
+          bar.removeEventListener("pointerup", stop);
+          bar.removeEventListener("pointercancel", stop);
+        };
+        bar.addEventListener("pointermove", move);
+        bar.addEventListener("pointerup", stop);
+        bar.addEventListener("pointercancel", stop);
+      });
+    });
+
+    // start menu
+    function setStart(open) {
+      startMenu.hidden = !open;
+      startBtn.setAttribute("aria-expanded", String(open));
+      if (open) startMenu.querySelector("a").focus();
+    }
+    startBtn.addEventListener("click", () => setStart(startMenu.hidden));
+    document.addEventListener("click", (e) => {
+      if (!startMenu.hidden && !startMenu.contains(e.target) && !startBtn.contains(e.target)) setStart(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !startMenu.hidden) { setStart(false); startBtn.focus(); }
+    });
+
+    // plain view
+    function setPlain(on, moveFocus = true) {
+      document.body.classList.toggle("plain-mode", on);
+      try { localStorage.setItem("summer-site-view", on ? "plain" : "collage"); } catch {}
+      if (on) setStart(false);
+      if (moveFocus) {
+        (on ? document.getElementById("plain-title") : startBtn).focus({ preventScroll: true });
+        window.scrollTo(0, 0);
+      }
+    }
+    document.querySelectorAll("[data-plain]").forEach((b) => b.addEventListener("click", () => setPlain(true)));
+    document.getElementById("back-to-desktop").addEventListener("click", () => setPlain(false));
+    try { if (localStorage.getItem("summer-site-view") === "plain") setPlain(true, false); } catch {}
+
+    // clock
+    const clock = document.getElementById("clock");
+    const tick = () => { clock.textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); };
+    tick();
+    setInterval(tick, 15000);
+
+    // open windows at load: about_me ends up in front
+    windows().filter((w) => !w.hidden).forEach(addTask);
+    activate(document.getElementById("win-about"));
+  </script>
+</body>
+</html>

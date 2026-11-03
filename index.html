@@ -3,689 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Summer Malik's research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
-  <title>Summer Malik</title>
+  <title>Simran (Summer) Malik</title>
+  <meta name="description" content="Simran (Summer) Malik: research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
+  <meta name="theme-color" content="#1515ff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Simran (Summer) Malik">
+  <meta property="og:description" content="Quantum algorithms, spatial computing, computing systems, and the chaotic process of making hard ideas understandable.">
+  <meta property="og:url" content="https://simransummermalik.github.io/">
+  <meta property="og:image" content="https://simransummermalik.github.io/index_me_images/web/cra-cohort.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='7.5' height='7.5' fill='%23ff00a8'/%3E%3Crect x='8.5' width='7.5' height='7.5' fill='%23ccff00'/%3E%3Crect y='8.5' width='7.5' height='7.5' fill='%2300ffe1'/%3E%3Crect x='8.5' y='8.5' width='7.5' height='7.5' fill='%231515ff'/%3E%3C/svg%3E">
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      --ink: #111111;
+      --lime: #ccff00;
+      --pink: #ff00a8;
+      --cyan: #00ffe1;
+      --blue: #1515ff;
+      --yellow: #fff600;
+      --green: #39ff14;
+      --chrome: #c0c0c0;
+      --ui: Tahoma, Verdana, "Segoe UI", Geneva, sans-serif;
+      --serif: "Times New Roman", Times, serif;
+      --mono: "Courier New", Courier, monospace;
+      --raised: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+      --sunken: inset -1px -1px #ffffff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+      --taskbar-h: 42px;
     }
+
+    * { box-sizing: border-box; }
+
+    html { background: #000000; }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      color: #f8f1ff;
-      font-family: "Courier New", "Comic Sans MS", monospace;
-      background:
-        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 5px),
-        repeating-linear-gradient(90deg, rgba(0, 255, 224, 0.14) 0 2px, transparent 2px 17px),
-        radial-gradient(circle at 12% 18%, #ff00a8 0 6%, transparent 7%),
-        radial-gradient(circle at 88% 16%, #00ffe1 0 5%, transparent 6%),
-        radial-gradient(circle at 70% 90%, #ccff00 0 7%, transparent 8%),
-        linear-gradient(135deg, #190022 0%, #281150 38%, #111111 70%, #3d0035 100%);
-      overflow-x: hidden;
-    }
-
-    ::selection {
-      color: #111111;
-      background: #ccff00;
-    }
-
-    body::before {
-      content: "SUMMER SUMMER SUMMER RESEARCH RESEARCH HTML HTML";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      color: rgba(255, 255, 255, 0.06);
-      font-size: 4rem;
-      font-weight: bold;
-      line-height: 0.9;
-      word-break: break-all;
-      transform: rotate(-8deg) scale(1.2);
-    }
-
-    a {
-      color: #00ffe1;
-      text-decoration-style: wavy;
-      text-decoration-thickness: 2px;
-    }
-
-    .page {
-      position: relative;
-      width: min(1240px, calc(100% - 10px));
-      min-height: 1480px;
-      margin: 14px auto 70px;
-      border: 3px dotted #f8f1ff;
-      background:
-        linear-gradient(45deg, transparent 0 46%, rgba(255, 0, 168, 0.35) 47% 53%, transparent 54%),
-        rgba(0, 0, 0, 0.16);
-    }
-
-    .title {
-      position: relative;
-      z-index: 5;
-      width: min(860px, 96%);
-      margin: 28px 0 0 22px;
-      color: #fff6ba;
-      font-family: "Times New Roman", Times, serif;
-      font-size: clamp(2.4rem, 6vw, 4.8rem);
-      line-height: 0.96;
-      letter-spacing: 0;
-      text-transform: none;
-      text-shadow: 3px 3px 0 #111111;
-    }
-
-    .title span {
-      display: inline-block;
-      color: #fff6ba;
-      transform: rotate(-2deg);
-    }
-
-    .scrap {
-      position: absolute;
-      z-index: 6;
-      max-width: 330px;
-      padding: 10px 12px;
-      color: #111111;
-      font-size: 0.98rem;
-      line-height: 1.25;
-      background: #fff6ba;
-      border: 2px solid #111111;
-      box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.8);
-    }
-
-    .scrap.about {
-      top: 318px;
-      left: 40px;
-      transform: rotate(-3deg);
-    }
-
-    .scrap.status {
-      top: 930px;
-      right: 38px;
-      background: #ffb5ee;
-      transform: rotate(5deg);
-    }
-
-    .scrap.tiny {
-      top: 1105px;
-      left: 40px;
-      width: 230px;
-      background: #b7fff5;
-      transform: rotate(3deg);
-    }
-
-    .scrap.sideways {
-      top: 214px;
-      right: 42px;
-      width: 260px;
-      background: #ffffff;
-      transform: rotate(13deg);
-      font-size: 0.8rem;
-      z-index: 11;
-    }
-
-    .scrap.badge {
-      top: 205px;
-      left: 302px;
-      width: 220px;
-      padding: 6px;
       color: #ffffff;
-      background: #0015ff;
-      border-color: #ccff00;
-      transform: rotate(-11deg);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-    }
-
-    .note-strip {
-      position: absolute;
-      z-index: 12;
-      top: 230px;
-      left: 548px;
-      width: 145px;
-      color: #111111;
-      font-size: 0.74rem;
-      line-height: 1.05;
-      background: #ccff00;
-      border: 2px solid #111111;
-      transform: rotate(19deg);
-    }
-
-    .note-strip span {
-      display: block;
-      padding: 3px 5px;
-      border-bottom: 1px solid #111111;
-    }
-
-    .sign {
-      position: absolute;
-      z-index: 44;
-      display: inline-block;
-      padding: 4px 8px;
-      font-family: "Times New Roman", Times, serif;
-      font-weight: bold;
-      line-height: 0.95;
-      text-decoration: none;
-      text-transform: uppercase;
-      border: 2px solid transparent;
-    }
-
-    .sign.open {
-      top: 6px;
-      left: 320px;
-      color: #fffb00;
-      font-size: 2rem;
-      background: #000000;
-    }
-
-    .sign.formal {
-      top: 84px;
-      left: 308px;
-      color: #00ff5a;
-      font-size: 1.2rem;
-      background: #0015ff;
-      transform: rotate(-2deg);
-    }
-
-    .sign.homecoming {
-      top: 116px;
-      left: 925px;
-      color: #ff003c;
-      font-size: 1.25rem;
-      background: #00ffe1;
-      transform: rotate(4deg);
-    }
-
-    .sign.poster-click {
-      top: 675px;
-      left: 350px;
-      color: #ffffff;
-      font-size: 1.05rem;
-      background: #0015ff;
-      transform: rotate(2deg);
-    }
-
-    .sign.apollo-click {
-      top: 808px;
-      left: 855px;
-      color: #fffb00;
-      font-size: 1.4rem;
-      background: #a000a8;
-      transform: rotate(-3deg);
-    }
-
-    .sign.qft {
-      top: 648px;
-      left: 38px;
-      color: #00ffe1;
-      font-size: 1.15rem;
-      background: #111111;
-      transform: rotate(-6deg);
-    }
-
-    .sign.research {
-      top: 1038px;
-      left: 430px;
-      color: #39ff14;
-      font-size: 1.15rem;
-      background: #000000;
-      transform: rotate(3deg);
-    }
-
-    .sign.bride {
-      top: 1220px;
-      left: 420px;
-      color: #fffb00;
-      font-size: 1.9rem;
-      background: #0015ff;
-      transform: rotate(-1deg);
-    }
-
-    .sign.small-map {
-      top: 1100px;
-      left: 790px;
-      color: #ff003c;
-      font-size: 1rem;
-      background: #d9d9d9;
-      border-color: #ffffff;
-      transform: rotate(6deg);
-    }
-
-    .photo {
-      position: absolute;
-      z-index: 3;
-      display: block;
-      width: 310px;
-      max-width: 42vw;
-      background: #ffffff;
-      border: 9px solid #ffffff;
-      outline: 3px solid #111111;
-      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
-    }
-
-    .photo.one {
-      z-index: 18;
-      top: 282px;
-      right: 80px;
-      width: 340px;
-      max-width: 38vw;
-      transform: rotate(8deg);
-      border-width: 12px;
-      box-shadow: 17px 17px 0 rgba(0, 0, 0, 0.82);
-    }
-
-    .photo.two {
-      z-index: 24;
-      top: 330px;
-      left: 355px;
-      width: 360px;
-      max-width: 42vw;
-      transform: rotate(-7deg);
-      border-width: 9px;
-      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
-      filter: saturate(1.8) contrast(1.2);
-    }
-
-    .photo.three {
-      top: 1085px;
-      right: 620px;
-      width: 210px;
-      transform: rotate(12deg);
-      filter: contrast(1.08) saturate(1.2);
-    }
-
-    .photo.four {
-      top: 1060px;
-      right: 42px;
-      width: 250px;
-      transform: rotate(-5deg);
-    }
-
-    .photo.five {
-      top: 730px;
-      left: 70px;
-      width: 270px;
-      transform: rotate(-18deg);
-      z-index: 9;
-    }
-
-    .photo.six {
-      top: 108px;
-      right: 355px;
-      width: 155px;
-      transform: rotate(21deg);
-      z-index: 2;
-      filter: saturate(1.8) contrast(1.2);
-    }
-
-    .photo.seven {
-      top: 1010px;
-      right: 355px;
-      width: 185px;
-      transform: rotate(7deg);
-      z-index: 4;
-    }
-
-    .uiuc-note {
-      position: absolute;
-      z-index: 32;
-      top: 970px;
-      left: 62px;
-      width: 325px;
-      padding: 8px 10px;
-      color: #111111;
-      background: #ffb5ee;
-      border: 3px solid #0015ff;
-      box-shadow: 6px 6px 0 #00ffe1, 10px 10px 0 rgba(0, 0, 0, 0.75);
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.25rem;
-      font-weight: bold;
-      transform: rotate(5deg);
-    }
-
-    .uiuc-note a {
-      color: #0015ff;
-    }
-
-    .apollo-pic {
-      position: absolute;
-      z-index: 12;
-      top: 535px;
-      left: 728px;
-      width: 235px;
-      max-width: 38vw;
-      display: block;
-      background: #ffffff;
-      border: 9px solid #ffffff;
-      outline: 3px solid #111111;
-      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.8);
-      filter: none;
-      transform: rotate(-8deg);
-    }
-
-    .apollo-note {
-      position: absolute;
-      z-index: 30;
-      top: 518px;
-      left: 966px;
-      width: 250px;
-      padding: 12px;
-      color: #001425;
-      background: #9ffcff;
-      border: 3px solid #0015ff;
-      box-shadow: 6px 6px 0 #0015ff, 9px 9px 0 rgba(0, 0, 0, 0.72);
-      font-family: "Comic Sans MS", "Courier New", monospace;
-      transform: rotate(4deg);
-    }
-
-    .apollo-note h2 {
-      margin: 0 0 8px;
-      color: #0015ff;
-      font-size: 1.25rem;
-      text-transform: uppercase;
-    }
-
-    .apollo-note p {
-      margin: 0 0 10px;
-      line-height: 1.25;
-    }
-
-    .apollo-note a {
-      display: inline-block;
-      padding: 6px 9px;
-      color: #ffffff;
-      background: #0015ff;
-      border: 2px dashed #9ffcff;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .booth-one {
-      position: absolute;
-      z-index: 16;
-      top: 98px;
-      left: 535px;
-      width: 155px;
-      max-width: 22vw;
-      display: block;
-      background: #ffffff;
-      border: 8px solid #ffffff;
-      outline: 3px solid #111111;
-      box-shadow: 7px 7px 0 #00ffe1, 11px 11px 0 rgba(0, 0, 0, 0.82);
-      filter: saturate(1.4) contrast(1.16);
-      transform: rotate(-10deg);
-    }
-
-    .booth-two {
-      position: absolute;
-      z-index: 26;
-      top: 800px;
-      left: 600px;
-      width: 270px;
-      max-width: 36vw;
-      display: block;
-      background: #ffffff;
-      border: 8px solid #ffffff;
-      outline: 3px solid #111111;
-      box-shadow: 10px 10px 0 #ff00a8, 15px 15px 0 rgba(0, 0, 0, 0.82);
-      filter: brightness(1.08) contrast(1.12);
-      transform: rotate(8deg);
-    }
-
-    .sticker {
-      position: absolute;
-      z-index: 8;
-      padding: 8px 12px;
-      color: #111111;
-      font-weight: bold;
-      text-transform: uppercase;
-      background: #ccff00;
-      border: 3px dashed #111111;
-      box-shadow: 5px 5px 0 #ff00a8;
-    }
-
-    .sticker.a {
-      top: 250px;
-      left: 700px;
-      transform: rotate(9deg);
-    }
-
-    .sticker.b {
-      top: 612px;
-      left: 82px;
-      background: #00ffe1;
-      transform: rotate(-8deg);
-    }
-
-    .sticker.c {
-      top: 1170px;
-      left: 710px;
-      background: #ff00a8;
-      color: #ffffff;
-      transform: rotate(4deg);
-    }
-
-    .ugly-links {
-      position: absolute;
-      z-index: 20;
-      top: 18px;
-      left: 18px;
-      width: 260px;
-      padding: 8px;
-      color: #111111;
-      background: #d9d9d9;
-      border: 4px ridge #ffffff;
-      font-family: Times, "Times New Roman", serif;
-    }
-
-    .ugly-links h2 {
-      margin: 0 0 4px;
-      color: #0015ff;
-      font-size: 1.3rem;
-      text-decoration: underline;
-    }
-
-    .ugly-links ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .ugly-links li {
-      margin: 4px 0;
-    }
-
-    .tiny-rant {
-      position: absolute;
-      z-index: 1;
-      top: 430px;
-      left: 0;
-      width: 100%;
-      color: rgba(204, 255, 0, 0.55);
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      transform: rotate(-5deg);
-      pointer-events: none;
-    }
-
-    .pixel-box {
-      position: absolute;
-      z-index: 7;
-      top: 34px;
-      right: 24px;
-      width: 210px;
-      padding: 10px;
-      color: #ffffff;
-      background: #000000;
-      border: 3px outset #d9d9d9;
-      font-size: 0.82rem;
-    }
-
-    .pixel-box b {
-      color: #00ffe1;
-    }
-
-    .hardware-scraps {
-      position: absolute;
-      z-index: 22;
-      top: 1290px;
-      left: 285px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 610px;
-    }
-
-    .hardware-card {
-      display: block;
-      width: 195px;
-      padding: 5px;
-      background: #ffffff;
-      border: 3px solid #111111;
-      box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.82);
-    }
-
-    .hardware-card:nth-child(1) {
-      transform: rotate(-4deg);
-      box-shadow: 5px 5px 0 #00ffe1, 9px 9px 0 rgba(0, 0, 0, 0.82);
-    }
-
-    .hardware-card:nth-child(2) {
-      z-index: 2;
-      transform: rotate(3deg) translateY(-7px);
-      box-shadow: 5px 5px 0 #0015ff, 9px 9px 0 rgba(0, 0, 0, 0.82);
-    }
-
-    .hardware-card:nth-child(3) {
-      transform: rotate(-2deg) translateY(4px);
-      box-shadow: 5px 5px 0 #ff00a8, 9px 9px 0 rgba(0, 0, 0, 0.82);
-    }
-
-    .hardware-card img {
-      display: block;
-      width: 100%;
-      height: 125px;
-      object-fit: cover;
-    }
-
-    .links {
-      display: none;
-    }
-
-    .links a {
-      display: inline-block;
-      padding: 10px 14px;
-      color: #111111;
-      font-size: 1.15rem;
-      font-weight: bold;
-      text-decoration: none;
-      text-transform: uppercase;
-      background: #ffffff;
-      border: 3px solid #111111;
-      box-shadow: 5px 5px 0 #00ffe1;
-    }
-
-    .links a:nth-child(2) {
-      background: #ffb5ee;
-      transform: rotate(2deg);
-      box-shadow: 5px 5px 0 #ccff00;
-    }
-
-    .links a:nth-child(3) {
-      background: #b7fff5;
-      transform: rotate(-2deg);
-      box-shadow: 5px 5px 0 #ff00a8;
-    }
-
-    .links a:nth-child(4) {
-      background: #fff6ba;
-      transform: rotate(3deg);
-    }
-
-    @media (max-width: 760px) {
-      .page {
-        min-height: auto;
-        padding-bottom: 28px;
-      }
-
-      .title {
-        margin-left: 10px;
-      }
-
-      .scrap,
-      .photo,
-      .apollo-pic,
-      .apollo-note,
-      .uiuc-note,
-      .booth-one,
-      .booth-two,
-      .hardware-scraps,
-      .sign,
-      .sticker,
-      .ugly-links,
-      .pixel-box,
-      .note-strip {
-        position: relative;
-        top: auto;
-        right: auto;
-        left: auto;
-        width: min(92%, 380px);
-        max-width: 92%;
-        margin: 14px auto;
-      }
-
-      .hardware-scraps {
-        display: flex;
-        gap: 7px;
-      }
-
-      .hardware-card {
-        width: calc((100% - 14px) / 3);
-        padding: 3px 3px 0;
-        box-shadow: 4px 4px 0 #111111;
-      }
-
-      .hardware-card:nth-child(1),
-      .hardware-card:nth-child(2),
-      .hardware-card:nth-child(3) {
-        transform: none;
-        box-shadow: 4px 4px 0 #111111;
-      }
-
-      .hardware-card img {
-        height: 110px;
-      }
-
-      .photo.one,
-      .photo.two,
-      .photo.three,
-      .photo.four,
-      .apollo-pic,
-      .apollo-note,
-      .uiuc-note,
-      .booth-one,
-      .booth-two,
-      .sign {
-        width: min(92%, 380px);
-      }
-
-      .links {
-        margin: 22px auto 0;
-      }
-
-      .tiny-rant {
-        display: none;
-      }
-    }
-  </style>
-  <style>
-    html {
-      background: #000000;
-    }
-
-    body {
-      color: #ffffff;
-      font-family: "Times New Roman", Times, serif;
+      font-family: var(--ui);
+      font-size: 14px;
       background-color: #000000;
       background-image:
         radial-gradient(#ffffff 0.8px, transparent 1px),
@@ -695,1246 +49,946 @@
       background-size: 5px 5px, 9px 9px, 13px 13px;
     }
 
-    body::before {
-      display: none;
+    img, video { display: block; max-width: 100%; height: auto; }
+
+    :focus-visible { outline: 2px dotted var(--yellow); outline-offset: 2px; }
+
+    .skip-link {
+      position: fixed; top: 8px; left: 8px; z-index: 2000;
+      padding: 10px 14px; color: #0000aa; background: #ffffff;
+      transform: translateY(-200%);
+    }
+    .skip-link:focus { transform: none; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
     }
 
-    a {
-      text-decoration-style: solid;
-      text-decoration-thickness: 2px;
+    /* ---------- desktop ---------- */
+    .desktop {
+      position: relative;
+      min-height: max(calc(100vh - var(--taskbar-h)), 880px);
+      overflow: hidden;
     }
 
-    .page {
-      width: min(1420px, calc(100% - 4px));
-      min-height: 1420px;
-      margin: 0 auto;
+    .icons {
+      position: absolute;
+      z-index: 1;
+      top: 14px;
+      left: 10px;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(6, 92px);
+      grid-template-columns: repeat(2, 88px);
+      gap: 6px 4px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      height: 100%;
+      padding: 6px 2px;
+      color: #ffffff;
+      background: none;
       border: 0;
-      background: rgba(0, 0, 0, 0.16);
-    }
-
-    .sign {
-      z-index: 60;
-      padding: 1px 6px;
-      border: 0;
-      box-shadow: none;
-      font-family: "Times New Roman", Times, serif;
-      line-height: 0.92;
-      transform: none;
-    }
-
-    .sign.open {
-      top: 4px;
-      left: 8px;
-      color: #fff600;
-      font-size: 2.65rem;
-      background: #000000;
-    }
-
-    .plain-toggle {
-      margin-left: 8px;
-      padding: 3px 7px;
-      color: #0000ee;
-      background: #ffffff;
-      border: 3px outset #d9d9d9;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1rem;
-      font-weight: normal;
-      line-height: 1;
-      text-decoration: underline;
-      vertical-align: middle;
+      font: 12px/1.2 var(--ui);
+      text-align: center;
       cursor: pointer;
     }
 
-    .sign.formal {
-      top: 12px;
-      left: 760px;
-      color: #fff600;
-      font-size: 1.75rem;
-      background: #000000;
+    .icon .label {
+      margin-top: 6px;
+      padding: 1px 3px;
+      text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000;
+      overflow-wrap: anywhere;
     }
 
-    .sign.homecoming {
-      top: 65px;
-      left: 18px;
-      color: #ff174c;
-      font-size: 1.65rem;
-      background: #000000;
-      transform: none;
+    .icon:hover .label,
+    .icon:focus-visible .label { background: var(--blue); text-shadow: none; }
+
+    /* icon glyphs */
+    .ico { position: relative; display: block; width: 46px; height: 42px; flex: none; }
+
+    .ico.folder::before {
+      content: ""; position: absolute; inset: 6px 0 0 0;
+      background: #d9a400; border: 1px solid #6b5000; border-radius: 2px;
+    }
+    .ico.folder img {
+      position: absolute; z-index: 1; left: 7px; top: 1px;
+      width: 32px; height: 26px; object-fit: cover;
+      border: 2px solid #ffffff; transform: rotate(-7deg);
+    }
+    .ico.folder::after {
+      content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; height: 24px;
+      background: linear-gradient(#ffe066, #ffcc1a); border: 1px solid #6b5000; border-radius: 2px;
     }
 
-    .sign.poster-click {
-      top: 126px;
-      left: 528px;
-      width: 330px;
-      color: #ffffff;
-      font-size: 1.3rem;
-      background: #1515ff;
-      transform: none;
+    .ico.doc {
+      width: 36px; height: 44px;
+      background: repeating-linear-gradient(#ffffff 0 7px, #9db1ff 7px 8px) 0 10px / 100% 100% no-repeat, #ffffff;
+      border: 1px solid #222222;
+      clip-path: polygon(0 0, 70% 0, 100% 24%, 100% 100%, 0 100%);
+    }
+    .ico.doc::after {
+      content: ""; position: absolute; top: 0; right: 0; width: 30%; height: 24%;
+      background: #bdbdbd; clip-path: polygon(0 0, 100% 100%, 0 100%);
+    }
+    .ico.doc.loud::before {
+      content: "!!"; position: absolute; inset: 12px 0 0; color: var(--pink);
+      font: bold 20px/1 var(--serif); text-align: center;
     }
 
-    .sign.apollo-click {
-      top: 605px;
-      left: auto;
-      right: 30px;
-      color: #fff600;
-      font-size: 1.75rem;
-      background: #a000a8;
-      transform: none;
+    .ico.exe {
+      width: 44px; height: 36px; margin-top: 4px;
+      background: var(--chrome); box-shadow: var(--raised);
+    }
+    .ico.exe::before {
+      content: ""; position: absolute; top: 3px; left: 3px; right: 3px; height: 7px;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
+    }
+    .ico.exe::after {
+      content: "RS"; position: absolute; inset: 12px 0 0; color: #ce412b;
+      font: bold 15px/1 var(--mono); text-align: center;
     }
 
-    .sign.qft {
-      top: 1015px;
-      left: 285px;
-      color: #00fff0;
-      font-size: 1.5rem;
-      background: #000000;
-      transform: none;
+    .ico.video {
+      width: 44px; height: 38px; margin-top: 3px;
+      background: #111111; border-inline: 6px dotted #ffffff;
+    }
+    .ico.video::after {
+      content: ""; position: absolute; inset: 9px 9px 9px 11px;
+      background: var(--pink); clip-path: polygon(0 0, 100% 50%, 0 100%);
     }
 
-    .sign.research {
-      top: 948px;
-      left: 498px;
-      color: #39ff14;
-      font-size: 1.45rem;
-      background: #000000;
-      transform: none;
-    }
-
-    .sign.bride {
-      top: 1248px;
-      left: 355px;
-      color: #fff600;
-      font-size: 2.2rem;
-      background: #1515ff;
-      transform: none;
-    }
-
-    .sign.small-map {
-      top: 862px;
-      left: auto;
-      right: 24px;
-      color: #ff174c;
-      font-size: 1.35rem;
-      background: #d9d9d9;
-      border: 0;
-      transform: none;
-    }
-
-    .pixel-box {
-      z-index: 58;
-      top: 62px;
-      right: 10px;
-      width: 240px;
-      padding: 6px 10px;
-      color: #ffffff;
-      background: #000000;
-      border: 3px solid #ffffff;
-      font-family: "Courier New", monospace;
-      font-size: 0.9rem;
-    }
-
-    .scrap {
-      z-index: 45;
-      padding: 5px 9px;
-      border: 0;
-      box-shadow: none;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.15rem;
-      line-height: 1.05;
-      transform: none;
-    }
-
-    .scrap.about {
-      top: 344px;
-      left: 8px;
-      width: 360px;
-      max-width: none;
-      color: #ff00a8;
-      background: #000000;
-      font-size: 1.45rem;
-      font-weight: bold;
-      transform: none;
-    }
-
-    .scrap.status {
-      top: 790px;
-      right: 340px;
-      width: 335px;
-      max-width: none;
-      color: #111111;
-      background: #ff9dea;
-      font-size: 1.13rem;
-      transform: none;
-    }
-
-    .scrap.tiny {
-      top: 1070px;
-      left: 12px;
-      width: 275px;
-      color: #0015ff;
-      background: #b7fff5;
-      font-size: 1.25rem;
-      font-weight: bold;
-      transform: none;
-    }
-
-    .scrap.sideways {
-      top: 525px;
-      right: 4px;
-      width: 330px;
-      max-width: none;
-      color: #00ff5a;
-      background: #000000;
-      font-size: 1.2rem;
-      font-weight: bold;
-      transform: none;
-    }
-
-    .scrap.badge {
-      top: 85px;
-      left: 290px;
-      width: 220px;
-      max-width: none;
-      color: #fff600;
-      background: #1515ff;
-      font-size: 1rem;
-      transform: none;
-    }
-
-    .note-strip {
-      z-index: 55;
-      top: 980px;
-      left: 14px;
-      width: 165px;
-      border: 0;
-      color: #111111;
-      background: #ccff00;
-      font-family: "Courier New", monospace;
-      font-size: 0.95rem;
-      transform: none;
-    }
-
-    .note-strip span {
-      padding: 2px 4px;
-      border-bottom: 2px solid #111111;
-    }
-
-    .sticker {
-      z-index: 61;
-      padding: 2px 7px;
-      border: 0;
-      box-shadow: none;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.15rem;
-      transform: none;
-    }
-
-    .sticker.a {
-      top: 183px;
-      left: 835px;
-      color: #111111;
-      background: #ff00a8;
-      transform: none;
-    }
-
-    .sticker.b {
-      top: 985px;
-      left: 300px;
-      color: #111111;
-      background: #00ffe1;
-      transform: none;
-    }
-
-    .sticker.c {
-      top: 1015px;
-      left: 880px;
-      color: #ffffff;
-      background: #ff00a8;
-      transform: none;
-    }
-
-    .tiny-rant {
-      z-index: 2;
-      top: 530px;
-      left: 0;
-      color: rgba(204, 255, 0, 0.75);
-      font-family: "Courier New", monospace;
-      font-size: 1.35rem;
-      transform: none;
-    }
-
-    .ugly-links {
-      z-index: 70;
-      top: 78px;
-      left: 8px;
-      width: 245px;
-      padding: 4px 7px;
-      color: #111111;
-      background: #d8d8d8;
-      border: 4px ridge #ffffff;
-      font-family: Times, "Times New Roman", serif;
-    }
-
-    .ugly-links h2 {
-      margin: 0;
-      color: #0015ff;
-      font-size: 1.55rem;
-      line-height: 1;
-    }
-
-    .ugly-links ul {
-      margin: 4px 0 2px;
-      padding-left: 22px;
-    }
-
-    .ugly-links li {
-      margin: 0;
-      font-size: 1.05rem;
-      line-height: 1;
-    }
-
-    .photo,
-    .apollo-pic,
-    .booth-one,
-    .booth-two,
-    .chaos-photo {
-      border: 3px solid #ffffff;
-      outline: 0;
-      box-shadow: none;
-      background: transparent;
-    }
-
-    .photo.one {
-      z-index: 14;
-      top: 190px;
-      right: 12px;
-      width: 490px;
-      height: 355px;
-      max-width: none;
-      border: 6px solid #ccff00;
-      object-fit: cover;
-      filter: contrast(1.08) saturate(1.18);
-      transform: none;
-    }
-
-    .photo.two {
-      z-index: 68;
-      top: 375px;
-      left: 385px;
-      width: 520px;
-      height: 390px;
-      max-width: none;
-      border-width: 3px;
-      object-fit: cover;
-      filter: contrast(1.12) saturate(1.28);
-      transform: none;
-    }
-
-    .photo.three {
-      display: none;
-    }
-
-    .photo.four {
-      z-index: 11;
-      top: 980px;
-      right: 12px;
-      width: 250px;
-      height: 185px;
-      object-fit: cover;
-      border: 6px solid #00e4df;
-      transform: none;
-    }
-
-    .photo.five {
-      z-index: 15;
-      top: 690px;
-      left: 14px;
-      width: 310px;
-      height: 225px;
-      object-fit: cover;
-      transform: none;
-    }
-
-    .uiuc-cluster {
+    /* ---------- windows ---------- */
+    .window {
       position: absolute;
-      z-index: 75;
-      top: 690px;
-      left: 14px;
-      width: 315px;
-      border: 4px solid #00e4df;
-      box-shadow: 7px 7px 0 #ff00a8;
-    }
-
-    .uiuc-cluster .photo.five {
-      position: relative;
-      top: auto;
-      right: auto;
-      left: auto;
-      display: block;
-      width: 100%;
-      height: 225px;
-      max-width: none;
-      border: 0;
-    }
-
-    .photo.six {
-      z-index: 32;
-      top: 80px;
-      right: 10px;
-      width: 145px;
-      height: 105px;
-      object-fit: cover;
-      filter: contrast(1.12) saturate(1.25);
-      transform: none;
-    }
-
-    .photo.seven {
-      z-index: 9;
-      top: 1090px;
-      right: 285px;
-      width: 190px;
-      height: 145px;
-      object-fit: cover;
-      transform: none;
-    }
-
-    .uiuc-note {
-      z-index: 75;
-      top: 915px;
-      left: 10px;
-      width: 315px;
-      padding: 2px 8px;
-      border: 0;
-      box-shadow: none;
-      color: #ff00a8;
-      background: #00e4df;
-      font-size: 1.35rem;
-      line-height: 1;
-      transform: none;
-    }
-
-    .uiuc-cluster .uiuc-note {
-      position: relative;
-      top: auto;
-      right: auto;
-      left: auto;
-      width: 100%;
-      margin: 0;
-      border-top: 4px solid #1515ff;
-    }
-
-    .apollo-pic {
-      z-index: 13;
-      top: 635px;
-      left: auto;
-      right: 22px;
-      width: 350px;
-      height: 260px;
-      max-width: none;
-      object-fit: cover;
-      border-width: 3px;
-      transform: none;
-    }
-
-    .apollo-note {
-      z-index: 39;
-      top: 770px;
-      left: 650px;
-      right: auto;
-      width: 360px;
-      padding: 6px 8px;
-      border: 0;
-      box-shadow: none;
-      color: #111111;
-      background: #00e4df;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.92rem;
-      transform: none;
-    }
-
-    .apollo-note h2 {
-      margin: 0;
-      color: #0015ff;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.65rem;
-    }
-
-    .apollo-note p {
-      margin: 2px 0 5px;
-      line-height: 1.05;
-    }
-
-    .apollo-note a {
-      padding: 1px 4px;
-      border: 0;
-      color: #fff600;
-      background: #1515ff;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: underline;
-    }
-
-    .booth-one {
-      z-index: 24;
-      top: 185px;
-      left: 300px;
-      width: 240px;
-      height: 145px;
-      max-width: none;
-      object-fit: cover;
-      border-width: 3px;
-      filter: contrast(1.08) saturate(1.15);
-      transform: none;
-    }
-
-    .booth-two {
-      z-index: 74;
-      top: 800px;
-      left: 340px;
-      width: 270px;
-      height: 170px;
-      max-width: none;
-      object-fit: cover;
-      border: 5px dashed #ff00a8;
-      filter: contrast(1.08);
-      transform: none;
-    }
-
-    .chaos-photo {
-      position: absolute;
-      display: block;
-      object-fit: cover;
-    }
-
-    .chaos-photo.personal-two {
-      z-index: 20;
-      top: 475px;
-      left: 18px;
-      width: 175px;
-      height: 205px;
-      border-color: #00ffe1;
-    }
-
-    .hardware-scraps {
-      z-index: 30;
-      top: 1050px;
-      left: 350px;
+      z-index: 10;
+      left: calc(200px + var(--fx, 0) * (100% - 220px - var(--w)));
+      top: var(--y, 20px);
       display: flex;
-      gap: 0;
-      width: 510px;
+      flex-direction: column;
+      width: var(--w, 400px);
+      padding: 3px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised), 7px 7px 0 rgba(0, 0, 0, 0.55);
     }
 
-    .hardware-card {
-      width: 170px;
-      padding: 2px;
-      border: 2px solid #ffffff;
-      box-shadow: none;
-      background: #000000;
-      transform: none;
-    }
+    .window[hidden] { display: none; }
 
-    .hardware-card:nth-child(1),
-    .hardware-card:nth-child(2),
-    .hardware-card:nth-child(3) {
-      box-shadow: none;
-    }
-
-    .hardware-card:nth-child(1) {
-      transform: translateY(8px);
-      border-color: #00e4df;
-    }
-
-    .hardware-card:nth-child(2) {
-      transform: translateY(-8px);
-      border-color: #ccff00;
-    }
-
-    .hardware-card:nth-child(3) {
-      transform: translateY(4px);
-      border-color: #ff00a8;
-    }
-
-    .hardware-card img {
-      height: 112px;
-      object-fit: cover;
-    }
-
-    .link-swarm {
-      position: absolute;
-      inset: 0;
-      z-index: 65;
-      pointer-events: none;
-    }
-
-    .link-swarm a,
-    .link-swarm span {
-      position: absolute;
-      display: inline-block;
-      padding: 0 5px;
+    .titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 2px 3px 2px 6px;
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
       font-weight: bold;
-      line-height: 1;
-      pointer-events: auto;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
     }
 
-    .link-swarm > :nth-child(1) {
-      top: 260px;
-      left: 8px;
-      width: 280px;
-      color: #39ff14;
-      background: #000000;
-      font-size: 1.3rem;
-      line-height: 0.9;
+    .titlebar:active { cursor: grabbing; }
+
+    .window.inactive .titlebar { background: linear-gradient(90deg, #808080, #b5b5b5); color: #dcdcdc; }
+
+    .titlebar h2 {
+      flex: 1;
+      margin: 0;
+      overflow: hidden;
+      font-size: 13px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
-    .link-swarm > :nth-child(2) {
-      top: 300px;
-      left: 550px;
-      max-width: 360px;
-      color: #161e2d;
-      background: #ff9900;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.05rem;
-    }
-
-    .link-swarm > :nth-child(3) {
-      top: 545px;
-      right: 12px;
-      left: auto;
-      color: #39ff14;
-      background: #a000a8;
-      font-size: 1.55rem;
-    }
-
-    .link-swarm > :nth-child(4) {
-      top: 575px;
-      right: 10px;
-      left: auto;
-      color: #0015ff;
-      background: #ccff00;
-      font-size: 1.35rem;
-    }
-
-    .spatial-link {
-      position: absolute;
-      z-index: 82;
-      top: 1175px;
-      left: 14px;
-      display: inline-block;
-      max-width: 630px;
-      padding: 2px 8px;
-      color: #fff600;
-      background: #1515ff;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 2rem;
-      font-weight: bold;
-      line-height: 0.95;
-      text-transform: uppercase;
-    }
-
-    .qml-outreach-link {
-      position: absolute;
-      z-index: 82;
-      top: 1320px;
-      right: 14px;
-      display: inline-block;
-      width: 470px;
-      max-width: 470px;
-      padding: 3px 9px;
-      color: #111111;
-      background: #ff00a8;
-      border: 5px double #00ffe1;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.75rem;
-      font-weight: bold;
-      line-height: 0.92;
-      text-transform: uppercase;
-    }
-
-    .jax-link {
-      position: absolute;
-      z-index: 82;
-      top: 1340px;
-      left: 14px;
-      display: inline-block;
-      width: auto;
-      max-width: 620px;
+    .titlebar button {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 18px;
       padding: 0;
-      color: #00ffe1;
-      background: transparent;
+      color: var(--ink);
+      background: var(--chrome);
       border: 0;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.3rem;
-      font-style: italic;
-      line-height: 1;
-      text-decoration: underline;
+      box-shadow: var(--raised);
+      font: bold 12px/1 var(--ui);
+      cursor: pointer;
     }
 
-    .spatial-crumb {
-      position: absolute;
-      z-index: 64;
+    .titlebar button:active { box-shadow: var(--sunken); }
+
+    .menubar {
+      display: flex;
+      gap: 12px;
+      padding: 3px 6px;
+      font-size: 13px;
+    }
+
+    .menubar span::first-letter { text-decoration: underline; }
+
+    .pane {
+      margin: 2px;
+      padding: 14px;
+      overflow: auto;
+      background: #ffffff;
+      box-shadow: var(--sunken);
+    }
+
+    .statusbar {
+      display: flex;
+      gap: 3px;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    .statusbar span { flex: 1; padding: 2px 6px; box-shadow: var(--sunken); }
+    .statusbar span:first-child { flex: 2; }
+
+    .btn {
       display: inline-block;
-      padding: 1px 5px;
-      font-weight: bold;
-      line-height: 1;
+      padding: 5px 12px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised);
+      font: 13px var(--ui);
+      text-decoration: none;
     }
+    .btn:active { box-shadow: var(--sunken); }
+    .btn.primary { outline: 1px solid #000000; outline-offset: -1px; font-weight: bold; }
 
-    .spatial-crumb.one {
-      top: 940px;
-      left: 1000px;
-      color: #ff00a8;
-      background: #00e4df;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.25rem;
+    /* notepad */
+    .notepad .pane { font-family: var(--mono); font-size: 15px; line-height: 1.45; }
+    .notepad h1 {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.2vw, 2.7rem);
+      line-height: 0.95;
     }
+    .notepad h1 span { color: var(--pink); }
+    .notepad p { margin: 0 0 12px; }
+    .notepad ul { margin: 0 0 12px; padding-left: 20px; }
+    .notepad a { color: #0000ee; }
 
-    .spatial-crumb.two {
-      top: 1170px;
-      right: 15px;
-      width: 250px;
-      color: #39ff14;
-      background: #000000;
-      font-family: "Courier New", monospace;
-      font-size: 1rem;
+    /* browser */
+    .addressbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 4px;
+      font-size: 13px;
     }
-
-    .spatial-crumb.three {
-      top: 1215px;
-      right: 25px;
-      color: #0015ff;
-      background: #ff9dea;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.45rem;
-    }
-
-    .links {
-      display: none;
-    }
-
-    .plain-page {
-      display: none;
-    }
-
-    body.plain-mode {
-      color: #000000;
+    .addressbar .url {
+      flex: 1;
+      overflow: hidden;
+      padding: 3px 6px;
       background: #ffffff;
-      font-family: "Times New Roman", Times, serif;
+      box-shadow: var(--sunken);
+      font-family: var(--mono);
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
-
-    body.plain-mode .page {
-      position: static;
-      width: auto;
-      min-height: 0;
-      margin: 16px;
+    .browser .pane {
       padding: 0;
-      background: #ffffff;
+      background: #fff6ba;
+      font-family: var(--serif);
+    }
+    .browser .paper {
+      position: relative;
+      padding: 18px 16px 16px;
+      border-bottom: 4px solid var(--cyan);
+    }
+    .browser .venue { margin: 0; color: var(--pink); font: bold 13px var(--mono); text-transform: uppercase; }
+    .browser .paper .venue { padding-right: 64px; }
+    .browser .paper h3 { margin: 6px 0 6px; padding-right: 30px; color: var(--blue); font-size: 1.45rem; line-height: 1.05; }
+    .browser .paper p { margin: 0 0 8px; font-size: 1rem; }
+    .browser a { color: var(--blue); font-weight: bold; }
+    .burst {
+      position: absolute; top: -6px; right: 6px;
+      display: grid; place-items: center; width: 74px; height: 74px;
+      color: var(--ink); background: var(--yellow);
+      font: bold 12px/1 var(--ui); text-align: center; text-transform: uppercase;
+      clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 40%, 84% 56%, 96% 76%, 74% 78%, 68% 100%, 50% 86%, 32% 100%, 26% 78%, 4% 76%, 16% 56%, 0% 40%, 20% 32%, 18% 10%, 39% 18%);
+      transform: rotate(12deg);
+    }
+    .browser .news { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; padding: 12px 16px 16px; }
+    .browser .news img { border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); }
+    .browser .news h3 { margin: 0 0 4px; color: var(--blue); font-size: 1.3rem; }
+    .browser .news p { margin: 0 0 6px; }
+
+    /* terminal */
+    .terminal .pane {
+      color: var(--green);
+      background: #000000;
+      font: 14px/1.45 var(--mono);
+    }
+    .terminal p { margin: 0; }
+    .terminal .dim { color: #7a7a7a; }
+    .terminal .hl { color: var(--yellow); }
+    .terminal a { color: var(--cyan); }
+    .terminal img { float: right; width: 120px; margin: 2px 0 8px 12px; border: 2px solid var(--green); }
+    .cursor { display: inline-block; width: 9px; height: 1em; vertical-align: text-bottom; background: var(--green); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* media player */
+    .player .pane { padding: 0; background: #000000; }
+    .player video { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
+    .player .controls { display: flex; align-items: center; gap: 6px; padding: 4px; }
+    .player .seek { flex: 1; height: 8px; box-shadow: var(--sunken); background: linear-gradient(90deg, var(--pink) 0 64%, #ffffff 64%); }
+    .player .caption { margin: 4px 4px 2px; font-size: 13px; line-height: 1.35; }
+    .player .caption a { color: #0000ee; }
+
+    /* explorer */
+    .explorer .pane { display: grid; grid-template-columns: 42% 1fr; gap: 14px; }
+    .explorer .pane > img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid var(--ink); }
+    .explorer h3 { margin: 0 0 6px; color: var(--blue); font: bold 1.35rem/1 var(--serif); }
+    .explorer p { margin: 0 0 10px; font: 15px/1.35 var(--serif); }
+    .files { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0 0 10px; padding: 0; list-style: none; font-size: 13px; }
+    .files a { color: #0000ee; }
+    .files a::before {
+      content: ""; display: inline-block; width: 10px; height: 13px; margin-right: 4px; vertical-align: -2px;
+      background: repeating-linear-gradient(#ffffff 0 2px, #7d93ff 2px 3px) 0 3px / 100% 100% no-repeat, #ffffff;
+      border: 1px solid #333333; clip-path: polygon(0 0, 65% 0, 100% 30%, 100% 100%, 0 100%);
     }
 
-    body.plain-mode .page > :not(.plain-page) {
-      display: none !important;
+    /* photo booth */
+    .photos .pane { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; background: #000000; }
+    .photos img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 3px solid #ffffff; }
+    .photos img:nth-child(2) { border-color: var(--pink); }
+    .photos img:nth-child(3) { border-color: var(--cyan); object-position: 50% 25%; }
+    .photos img:nth-child(4) { border-color: var(--lime); }
+
+    .hardware .pane { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .hardware .pane img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 2px solid var(--ink); }
+    .hardware .pane p { grid-column: 1 / -1; margin: 4px 0 0; font: 15px var(--serif); }
+
+    /* desktop sticky note */
+    .sticky {
+      position: absolute;
+      z-index: 2;
+      left: 22px;
+      bottom: 26px;
+      width: 180px;
+      margin: 0;
+      color: var(--ink);
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--pink);
+      font: bold 14px/1.1 var(--mono);
+      transform: rotate(-3deg);
+    }
+    .sticky span { display: block; padding: 4px 8px; border-bottom: 2px solid var(--ink); }
+    .sticky span:last-child { border-bottom: 0; }
+
+    /* ---------- taskbar + start menu ---------- */
+    .taskbar {
+      position: sticky;
+      bottom: 0;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: var(--taskbar-h);
+      padding: 4px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: inset 0 1px #dfdfdf, inset 0 2px #ffffff;
     }
 
-    body.plain-mode .plain-page {
+    .start-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 10px 0 6px;
+      color: var(--ink);
+      background: var(--chrome);
+      border: 0;
+      box-shadow: var(--raised);
+      font: bold 14px var(--ui);
+      cursor: pointer;
+    }
+    .start-btn[aria-expanded="true"] { box-shadow: var(--sunken); }
+
+    .logo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      width: 18px;
+      height: 18px;
+      transform: rotate(-8deg);
+    }
+    .logo i:nth-child(1) { background: var(--pink); }
+    .logo i:nth-child(2) { background: var(--lime); }
+    .logo i:nth-child(3) { background: var(--cyan); }
+    .logo i:nth-child(4) { background: var(--blue); }
+
+    .tasks { display: flex; flex: 1; gap: 4px; min-width: 0; overflow: hidden; }
+
+    .task {
+      flex: 0 1 170px;
+      min-width: 0;
+      height: 32px;
+      padding: 0 8px;
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--chrome);
+      border: 0;
+      box-shadow: var(--raised);
+      font: 13px var(--ui);
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+    .task[aria-pressed="true"] {
+      font-weight: bold;
+      background: repeating-conic-gradient(#ffffff 0 25%, #d4d4d4 0 50%) 0 0 / 2px 2px;
+      box-shadow: var(--sunken);
+    }
+
+    .tray {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 32px;
+      padding: 0 10px;
+      box-shadow: var(--sunken);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .tray a { color: var(--ink); }
+
+    .start-menu {
+      position: fixed;
+      z-index: 1000;
+      left: 4px;
+      bottom: calc(var(--taskbar-h) - 2px);
+      display: flex;
+      width: 290px;
+      padding: 3px;
+      color: var(--ink);
+      background: var(--chrome);
+      box-shadow: var(--raised), 5px 5px 0 rgba(0, 0, 0, 0.5);
+    }
+    .start-menu[hidden] { display: none; }
+
+    .start-menu .band {
+      display: flex;
+      align-items: flex-end;
+      width: 32px;
+      padding: 8px 0;
+      color: #ffffff;
+      background: linear-gradient(0deg, var(--pink), var(--blue));
+      font: bold 20px/1 var(--serif);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .start-menu .band b { color: var(--yellow); }
+
+    .start-menu ul { flex: 1; margin: 0; padding: 2px 0; list-style: none; }
+    .start-menu li a,
+    .start-menu li button {
       display: block;
-      max-width: 680px;
-      color: #000000;
-      background: #ffffff;
-      font-family: "Times New Roman", Times, serif;
+      width: 100%;
+      padding: 7px 10px;
+      color: var(--ink);
+      background: none;
+      border: 0;
+      font: 14px var(--ui);
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
     }
+    .start-menu li a:hover,
+    .start-menu li a:focus-visible,
+    .start-menu li button:hover,
+    .start-menu li button:focus-visible { color: #ffffff; background: var(--blue); outline: none; }
+    .start-menu li a small { display: block; color: inherit; opacity: 0.75; font-size: 12px; }
+    .start-menu .sep { height: 0; margin: 4px 2px; border-top: 1px solid #808080; border-bottom: 1px solid #ffffff; }
 
-    .plain-page h1 {
-      margin: 0 0 12px;
-      font-size: 2rem;
-      letter-spacing: 0;
-    }
+    /* ---------- plain view ---------- */
+    .plain-page { display: none; }
+    body.plain-mode { color: #000000; background: #ffffff; font-family: var(--serif); font-size: 16px; }
+    body.plain-mode > :not(.plain-page):not(.skip-link) { display: none !important; }
+    body.plain-mode .plain-page { display: block; max-width: 680px; margin: 16px; }
+    .plain-page a { color: #0000ee; }
+    .plain-page p, .plain-page li { line-height: 1.45; }
 
-    .plain-page h2 {
-      margin: 0 0 8px;
-      font-size: 1.25rem;
-      letter-spacing: 0;
-    }
-
-    .plain-page ul {
-      margin: 0 0 18px;
-      padding-left: 40px;
-    }
-
-    .plain-page li {
-      margin: 5px 0;
-    }
-
-    .plain-page a {
-      color: #0000ee;
-      text-decoration: underline;
-      text-decoration-style: solid;
-      text-decoration-thickness: auto;
-    }
-
-    .plain-page button {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 1100px) {
-      .page {
-        min-height: auto;
-        padding: 5px 8px 30px;
+    /* ---------- small screens: windows stack ---------- */
+    @media (max-width: 899px) {
+      .desktop { min-height: 0; padding: 14px 12px 40px; overflow: visible; }
+      .icons {
+        position: static;
+        grid-auto-flow: row;
+        grid-template-rows: none;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 4px;
       }
-
-      .sign,
-      .scrap,
-      .photo,
-      .apollo-pic,
-      .apollo-note,
-      .uiuc-note,
-      .booth-one,
-      .booth-two,
-      .chaos-photo,
-      .sticker,
-      .ugly-links,
-      .pixel-box,
-      .note-strip,
-      .hardware-scraps,
-      .uiuc-cluster,
-      .spatial-link,
-      .qml-outreach-link,
-      .jax-link,
-      .spatial-crumb {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
+      .icon { height: 92px; }
+      .window {
+        position: relative;
         left: auto !important;
+        top: auto !important;
         width: auto;
-        max-width: 100% !important;
-        height: auto;
-        margin: 4px !important;
-        transform: none !important;
+        margin: 22px 0 0;
       }
+      .titlebar { cursor: default; }
+      .sticky { position: relative; left: auto; bottom: auto; margin: 26px 0 0 10px; }
+      .player { width: min(100%, 300px); }
+      .tasks { visibility: hidden; }
+      .explorer .pane { grid-template-columns: 1fr; }
+      .browser .news { grid-template-columns: 1fr; }
+      .tray .tray-links { display: none; }
+    }
 
-      .spatial-link,
-      .qml-outreach-link,
-      .jax-link,
-      .spatial-crumb {
-        display: inline-block;
-        font-size: 1.25rem;
-      }
-
-      .uiuc-cluster {
-        display: inline-block;
-        width: min(92%, 380px) !important;
-      }
-
-      .uiuc-cluster .photo.five {
-        width: 100% !important;
-        height: auto !important;
-        margin: 0 !important;
-      }
-
-      .uiuc-cluster .uiuc-note {
-        width: 100% !important;
-        margin: 0 !important;
-      }
-
-      .sign.open {
-        display: block;
-        margin: 0;
-        font-size: clamp(2rem, 8vw, 3rem);
-      }
-
-      .plain-toggle {
-        display: inline-block;
-        margin: 5px 0 0;
-      }
-
-      .sign.formal,
-      .sign.homecoming,
-      .sign.poster-click,
-      .sign.apollo-click,
-      .sign.qft,
-      .sign.research,
-      .sign.bride,
-      .sign.small-map {
-        display: inline-block;
-        font-size: 1.3rem;
-      }
-
-      .pixel-box,
-      .ugly-links,
-      .scrap,
-      .apollo-note,
-      .uiuc-note {
-        display: inline-block;
-        vertical-align: top;
-        max-width: 330px;
-      }
-
-      .photo,
-      .apollo-pic,
-      .booth-one,
-      .booth-two,
-      .chaos-photo {
-        display: inline-block;
-        width: min(46%, 330px) !important;
-        height: 210px !important;
-        vertical-align: top;
-        object-fit: cover;
-      }
-
-      .photo.six,
-      .photo.seven {
-        width: min(28%, 180px) !important;
-        height: 130px !important;
-      }
-
-      .hardware-scraps {
-        display: inline-flex;
-        width: min(100%, 520px) !important;
-      }
-
-      .hardware-card {
-        width: 33.333%;
-        margin: 0;
-      }
-
-      .hardware-card img {
-        height: 120px;
-      }
-
-      .link-swarm {
-        position: relative;
-        inset: auto;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        margin: 4px 0;
-      }
-
-      .link-swarm a,
-      .link-swarm span,
-      .link-swarm > :nth-child(n) {
-        position: relative;
-        top: auto;
-        right: auto;
-        left: auto;
-        margin: 2px;
-        font-size: 1.25rem;
-      }
-
-      .tiny-rant {
-        position: relative;
-        top: auto;
-        left: auto;
-        margin: 4px 0;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
     }
   </style>
-  <link rel="stylesheet" href="/site-navigation.css">
-  <link rel="stylesheet" href="/home-highlights.css">
 </head>
 <body>
-  <a class="skip-link" href="#site-directory">Skip to project directory</a>
-  <main class="page">
-    <h1 class="sign open">
-      Summer's personal site!!!!!!!!
-      <button class="plain-toggle" id="plain-toggle" type="button" aria-pressed="false" aria-controls="plain-page">Plain view / simple HTML</button>
-    </h1>
+  <a class="skip-link" href="#win-about">Skip to about me</a>
 
-    <nav class="ugly-links" id="site-directory" aria-labelledby="directory-title" tabindex="-1">
-      <h2 id="directory-title">Start here</h2>
-      <ul>
-        <li><a href="/publications/">Publications<span class="directory-summary">Published papers &amp; conference posters</span></a></li>
-        <li><a href="/dreu/">Quantum research / DREU<span class="directory-summary">UIUC research logs &amp; factoring manual</span></a></li>
-        <li><a href="/qml-outreach/">QML outreach<span class="directory-summary">CAIR projects, lessons &amp; resources</span></a></li>
-        <li><a href="/spatial-computing/">Spatial computing<span class="directory-summary">Vision Pro, pathfinding &amp; research logs</span></a></li>
-        <li><a href="/jackson-laboratory/">Jackson Lab genomics<span class="directory-summary">Cancer genomics &amp; computational work</span></a></li>
-        <li><a href="/apollors/">ApolloRS<span class="directory-summary">Apollo 11 guidance software in Rust</span></a></li>
-        <li><a href="/wearable/">LilyGO wearable clip<span class="directory-summary">Demo and build notes</span></a></li>
-        <li><a href="/presentations/">Presentations &amp; posters<span class="directory-summary">Conference posters &amp; presentation photos</span></a></li>
-      </ul>
-      <div class="directory-social">
-        <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a>
+  <div class="desktop" id="desktop">
+    <ul class="icons" aria-label="Desktop">
+      <li><button class="icon" type="button" data-open="win-about"><span class="ico doc"></span><span class="label">about_me.txt</span></button></li>
+      <li><button class="icon" type="button" data-open="win-news"><span class="ico doc loud"></span><span class="label">news!!.html</span></button></li>
+      <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="/index_me_images/web/poster-me.jpg" alt=""></span><span class="label">quantum_factoring</span></button></li>
+      <li><button class="icon" type="button" data-open="win-apollo"><span class="ico exe"></span><span class="label">ApolloRS.exe</span></button></li>
+      <li><button class="icon" type="button" data-open="win-spatial"><span class="ico folder"><img src="/index_me_images/web/vision-pro.jpg" alt=""></span><span class="label">spatial_computing</span></button></li>
+      <li><button class="icon" type="button" data-open="win-qml"><span class="ico folder"><img src="/index_me_images/web/cair-poster.jpg" alt=""></span><span class="label">qml_outreach</span></button></li>
+      <li><button class="icon" type="button" data-open="win-jax"><span class="ico folder"><img src="/index_me_images/web/jax-report.jpg" alt=""></span><span class="label">jackson_lab</span></button></li>
+      <li><button class="icon" type="button" data-open="win-talks"><span class="ico folder"><img src="/index_me_images/web/nola-poster.jpg" alt=""></span><span class="label">presentations</span></button></li>
+      <li><button class="icon" type="button" data-open="win-wearable"><span class="ico video"></span><span class="label">wearable.mp4</span></button></li>
+      <li><button class="icon" type="button" data-open="win-photos"><span class="ico folder"><img src="/index_me_images/web/booth-2.jpg" alt=""></span><span class="label">photo_booth</span></button></li>
+      <li><button class="icon" type="button" data-open="win-hardware"><span class="ico folder"><img src="/index_me_images/web/printer.jpg" alt=""></span><span class="label">hardware</span></button></li>
+      <li><button class="icon" type="button" data-plain><span class="ico doc"></span><span class="label">plain_view.html</span></button></li>
+    </ul>
+
+    <!-- about -->
+    <section class="window notepad" id="win-about" tabindex="-1" style="--fx:0; --y:22px; --w:clamp(360px, 29vw, 430px)" aria-labelledby="t-about">
+      <header class="titlebar">
+        <h2 id="t-about">about_me.txt - Notepad</h2>
+        <button type="button" data-action="min" aria-label="Minimize about_me.txt">_</button>
+        <button type="button" data-action="close" aria-label="Close about_me.txt">&times;</button>
+      </header>
+      <div class="menubar" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+      <div class="pane">
+        <h1>Simran <span>(Summer)</span> Malik</h1>
+        <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+        <ul>
+          <li>student researcher @ UNC Charlotte</li>
+          <li>founder + QML division lead @ CAIR</li>
+          <li>AWS Student Builder Campus Leader</li>
+        </ul>
+        <p><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">github</a> / <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">linkedin</a> / <a href="/publications/">publications</a></p>
       </div>
-    </nav>
+      <div class="statusbar" aria-hidden="true"><span>summer is here to compute !!</span><span>Ln 1, Col 1</span></div>
+    </section>
 
-    <section class="cra-feature" aria-labelledby="cra-feature-title">
-      <p class="feature-sticker">CRA feature &starf; October 2026</p>
-      <a
-        class="feature-photo-link"
-        href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/"
-        aria-label="Read CRA's story about our DREU-QIS cohort at IEEE Quantum Week"
-      >
-        <img
-          src="index_me_images/dreu-ieee-quantum-week-2026.png"
-          width="1030"
-          height="577"
-          alt="DREU-QIS students gathered in front of the IEEE Quantum Week 2026 and DREU display"
-        >
-      </a>
-      <div class="feature-caption">
-        <h2 id="cra-feature-title">we made the news!!</h2>
-        <p>Our DREU-QIS crew at IEEE Quantum Week in Toronto.</p>
-        <a
-          class="feature-story-link"
-          href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/"
-        >Read the CRA story &rarr;</a>
+    <!-- news -->
+    <section class="window browser" id="win-news" tabindex="-1" style="--fx:0.565; --y:16px; --w:clamp(380px, 31vw, 450px)" aria-labelledby="t-news">
+      <header class="titlebar">
+        <h2 id="t-news">news!!.html - Summer Explorer</h2>
+        <button type="button" data-action="min" aria-label="Minimize news">_</button>
+        <button type="button" data-action="close" aria-label="Close news">&times;</button>
+      </header>
+      <div class="addressbar" aria-hidden="true"><span>Address</span><span class="url">summer://news/2026</span></div>
+      <div class="pane">
+        <div class="paper">
+          <span class="burst" aria-hidden="true">new<br>paper!!</span>
+          <p class="venue">IEEE Quantum Week 2026 / QML</p>
+          <h3>Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</h3>
+          <p>Published 2-page paper + poster presentation.</p>
+          <a href="/publications/">read about it &rarr;</a>
+        </div>
+        <div class="news">
+          <img src="/index_me_images/web/cra-cohort.jpg" alt="DREU-QIS students in front of the IEEE Quantum Week 2026 display" width="1200" height="672">
+          <div>
+            <h3>we made the news!!</h3>
+            <p>CRA featured our DREU-QIS crew at IEEE Quantum Week in Toronto.</p>
+            <a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">read the CRA story &rarr;</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wearable-feature" aria-labelledby="wearable-feature-title">
-      <h2 id="wearable-feature-title">LilyGO wearable clip</h2>
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="metadata"
-        aria-label="Looping video of Summer's LilyGO wearable clip with a custom design"
-      >
-        <source src="video/04C56E65-889B-4F5B-A8E4-380DD8DAF9BF.mov" type="video/mp4">
-        Your browser cannot play this wearable clip.
-      </video>
-      <p>A wearable clip I built with a LilyGO board and a custom design.</p>
-      <a href="/wearable/">Learn how I made it &rarr;</a>
+    <!-- wearable -->
+    <section class="window player" id="win-wearable" tabindex="-1" style="--fx:1; --y:22px; --w:250px" aria-labelledby="t-wearable">
+      <header class="titlebar">
+        <h2 id="t-wearable">wearable.mp4</h2>
+        <button type="button" data-action="min" aria-label="Minimize wearable.mp4">_</button>
+        <button type="button" data-action="close" aria-label="Close wearable.mp4">&times;</button>
+      </header>
+      <div class="pane">
+        <video autoplay muted loop playsinline preload="metadata" poster="/video/wearable-clip-poster.jpg" aria-label="Looping video of Summer's LilyGO wearable clip">
+          <source src="/video/wearable-clip.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="controls" aria-hidden="true"><span class="btn">&#9654;</span><span class="seek"></span></div>
+      <p class="caption">LilyGO hair clip with a tiny animated face. <a href="/wearable/">how I made it &rarr;</a></p>
     </section>
 
-    <p class="scrap about">
-      I study quantum algorithms, spatial computing, computing systems,
-      research experiments, and the chaotic process of making hard ideas
-      understandable.
-    </p>
-    <a class="sign poster-click" href="/dreu/logs/week-08.html">Have your poster explained !! please click here !!</a>
-    <a class="sign apollo-click" href="/apollors/">Apollo 11 click here !!</a>
-    <a class="sign qft" href="/dreu/logs/week-08.html">QFT precision noise constants</a>
-    <span class="sign bride">Summer's is here to compute !!</span>
+    <!-- apollo -->
+    <section class="window terminal" id="win-apollo" tabindex="-1" style="--fx:0.04; --y:462px; --w:450px" aria-labelledby="t-apollo">
+      <header class="titlebar">
+        <h2 id="t-apollo">ApolloRS.exe</h2>
+        <button type="button" data-action="min" aria-label="Minimize ApolloRS">_</button>
+        <button type="button" data-action="close" aria-label="Close ApolloRS">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/apollo.jpg" alt="Apollo 11 rocket lifting off" width="900" height="846">
+        <p class="dim">C:\SUMMER&gt; apollors run</p>
+        <p>[ok] preserve Apollo 11 source</p>
+        <p>[ok] execute real AGC words</p>
+        <p>[ok] record machine trace</p>
+        <p>[ok] compare vs yaAGC</p>
+        <p class="hl">&gt; Apollo 11 guidance software, in Rust.</p>
+        <p><a href="/apollors/">open /apollors/</a> <span class="cursor" aria-hidden="true"></span></p>
+      </div>
+    </section>
 
-    <div class="link-swarm" aria-label="More links and research notes">
-      <a href="/presentations/">WHERE HAVE I PRESENTED??</a>
-      <a
-        class="aws-button"
-        href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna"
-        target="_blank"
-        rel="noreferrer"
-      >AWS STUDENT BUILDER CAMPUS LEADER - AMBASSADOR</a>
-      <span>CIRCUIT COMPLEXITY???</span>
-      <a href="https://lnkd.in/p/dszVZ6p9">READ THE PRESENTATION POST</a>
-    </div>
+    <!-- photo booth -->
+    <section class="window photos" id="win-photos" tabindex="-1" style="--fx:0.6; --y:520px; --w:360px" aria-labelledby="t-photos">
+      <header class="titlebar">
+        <h2 id="t-photos">photo_booth</h2>
+        <button type="button" data-action="min" aria-label="Minimize photo_booth">_</button>
+        <button type="button" data-action="close" aria-label="Close photo_booth">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/booth-1.jpg" alt="Photo Booth picture of Summer" width="900" height="525" loading="lazy">
+        <img src="/index_me_images/web/booth-2.jpg" alt="Photo Booth picture of Summer with a heart effect" width="900" height="538" loading="lazy">
+        <img src="/index_me_images/web/cat-filter.jpg" alt="Summer with a cat filter" width="496" height="800" loading="lazy">
+        <img src="/index_me_images/web/uiuc.jpg" alt="A street at UIUC" width="1000" height="734" loading="lazy">
+      </div>
+      <div class="statusbar" aria-hidden="true"><span>4 object(s)</span><span>summer at UIUC</span></div>
+    </section>
 
-    <span class="spatial-crumb one">POINT CLOUDS / MESHES / GRAPHS</span>
-    <span class="spatial-crumb two">BFS / DIJKSTRA / A* / LIVE RE-PLANNING</span>
-    <a class="spatial-link" href="/spatial-computing/">
-      Spatial computing past work - enter here !!
-    </a>
-    <a class="qml-outreach-link" href="/qml-outreach/">
-      QML outreach / CAIR division lead / open my archive!!!
-    </a>
-    <a class="jax-link" href="/jackson-laboratory/">
-      The Jackson Laboratory / computational genomics / summer 2025
-    </a>
+    <!-- closed by default -->
+    <section class="window explorer" id="win-dreu" tabindex="-1" hidden style="--fx:0.3; --y:60px; --w:560px" aria-labelledby="t-dreu">
+      <header class="titlebar">
+        <h2 id="t-dreu">C:\summer\quantum_factoring</h2>
+        <button type="button" data-action="min" aria-label="Minimize quantum_factoring">_</button>
+        <button type="button" data-action="close" aria-label="Close quantum_factoring">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/poster-me.jpg" alt="Summer presenting her quantum factoring poster at UIUC" width="1100" height="825" loading="lazy">
+        <div>
+          <h3>Quantum factoring: Shor &amp; Regev</h3>
+          <p>DREU @ UIUC, summer 2026. The QFT, reversible modular arithmetic, lattice post-processing, and noisy circuits.</p>
+          <ul class="files" aria-label="Research logs">
+            <li><a href="/dreu/logs/week-01.html">week-01</a></li>
+            <li><a href="/dreu/logs/week-02.html">week-02</a></li>
+            <li><a href="/dreu/logs/week-03.html">week-03</a></li>
+            <li><a href="/dreu/logs/week-04.html">week-04</a></li>
+            <li><a href="/dreu/logs/week-05.html">week-05</a></li>
+            <li><a href="/dreu/logs/week-06.html">week-06</a></li>
+            <li><a href="/dreu/logs/week-07.html">week-07</a></li>
+            <li><a href="/dreu/logs/week-08.html">week-08</a></li>
+            <li><a href="/dreu/logs/week-09.html">week-09</a></li>
+            <li><a href="/dreu/regev-manual/">manual</a></li>
+          </ul>
+          <a class="btn primary" href="/dreu/">Open folder</a>
+        </div>
+      </div>
+    </section>
 
-    <p class="scrap badge">
-      DREU / QFT / LLL / RSA / poster / tests / noisy circuits / handmade web
-    </p>
+    <section class="window explorer" id="win-spatial" tabindex="-1" hidden style="--fx:0.4; --y:90px; --w:540px" aria-labelledby="t-spatial">
+      <header class="titlebar">
+        <h2 id="t-spatial">C:\summer\spatial_computing</h2>
+        <button type="button" data-action="min" aria-label="Minimize spatial_computing">_</button>
+        <button type="button" data-action="close" aria-label="Close spatial_computing">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/vision-pro.jpg" alt="Vision Pro immersive view next to Swift code" width="1100" height="621" loading="lazy">
+        <div>
+          <h3>Spatial computing</h3>
+          <p>UNC Charlotte research with an Apple Vision Pro: how point clouds, meshes, and graphs change what BFS, Dijkstra, and A* decide.</p>
+          <a class="btn primary" href="/spatial-computing/">Open folder</a>
+        </div>
+      </div>
+    </section>
 
-    <div class="note-strip">
+    <section class="window explorer" id="win-qml" tabindex="-1" hidden style="--fx:0.5; --y:120px; --w:540px" aria-labelledby="t-qml">
+      <header class="titlebar">
+        <h2 id="t-qml">C:\summer\qml_outreach</h2>
+        <button type="button" data-action="min" aria-label="Minimize qml_outreach">_</button>
+        <button type="button" data-action="close" aria-label="Close qml_outreach">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/cair-poster.jpg" alt="CAIR quantum machine learning research poster" width="1100" height="880" loading="lazy">
+        <div>
+          <h3>QML outreach @ CAIR</h3>
+          <p>I founded CAIR's quantum machine learning division. Our main project, QML Torch, makes a quantum layer feel like a normal PyTorch layer.</p>
+          <a class="btn primary" href="/qml-outreach/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-jax" tabindex="-1" hidden style="--fx:0.6; --y:150px; --w:540px" aria-labelledby="t-jax">
+      <header class="titlebar">
+        <h2 id="t-jax">C:\summer\jackson_lab</h2>
+        <button type="button" data-action="min" aria-label="Minimize jackson_lab">_</button>
+        <button type="button" data-action="close" aria-label="Close jackson_lab">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/jax-report.jpg" alt="Cover of the final clinical report" width="900" height="444" loading="lazy">
+        <div>
+          <h3>The Jackson Laboratory</h3>
+          <p>Cancer Genomics Research Summer Institute, 2025: sequencing data, variant pathogenicity, and clinical tiers with OncoKB, COSMIC, and CIViC.</p>
+          <a class="btn primary" href="/jackson-laboratory/">Open folder</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window explorer" id="win-talks" tabindex="-1" hidden style="--fx:0.7; --y:180px; --w:540px" aria-labelledby="t-talks">
+      <header class="titlebar">
+        <h2 id="t-talks">C:\summer\presentations</h2>
+        <button type="button" data-action="min" aria-label="Minimize presentations">_</button>
+        <button type="button" data-action="close" aria-label="Close presentations">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/nola-poster.jpg" alt="Summer's poster at the CRA UR2PhD conference" width="1000" height="753" loading="lazy">
+        <div>
+          <h3>Where have I presented??</h3>
+          <p>CRA UR2PhD National Conference in New Orleans, IEEE Quantum Week, and more posters.</p>
+          <a class="btn primary" href="/presentations/">Open folder</a>
+          <a class="btn" href="https://lnkd.in/p/dszVZ6p9">Presentation post</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="window hardware" id="win-hardware" tabindex="-1" hidden style="--fx:0.45; --y:260px; --w:480px" aria-labelledby="t-hardware">
+      <header class="titlebar">
+        <h2 id="t-hardware">C:\summer\hardware</h2>
+        <button type="button" data-action="min" aria-label="Minimize hardware">_</button>
+        <button type="button" data-action="close" aria-label="Close hardware">&times;</button>
+      </header>
+      <div class="pane">
+        <img src="/index_me_images/web/printer.jpg" alt="A 3D printer printing a pink city model" width="683" height="800" loading="lazy">
+        <img src="/index_me_images/web/pi.jpg" alt="A Raspberry Pi held in front of a laptop" width="654" height="800" loading="lazy">
+        <img src="/index_me_images/web/breadboard.jpg" alt="A sensor module wired to a breadboard" width="800" height="634" loading="lazy">
+        <p>3D printing, Raspberry Pis, sensors on breadboards. <a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">more on GitHub</a></p>
+      </div>
+    </section>
+
+    <p class="sticky" aria-label="How I work">
       <span>factorization</span>
       <span>but explain it</span>
       <span>then test it</span>
       <span>then explain it again</span>
+    </p>
+  </div>
+
+  <footer class="taskbar">
+    <button class="start-btn" id="start-btn" type="button" aria-expanded="false" aria-controls="start-menu">
+      <span class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Start here
+    </button>
+    <div class="tasks" id="tasks" aria-label="Open windows"></div>
+    <div class="tray">
+      <span class="tray-links"><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">GitHub</a> &middot; <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">LinkedIn</a></span>
+      <span id="clock" aria-hidden="true"></span>
     </div>
+  </footer>
 
-    <span class="sticker b">rsa makes factoring click</span>
-    <span class="sticker c">built by hand</span>
+  <nav class="start-menu" id="start-menu" hidden aria-label="Site directory">
+    <div class="band" aria-hidden="true"><span><b>summer</b>.os</span></div>
+    <ul>
+      <li><a href="/publications/">Publications<small>papers &amp; conference posters</small></a></li>
+      <li><a href="/dreu/">Quantum research / DREU<small>UIUC logs &amp; factoring manual</small></a></li>
+      <li><a href="/qml-outreach/">QML outreach<small>CAIR projects &amp; resources</small></a></li>
+      <li><a href="/spatial-computing/">Spatial computing<small>Vision Pro &amp; pathfinding</small></a></li>
+      <li><a href="/jackson-laboratory/">Jackson Lab genomics<small>cancer genomics, summer 2025</small></a></li>
+      <li><a href="/apollors/">ApolloRS<small>Apollo 11 software in Rust</small></a></li>
+      <li><a href="/wearable/">LilyGO wearable clip<small>demo &amp; build notes</small></a></li>
+      <li><a href="/presentations/">Presentations &amp; posters</a></li>
+      <li class="sep" role="separator"></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna" target="_blank" rel="noreferrer">AWS article: DNA data<small>Student Builder Campus Leader</small></a></li>
+      <li class="sep" role="separator"></li>
+      <li><button type="button" data-plain>Plain view (simple HTML)</button></li>
+    </ul>
+  </nav>
 
-    <div class="tiny-rant">
-      point clouds meshes graphs arkit qft lattices rust reproducibility circuit complexity post-processing spatial memory pathfinding
-    </div>
+  <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
+    <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
+    <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+    <h2>Publications</h2>
+    <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
+    <h2>In the news</h2>
+    <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
+    <h2>Research &amp; projects</h2>
+    <ul>
+      <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
+      <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
+      <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
+      <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
+      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      <li><a href="/wearable/">LilyGO wearable clip</a></li>
+      <li><a href="/presentations/">Where I have presented</a></li>
+    </ul>
+    <h2>Elsewhere</h2>
+    <ul>
+      <li><a href="https://github.com/simransummermalik">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
+      <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">AWS article: The Fastest-Growing Data Problem in the World Might Be DNA</a></li>
+    </ul>
+    <button type="button" id="back-to-desktop">Back to desktop view</button>
+  </section>
 
-    <img
-      class="photo one"
-      src="dreu/assets/1785289037710.jpeg"
-      alt="Summer presenting research work"
-    >
-
-    <img
-      class="photo two"
-      src="dreu/assets/1785289038892.jpeg"
-      alt="Summer at a research presentation"
-    >
-
-    <img
-      class="photo four"
-      src="dreu/assets/1785289038892.jpeg"
-      alt="Summer at a research presentation"
-    >
-
-    <section class="uiuc-cluster" aria-label="Summer at UIUC research">
-      <a href="/dreu/" aria-label="Summer at UIUC, read my DREU logs">
-        <img
-          class="photo five"
-          src="index_me_images/me-06.png"
-          alt="Summer at UIUC"
-        >
-      </a>
-      <p class="uiuc-note">
-        Summer at UIUC -
-        <a href="/dreu/">read my research logs</a>
-      </p>
-    </section>
-
-    <img
-      class="photo six"
-      src="dreu/assets/1785289038892.jpeg"
-      alt="Summer at a research presentation"
-    >
-
-    <img
-      class="photo seven"
-      src="dreu/assets/1785289037710.jpeg"
-      alt="Summer presenting research work"
-    >
-
-    <img
-      class="apollo-pic"
-      src="index_me_images/apollo-11.png"
-      alt="Apollo 11 rocket on the launch pad"
-    >
-
-    <img
-      class="booth-one"
-      src="index_me_images/photo-booth1.png"
-      alt="Photo Booth picture of Summer"
-    >
-
-    <img
-      class="booth-two"
-      src="index_me_images/photobooth-2.png"
-      alt="Photo Booth picture of Summer with heart effect"
-    >
-
-    <img
-      class="chaos-photo personal-two"
-      src="index_me_images/me-03.png"
-      alt="Summer using a Photo Booth effect"
-    >
-
-    <section class="apollo-note">
-      <h2>ApolloRS</h2>
-      <p>
-        ApolloRS is my Rust project for bringing Apollo 11 guidance software
-        into a modern, inspectable form: preserving the original machine words,
-        executing them, tracing behavior, and checking what the computer
-        actually did.
-      </p>
-      <a href="/apollors/">Explore ApolloRS</a>
-    </section>
-
-    <div class="hardware-scraps" aria-label="Hardware photos">
-      <a
-        class="hardware-card"
-        href="https://github.com/simransummermalik"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="See Summer's hardware work on GitHub"
-      >
-        <img
-          src="index_me_images/me-04.png"
-          alt="A 3D printer producing a bright pink city model"
-        >
-      </a>
-
-      <a
-        class="hardware-card"
-        href="https://github.com/simransummermalik"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="See Summer's hardware work on GitHub"
-      >
-        <img
-          src="index_me_images/me-05.png"
-          alt="A Raspberry Pi held in front of a laptop"
-        >
-      </a>
-
-      <a
-        class="hardware-card"
-        href="https://github.com/simransummermalik"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="See Summer's hardware work on GitHub"
-      >
-        <img
-          src="index_me_images/hardware-1.png"
-          alt="A wired hardware module connected to a breadboard"
-        >
-      </a>
-    </div>
-
-    <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
-      <h1 id="plain-title" tabindex="-1">Summer Malik</h1>
-      <p>I study quantum algorithms, spatial computing, computing systems,
-        research experiments, and the chaotic process of making hard ideas understandable.</p>
-      <h2>Publications</h2>
-      <p><a href="/publications/">Research publications &amp; conference posters</a></p>
-      <h2>In the news</h2>
-      <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a>
-        &mdash; Computing Research News, October 2026.</p>
-      <h2>Research &amp; projects</h2>
-      <ul>
-        <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
-        <li><a href="/qml-outreach/">QML Outreach and CAIR division work</a></li>
-        <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
-        <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
-        <li><a href="/presentations/">Where I have presented</a></li>
-        <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
-      </ul>
-      <h2>Elsewhere</h2>
-      <ul>
-        <li><a href="https://github.com/simransummermalik">GitHub</a></li>
-        <li>
-          <a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">
-            AWS article: The Fastest-Growing Data Problem in the World Might Be DNA
-          </a>
-        </li>
-        <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
-      </ul>
-      <button id="chaos-toggle" type="button">Back to collage view</button>
-    </section>
-  </main>
   <script>
-    const plainToggle = document.getElementById("plain-toggle");
-    const chaosToggle = document.getElementById("chaos-toggle");
-    const skipLink = document.querySelector(".skip-link");
+    const desktop = document.getElementById("desktop");
+    const tasks = document.getElementById("tasks");
+    const startBtn = document.getElementById("start-btn");
+    const startMenu = document.getElementById("start-menu");
+    const wide = window.matchMedia("(min-width: 900px)");
+    let topZ = 20;
 
-    function setPlainMode(enabled, moveFocus = true) {
-      document.body.classList.toggle("plain-mode", enabled);
-      plainToggle.setAttribute("aria-pressed", String(enabled));
-      skipLink.href = enabled ? "#plain-title" : "#site-directory";
-      skipLink.textContent = enabled ? "Skip to projects" : "Skip to project directory";
+    const windows = () => [...document.querySelectorAll(".window")];
+    const titleOf = (win) => win.querySelector(".titlebar h2").textContent;
+    const taskFor = (win) => tasks.querySelector(`[data-win="${win.id}"]`);
 
-      try {
-        localStorage.setItem("summer-site-view", enabled ? "plain" : "collage");
-      } catch {
-        // The view switch also works when browser storage is unavailable.
-      }
+    function syncTasks() {
+      windows().forEach((win) => {
+        const task = taskFor(win);
+        if (task) task.setAttribute("aria-pressed", String(!win.hidden && !win.classList.contains("inactive")));
+      });
+    }
 
+    function activate(win) {
+      win.style.zIndex = ++topZ;
+      windows().forEach((w) => w.classList.toggle("inactive", w !== win));
+      syncTasks();
+    }
+
+    function addTask(win) {
+      if (taskFor(win)) return;
+      const task = document.createElement("button");
+      task.type = "button";
+      task.className = "task";
+      task.dataset.win = win.id;
+      task.textContent = titleOf(win);
+      task.addEventListener("click", () => {
+        if (win.hidden) openWindow(win.id);
+        else if (win.classList.contains("inactive")) activate(win);
+        else minimize(win);
+      });
+      tasks.append(task);
+    }
+
+    function setVideo(win, playing) {
+      const video = win.querySelector("video");
+      if (!video) return;
+      if (playing) video.play().catch(() => {});
+      else video.pause();
+    }
+
+    function openWindow(id, moveFocus = true) {
+      const win = document.getElementById(id);
+      if (!win) return;
+      win.hidden = false;
+      addTask(win);
+      activate(win);
+      setVideo(win, true);
       if (moveFocus) {
-        const target = enabled ? document.getElementById("plain-title") : plainToggle;
-        target.focus({ preventScroll: true });
+        win.focus({ preventScroll: wide.matches });
+        if (!wide.matches) win.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function minimize(win) {
+      win.hidden = true;
+      win.classList.add("inactive");
+      setVideo(win, false);
+      syncTasks();
+    }
+
+    function closeWindow(win) {
+      minimize(win);
+      taskFor(win)?.remove();
+    }
+
+    document.querySelectorAll("[data-open]").forEach((btn) =>
+      btn.addEventListener("click", () => openWindow(btn.dataset.open)));
+
+    windows().forEach((win) => {
+      win.addEventListener("pointerdown", () => activate(win));
+      win.querySelector('[data-action="min"]').addEventListener("click", () => minimize(win));
+      win.querySelector('[data-action="close"]').addEventListener("click", () => closeWindow(win));
+
+      // drag by the title bar (desktop layout only)
+      const bar = win.querySelector(".titlebar");
+      bar.addEventListener("pointerdown", (e) => {
+        if (!wide.matches || e.button !== 0 || e.target.closest("button")) return;
+        const box = win.getBoundingClientRect();
+        const area = desktop.getBoundingClientRect();
+        const dx = e.clientX - box.left;
+        const dy = e.clientY - box.top;
+        bar.setPointerCapture(e.pointerId);
+        const move = (ev) => {
+          const x = Math.min(Math.max(ev.clientX - area.left - dx, 80 - box.width), area.width - 80);
+          const y = Math.min(Math.max(ev.clientY - area.top - dy, 0), area.height - 40);
+          win.style.left = `${x}px`;
+          win.style.top = `${y}px`;
+        };
+        const stop = () => {
+          bar.removeEventListener("pointermove", move);
+          bar.removeEventListener("pointerup", stop);
+          bar.removeEventListener("pointercancel", stop);
+        };
+        bar.addEventListener("pointermove", move);
+        bar.addEventListener("pointerup", stop);
+        bar.addEventListener("pointercancel", stop);
+      });
+    });
+
+    // start menu
+    function setStart(open) {
+      startMenu.hidden = !open;
+      startBtn.setAttribute("aria-expanded", String(open));
+      if (open) startMenu.querySelector("a").focus();
+    }
+    startBtn.addEventListener("click", () => setStart(startMenu.hidden));
+    document.addEventListener("click", (e) => {
+      if (!startMenu.hidden && !startMenu.contains(e.target) && !startBtn.contains(e.target)) setStart(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !startMenu.hidden) { setStart(false); startBtn.focus(); }
+    });
+
+    // plain view
+    function setPlain(on, moveFocus = true) {
+      document.body.classList.toggle("plain-mode", on);
+      try { localStorage.setItem("summer-site-view", on ? "plain" : "collage"); } catch {}
+      if (on) setStart(false);
+      if (moveFocus) {
+        (on ? document.getElementById("plain-title") : startBtn).focus({ preventScroll: true });
         window.scrollTo(0, 0);
       }
     }
+    document.querySelectorAll("[data-plain]").forEach((b) => b.addEventListener("click", () => setPlain(true)));
+    document.getElementById("back-to-desktop").addEventListener("click", () => setPlain(false));
+    try { if (localStorage.getItem("summer-site-view") === "plain") setPlain(true, false); } catch {}
 
-    plainToggle.addEventListener("click", () => setPlainMode(true));
-    chaosToggle.addEventListener("click", () => setPlainMode(false));
+    // clock
+    const clock = document.getElementById("clock");
+    const tick = () => { clock.textContent = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); };
+    tick();
+    setInterval(tick, 15000);
 
-    try {
-      if (localStorage.getItem("summer-site-view") === "plain") {
-        setPlainMode(true, false);
-      }
-    } catch {
-      // Default to the collage when browser storage is unavailable.
-    }
+    // open windows at load: about_me ends up in front
+    windows().filter((w) => !w.hidden).forEach(addTask);
+    activate(document.getElementById("win-about"));
   </script>
 </body>
 </html>
