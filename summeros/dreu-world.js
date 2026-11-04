@@ -223,7 +223,7 @@
     return `
       <div class="dw-wall" aria-hidden="true">${blockIsHTML()}</div>
       <ul class="icons" aria-label="UIUC desktop">${icons.map(([act, ico, label]) => `<li><button class="icon" type="button" data-icon="${act}">${ico}<span class="label">${label}</span></button></li>`).join("")}</ul>
-      ${SNAPS.map(snapWindow).join("")}${explorer}${viewer}${results}${notes}${cra}${toy}${copy}
+      ${explorer}${SNAPS.map(snapWindow).join("")}${viewer}${results}${notes}${cra}${toy}${copy}
 `;
   }
 
