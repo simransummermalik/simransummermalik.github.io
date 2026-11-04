@@ -1,0 +1,183 @@
+/* The dreu folder: opens a UIUC desktop on top of SummerOS. The windows,
+   icons and buttons reuse the SummerOS page styles (.window, .titlebar,
+   .pane, .icon, .ico, .btn...), so this file only adds the UIUC parts. */
+
+.dw {
+  --orange: #ff5f05;
+  --illini: #13294b;
+  --corn-gold: #f2c14e;
+
+  /* one golden-hour palette, built around Illinois navy + orange */
+  --sky-top: #24467a; --sky-mid: #e9965a; --sky-low: #fbd48c; --sun: #fff1c4;
+  --far: #7d8fb3; --near: #13294b; --lit: #ffd27a;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 42px;
+  z-index: 850;
+  overflow: hidden;
+}
+.dw[hidden] { display: none; }
+/* ---------- wallpaper: Block I's on Illinois navy ---------- */
+.dw-wall { position: absolute; inset: 0; overflow: hidden; background: #132a4c; }
+.dw-i { position: absolute; display: block; aspect-ratio: 208 / 296; filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.28)); }
+.dw-i svg { display: block; width: 100%; height: 100%; }
+
+/* ---------- desktop bits ---------- */
+.dw .icons { z-index: 4; }
+.dw .ico.toy::after { content: "N=pq"; inset: 13px 0 0; color: var(--orange); font-size: 10px; }
+.dw .ico.dw-pic { width: 44px; height: 38px; margin-top: 3px; background: #ffffff; padding: 3px; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5); }
+.dw .ico.dw-pic img { width: 100%; height: 100%; object-fit: cover; }
+.dw .ico.dw-wav { width: 40px; height: 40px; margin-top: 2px; }
+.dw .ico.dw-wav::before {
+  content: ""; position: absolute; left: 4px; top: 12px; width: 12px; height: 16px; background: #dcdcdc;
+  box-shadow: 1px 1px 0 #000;
+}
+.dw .ico.dw-wav::after {
+  content: ""; position: absolute; left: 14px; top: 4px; width: 16px; height: 32px; background: #dcdcdc;
+  clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 65%);
+}
+.dw .ico.dw-wav.on::after { background: var(--orange); }
+
+
+/* ---------- windows (on top of SummerOS window styles) ---------- */
+.dw .titlebar { background: linear-gradient(90deg, #13294b, #2f4f86) !important; color: #ffffff !important; }
+.dw .window.inactive .titlebar { background: linear-gradient(90deg, #7b8496, #a9afbb) !important; color: #e6e6e6 !important; }
+.dw .window:not(.inactive) .titlebar { box-shadow: inset 0 -3px 0 var(--orange); }
+.dw .icon .label { text-shadow: 1px 1px 0 #13294b, -1px -1px 0 #13294b; }
+.dw .icon:hover .label, .dw .icon:focus-visible .label { background: #13294b; }
+.dw .ico.toy { background: #c0c0c0; }
+.dw .ico.toy::before { background: linear-gradient(90deg, #13294b, var(--orange)) !important; }
+.dw .window { z-index: 10; }
+.dw .window .pane.scroll { max-height: min(56vh, 520px); }
+
+/* explorer with the Windows 98 "web view" side panel */
+.dw-toolbar { display: flex; gap: 4px; padding: 2px 4px 4px; }
+.dw-toolbar .btn { padding: 3px 10px; font-size: 12px; border: 0; cursor: pointer; }
+.dw-folder { display: grid !important; grid-template-columns: 190px 1fr; gap: 0 !important; padding: 0 !important; min-height: 330px; }
+.dw-webview { padding: 14px 14px 18px; background: linear-gradient(#ffffff, #f2f2f2); border-right: 1px solid #c0c0c0; font: 12px/1.45 Tahoma, Verdana, sans-serif; }
+.dw-webview .big { display: block; width: 74px; height: 62px; margin-bottom: 6px; }
+.dw-webview .big .ico { transform: scale(1.5); transform-origin: 0 0; }
+.dw-webview h3 { margin: 0; color: #111111; font: bold 26px/1.05 Verdana, Tahoma, sans-serif; overflow-wrap: anywhere; }
+.dw-rule { height: 3px; margin: 8px 0 12px; background: var(--orange); width: 60px; }
+.dw-webview p { margin: 0 0 8px; color: #222222; }
+.dw-webview a { color: #0000ee; }
+.dw-webview .dw-open-link { font-weight: bold; }
+
+.dw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  align-content: start;
+  gap: 6px 4px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+}
+.dw-file {
+  display: flex; flex-direction: column; align-items: center; width: 100%; padding: 6px 2px;
+  color: #111111; background: none; border: 0; font: 12px/1.2 Tahoma, Verdana, sans-serif; text-align: center; cursor: pointer;
+}
+.dw-file .label { margin-top: 6px; padding: 1px 3px; overflow-wrap: anywhere; }
+.dw-file[aria-selected="true"] .label, .dw-file:focus-visible .label { color: #ffffff; background: #13294b; outline: 1px dotted var(--orange); }
+.dw-file[aria-selected="true"] .ico { filter: brightness(0.8); }
+.dw-file:focus-visible { outline: none; }
+
+/* notepad logs */
+.dw-log h1 { margin: 0 0 2px; color: var(--orange); font: bold 30px/1 "Times New Roman", Times, serif; }
+.dw-log .when { margin: 0 0 12px; color: #555555; }
+.dw-log h2 { margin: 0 0 10px; color: var(--illini); font: bold 20px/1.15 "Times New Roman", Times, serif; }
+.dw-log p { margin: 0 0 12px; }
+.dw-log .me::before { content: "> "; color: var(--orange); }
+.dw-log .files-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.dw-log .files-row .btn { font-size: 12px; text-decoration: none; }
+.dw-log svg { display: block; width: 100%; max-width: 330px; height: auto; margin: 4px 0 12px; }
+.dw-log img { display: block; width: 100%; height: auto; margin: 4px 0 12px; border: 2px solid #111111; }
+
+/* image viewer */
+.dw-viewer .pane { padding: 8px !important; background: #000000 !important; }
+.dw-viewer img { display: block; width: 100%; max-height: 56vh; object-fit: contain; }
+.dw-viewer .dw-cap { margin: 4px 4px 2px; font: 13px/1.35 Tahoma, Verdana, sans-serif; }
+.dw-viewer .dw-cap a { color: #0000ee; }
+.dw-viewer .dw-nav { display: flex; gap: 4px; padding: 2px 4px 4px; }
+.dw-viewer .dw-nav .btn { border: 0; cursor: pointer; }
+
+/* photo pop-ups */
+.dw-snap .pane { padding: 4px !important; background: #111111 !important; }
+.dw-snap img, .dw-snap video { display: block; width: 100%; height: auto; }
+.dw-snap video { aspect-ratio: 3 / 4; object-fit: cover; }
+.dw-snap .dw-cap { margin: 4px 6px 3px; font: 12px/1.3 Tahoma, Verdana, sans-serif; }
+.dw-popin { animation: dw-popin 0.32s cubic-bezier(0.2, 1.5, 0.4, 1); }
+@keyframes dw-popin { from { opacity: 0; transform: scale(0.35); } to { opacity: 1; transform: none; } }
+
+/* copy dialog */
+.dw-copy { width: 390px; }
+.dw-copy .pane { padding: 14px 16px !important; background: #c0c0c0 !important; box-shadow: none !important; font: 13px/1.5 Tahoma, Verdana, sans-serif; }
+.dw-fly-row { position: relative; display: flex; justify-content: space-between; height: 50px; margin-bottom: 8px; }
+.dw-paper {
+  position: absolute; left: 50px; top: 10px; width: 18px; height: 22px; background: #ffffff;
+  border: 1px solid #333333; clip-path: polygon(0 0, 70% 0, 100% 25%, 100% 100%, 0 100%);
+  animation: dw-paper 0.7s ease-in-out infinite;
+}
+@keyframes dw-paper {
+  0% { transform: translate(0, 10px) rotate(0); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translate(130px, -12px) rotate(-25deg); }
+  85% { opacity: 1; }
+  100% { transform: translate(260px, 10px) rotate(-60deg); opacity: 0; }
+}
+.dw-progress { display: flex; gap: 2px; height: 18px; margin: 10px 0 6px; padding: 2px; background: #ffffff; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.dw-progress i { width: 10px; background: #13294b; visibility: hidden; }
+.dw-copy .actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+.dw-copy .actions .btn { min-width: 84px; border: 0; cursor: pointer; }
+
+/* shor toy */
+.dw-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 12px; font: 13px Tahoma, Verdana, sans-serif; }
+.dw-controls label { display: flex; align-items: center; gap: 6px; font-weight: bold; }
+.dw-controls input { width: 70px; padding: 3px 5px; background: #ffffff; border: 0; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff, inset 2px 2px #0a0a0a; font: 14px "Courier New", monospace; }
+.dw-controls .btn { border: 0; cursor: pointer; font-size: 12px; }
+.dw-steps { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; font: 14px/1.45 "Times New Roman", Times, serif; }
+.dw-steps li { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: start; }
+.dw-steps li.full { display: block; }
+.dw-steps .n { display: grid; place-items: center; width: 26px; height: 26px; color: #ffffff; background: var(--illini); font: bold 13px "Courier New", monospace; }
+.dw-steps li.quantum .n { background: var(--orange); }
+.dw-steps code { padding: 0 3px; background: #f1ece3; font: 13px "Courier New", monospace; }
+.dw-tiles { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+.dw-tile {
+  display: grid; place-items: center; min-width: 34px; height: 34px; padding: 0 3px; color: #ffffff;
+  font: bold 12px "Courier New", monospace; border: 2px solid transparent; opacity: 0; animation: dw-pop 0.25s ease forwards;
+}
+.dw-tile.start { border-color: var(--orange); box-shadow: inset 0 0 0 2px #ffffff; }
+.dw-tile small { display: block; margin-top: -2px; font-size: 8px; font-weight: normal; opacity: 0.85; }
+@keyframes dw-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+.dw-result { margin: 0; padding: 8px 12px; color: #ffffff; background: var(--illini); font: bold 24px "Times New Roman", Times, serif; }
+.dw-result.fail { background: #6b6b6b; }
+.dw-chart-wrap { display: grid; gap: 6px; margin-top: 12px; }
+.dw-chart { width: 100%; height: 150px; background: #0b1a33; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.dw-chart-note { margin: 0; font: 13px/1.4 "Times New Roman", Times, serif; }
+.dw-noise { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 12px Tahoma, Verdana, sans-serif; }
+.dw-noise input { flex: 1; min-width: 140px; accent-color: var(--orange); }
+.dw-noise output { font: bold 12px "Courier New", monospace; }
+
+/* the Windows 98 zoom rectangle when the folder opens */
+.dw-zoom { position: fixed; z-index: 3000; border: 2px dotted #ffffff; mix-blend-mode: difference; pointer-events: none; }
+
+/* ---------- phones: SummerOS stacks windows, so this does too ---------- */
+@media (max-width: 899px) {
+  .dw { overflow-y: auto; overscroll-behavior: contain; padding: 14px 12px 40px; }
+  .dw-wall { position: fixed; top: 0; bottom: 0; }
+  .dw .icons { position: relative; }
+  .dw-folder { grid-template-columns: 1fr; }
+  .dw-webview { border-right: 0; border-bottom: 1px solid #c0c0c0; }
+  .dw-webview .big { display: none; }
+  .dw-copy { position: fixed !important; left: 5vw !important; top: 25vh !important; width: 90vw !important; z-index: 50; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dw *, .dw *::before, .dw *::after { animation: none !important; transition: none !important; }
+  .dw-tile { opacity: 1; }
+}
+
+/* icon labels stay readable on top of the Block I wallpaper */
+.dw .icon .label { background: #132a4c; text-shadow: none; }
