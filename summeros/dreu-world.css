@@ -111,50 +111,11 @@
 .dw-popin { animation: dw-popin 0.32s cubic-bezier(0.2, 1.5, 0.4, 1); }
 @keyframes dw-popin { from { opacity: 0; transform: scale(0.35); } to { opacity: 1; transform: none; } }
 
-/* ieee_quantum_week: a big, real-looking folder icon in the left strip under
-   the desktop icons, where no window ever starts. */
-.dw.dw-booting .dw-bigfolder { visibility: hidden; }
-.dw-bigfolder {
-  position: absolute;
-  z-index: 3;
-  left: 8px;
-  top: 486px;
-  width: 190px;
-  padding: 0;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-.dw-bf-art { position: relative; display: block; width: 190px; height: 152px; transition: transform 0.18s ease; }
-.dw-bigfolder:hover .dw-bf-art { transform: translateY(-4px); }
-.dw-bf-back, .dw-bf-front { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.dw-bf-front { transform-origin: 50% 94%; transition: transform 0.25s ease; filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.25)); }
-.dw-bigfolder:hover .dw-bf-front { transform: perspective(420px) rotateX(14deg); }
-.dw-bigfolder.open .dw-bf-front { transform: perspective(420px) rotateX(42deg); }
-.dw-bf-pic {
-  position: absolute;
-  object-fit: cover;
-  border: 3px solid #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-  transition: translate 0.2s ease;
-}
-.dw-bf-pic.p1 { left: 34px; top: 22px; width: 58px; height: 72px; rotate: -8deg; }
-.dw-bf-pic.p2 { left: 98px; top: 28px; width: 70px; height: 46px; rotate: 6deg; }
-.dw-bigfolder:hover .dw-bf-pic.p1 { translate: -3px -8px; }
-.dw-bigfolder:hover .dw-bf-pic.p2 { translate: 3px -10px; }
-.dw-bigfolder .label {
-  display: inline-block;
-  margin-top: 6px;
-  padding: 1px 6px;
-  color: #ffffff;
-  background: #132a4c;
-  font: 14px Tahoma, Verdana, sans-serif;
-  white-space: nowrap;
-}
-.dw-bigfolder:focus-visible .label, .dw-bigfolder.open .label { background: #000080; outline: 1px dotted #ffffff; }
-.dw-bigfolder:focus-visible { outline: none; }
+/* ieee quantum week pop-ups */
 .dw-qwsnap .dw-cap { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dw-qwsnap img, .dw-qwsnap video { aspect-ratio: 4 / 3 !important; object-fit: cover; }
+.dw-qwsnap img { aspect-ratio: 4 / 3 !important; object-fit: cover; }
+.dw-qwsnap video { width: 100%; object-fit: cover; aspect-ratio: auto !important; }
+@media (max-width: 899px) { .dw-qwsnap video { height: auto !important; aspect-ratio: 4 / 3 !important; } }
 .dw-qwnote .pane { font: 14px/1.55 "Courier New", Courier, monospace; }
 .dw-qwnote .pane p { margin: 0 0 11px; }
 .dw-qwnote .pane p:not(.dw-qw-kicker):not(:last-child)::before { content: "> "; color: var(--orange); }
@@ -219,7 +180,6 @@
   .dw-wall { position: fixed; top: 0; bottom: 0; }
   .dw .icons { position: relative; }
   .dw-folder { grid-template-columns: 1fr; }
-  .dw-bigfolder { position: relative; left: auto; bottom: auto; z-index: 1; display: block; margin: 26px auto 10px; }
   .dw-webview { border-right: 0; border-bottom: 1px solid #c0c0c0; }
   .dw-webview .big { display: none; }
   .dw-copy { position: fixed !important; left: 5vw !important; top: 25vh !important; width: 90vw !important; z-index: 50; }

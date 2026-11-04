@@ -177,3 +177,25 @@ body:not(.plain-mode) .page .plain-toggle:focus-visible {
     line-height: 1.25;
   }
 }
+
+/* dreu pages: a SummerOS-style button back into the dreu folder on the desktop */
+.back-to-folder {
+  position: fixed;
+  z-index: 90;
+  left: 14px;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 16px;
+  color: #ffffff;
+  background: #13294b;
+  border: 3px solid #ff5f05;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+  font: bold 15px Tahoma, Verdana, "Segoe UI", sans-serif;
+  text-decoration: none;
+}
+.back-to-folder:hover { background: #ff5f05; }
+.back-to-folder:focus-visible { outline: 3px solid #0015ff; outline-offset: 3px; }
+body:has(.back-to-folder) { padding-bottom: 80px; }

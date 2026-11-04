@@ -158,6 +158,7 @@
 
   const FOLDER_ITEMS = [
     ...WEEKS.map((w) => ({ act: `log:${w.n}`, ico: docIco, label: `week_${w.n}.log`, desc: `<b>week_${w.n}.log</b><br>Text Document<br><br>${esc(w.dates)}<br>${esc(w.title)}` })),
+    { act: "qw", ico: folderIco("qw/cn-tower.jpg"), label: "ieee quantum week", desc: "<b>ieee quantum week</b><br>File Folder<br><br>Toronto, 2026. the CRA sent us to IEEE Quantum Week!!" },
     { act: "poster", ico: picIco("poster-me.jpg"), label: "poster.jpg", desc: "<b>poster.jpg</b><br>JPEG Image<br><br>the poster I presented in week 8" },
     { act: "toy", ico: `<span class="ico exe toy"></span>`, label: "shor_toy.exe", desc: "<b>shor_toy.exe</b><br>Application<br><br>factor a number the way Shor's algorithm does: find the period, then take a gcd" },
     { act: "pics", ico: folderIco("talbot-lab.jpg"), label: "summer_pics", desc: "<b>summer_pics</b><br>File Folder<br><br>Talbot Lab, HAL 9000, me, and 4th of july fireworks" },
@@ -226,28 +227,7 @@
           ${QW_NOTE.map((t) => `<p>${esc(t)}</p>`).join("")}
           <p><a href="${CRA}" target="_blank" rel="noreferrer">read the CRA story &rarr;</a></p>
         </div>
-        <div class="statusbar" aria-hidden="true"><span>wish i could stay forever</span><span>Ln 1</span></div>`, { label: "Toronto note" });
-    const qwFolder = `<button type="button" class="dw-bigfolder" aria-expanded="false" aria-label="ieee_quantum_week folder: open my Toronto photos">
-        <span class="dw-bf-art" aria-hidden="true">
-          <svg class="dw-bf-back" viewBox="0 0 200 160">
-            <defs><linearGradient id="dwbfBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2c230"/><stop offset="1" stop-color="#c9930a"/></linearGradient></defs>
-            <ellipse cx="100" cy="154" rx="92" ry="6" fill="rgba(0,0,0,0.35)"/>
-            <path d="M10 14h58c4 0 6 2 8 5l7 10h105c5 0 8 3 8 8v105c0 5-3 8-8 8H10c-5 0-8-3-8-8V22c0-5 3-8 8-8z" fill="url(#dwbfBack)" stroke="#6b4c00" stroke-width="2.5"/>
-            <path d="M12 18h55c3 0 4 1 6 4" fill="none" stroke="#fff3b0" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
-            <g transform="rotate(-3 100 80)"><rect x="26" y="32" width="138" height="100" fill="#ffffff" stroke="#9a9a9a"/><path d="M38 50h110M38 62h110M38 74h96" stroke="#b9c4e8" stroke-width="2"/></g>
-            <g transform="rotate(2 100 80)"><rect x="34" y="38" width="138" height="96" fill="#f7f7f7" stroke="#9a9a9a"/></g>
-          </svg>
-          <img class="dw-bf-pic p1" src="${IMG}qw/cn-tower.jpg" alt="">
-          <img class="dw-bf-pic p2" src="${IMG}qw/photo-booth.jpg" alt="">
-          <svg class="dw-bf-front" viewBox="0 0 200 160">
-            <defs><linearGradient id="dwbfFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe98a"/><stop offset="0.55" stop-color="#ffd23f"/><stop offset="1" stop-color="#f0b415"/></linearGradient></defs>
-            <path d="M3 62c0-4 3-7 7-7h180c4 0 7 3 7 7l-6 80c0 5-3 8-8 8H17c-5 0-8-3-8-8z" fill="url(#dwbfFront)" stroke="#6b4c00" stroke-width="2.5"/>
-            <path d="M12 61h176" stroke="#fffbe0" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M16 145h168" stroke="#b9860a" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-          </svg>
-        </span>
-        <span class="label">ieee_quantum_week</span>
-      </button>`;
+        <div class="statusbar" aria-hidden="true"><span>close me to go back to dreu</span><span>Ln 1</span></div>`, { label: "Toronto note" });
 
     const toy = win("dw-toy", "dw-toywin", "shor_toy.exe", "--fx:0.5; --y:36px; --w:540px", `
         <div class="pane scroll">
@@ -281,6 +261,7 @@
     const icons = [
       ["back", `<span class="ico folder"><img src="${IMG}booth-1.jpg" alt=""></span>`, "\u2190 back to summer"],
       ["folder", folderIco("uiuc.jpg"), "dreu"],
+      ["qw", folderIco("qw/cn-tower.jpg"), "ieee quantum week"],
       ["toy", `<span class="ico exe toy"></span>`, "shor_toy.exe"],
       ["poster", picIco("poster-me.jpg"), "poster.jpg"],
       ["sound", `<span class="ico dw-wav"></span>`, "cicadas.wav"],
@@ -289,7 +270,7 @@
     return `
       <div class="dw-wall" aria-hidden="true">${blockIsHTML()}</div>
       <ul class="icons" aria-label="UIUC desktop">${icons.map(([act, ico, label]) => `<li><button class="icon" type="button" data-icon="${act}">${ico}<span class="label">${label}</span></button></li>`).join("")}</ul>
-      ${explorer}${SNAPS.map(snapWindow).join("")}${qwFolder}${qwNote}${qwWins}${viewer}${results}${notes}${cra}${toy}${copy}
+      ${explorer}${SNAPS.map(snapWindow).join("")}${qwNote}${qwWins}${viewer}${results}${notes}${cra}${toy}${copy}
 `;
   }
 
@@ -316,29 +297,49 @@
   let qwTucked = [];
 
   // Lay the photo windows out in rows that fit above the folder.
+  // Pack tiles into a grid: videos span 2x2, photos 1x1, filled left to right,
+  // top to bottom. Picks the biggest tile size that fits the screen.
+  function pack(spans, cols) {
+    const used = [], out = [];
+    const free = (r, c, n) => { for (let y = r; y < r + n; y++) for (let x = c; x < c + n; x++) if (x >= cols || (used[y] && used[y][x])) return false; return true; };
+    spans.forEach((n) => {
+      for (let r = 0; ; r++) {
+        let placed = false;
+        for (let c = 0; c + n <= cols; c++) {
+          if (!free(r, c, n)) continue;
+          for (let y = r; y < r + n; y++) { used[y] = used[y] || []; for (let x = c; x < c + n; x++) used[y][x] = true; }
+          out.push({ r, c, n }); placed = true; break;
+        }
+        if (placed) break;
+      }
+    });
+    return { cells: out, rows: used.length };
+  }
+
   function qwLayout(wins) {
     const area = root.getBoundingClientRect();
     const x0 = LEFT + NOTE_W + GAP, availW = area.width - x0 - GAP;
     const availH = area.height - TOP - GAP;
-    let cols = 1, cellW = 120;
-    for (let c = 1; c <= wins.length; c++) {
-      const w = Math.floor((availW - (c - 1) * GAP) / c);
-      const rows = Math.ceil(wins.length / c);
-      if (rows * (w * 0.75 + 52) + (rows - 1) * GAP <= availH) { cols = c; cellW = w; break; }
-      cols = c; cellW = Math.max(110, w);
+    const spans = wins.map((w) => (w.querySelector("video") ? 2 : 1));
+    let best = null;
+    for (let c = 2; c <= wins.length * 2; c++) {
+      const cellW = Math.floor((availW - (c - 1) * GAP) / c);
+      if (cellW < 90) break;
+      const { cells, rows } = pack(spans, c);
+      const fits = rows * (cellW * 0.75 + 52) + (rows - 1) * GAP <= availH;
+      best = { c, cellW, cells, rows };
+      if (fits) break;
     }
-    wins.forEach((w) => { w.style.setProperty("--w", `${cellW}px`); w.style.rotate = "0deg"; });
-    return wins.map((w, k) => ({ w, x: x0 + (k % cols) * (cellW + GAP), row: Math.floor(k / cols) }));
+    return { x0, ...best };
   }
 
   function toggleQW() {
-    const folder = $(".dw-bigfolder");
+    const icon = $('[data-icon="qw"]');
     const note = $("#dw-qw-note"), pics = [...root.querySelectorAll(".dw-qwsnap")];
     qwTimers.forEach(clearTimeout);
     qwTimers = [];
     qwOpen = !qwOpen;
-    folder.setAttribute("aria-expanded", String(qwOpen));
-    folder.classList.toggle("open", qwOpen);
+    icon.setAttribute("aria-expanded", String(qwOpen));
     if (!qwOpen) {
       [note, ...pics].forEach((w) => hideW(w));
       qwTucked.forEach((w) => { w.hidden = false; w.querySelector("video")?.play().catch(() => {}); });
@@ -367,15 +368,20 @@
     note.style.top = `${TOP}px`;
     note.style.rotate = "0deg";
     pop(note, 0);
-    // photos: measure one row height, then place left to right, top to bottom
-    const cells = qwLayout(pics);
-    pics[0].hidden = false;
-    pics[0].style.visibility = "hidden";
-    const rowH = Math.max(...pics.map((w) => { w.hidden = false; const h = w.offsetHeight; w.hidden = true; return h; })) + GAP;
-    pics[0].style.visibility = "";
-    cells.forEach(({ w, x, row }, k) => {
-      w.style.left = `${x}px`;
-      w.style.top = `${TOP + row * rowH}px`;
+    // photos 1x1, videos 2x2: measure a 1x1 tile, then size the big ones to match
+    const { x0, cellW, cells } = qwLayout(pics);
+    const photo = pics.find((w) => !w.querySelector("video"));
+    pics.forEach((w) => { w.style.rotate = "0deg"; w.style.setProperty("--w", `${cellW}px`); });
+    photo.style.visibility = "hidden"; photo.hidden = false;
+    const tileH = photo.offsetHeight, chrome = tileH - photo.querySelector("img").offsetHeight;
+    photo.hidden = true; photo.style.visibility = "";
+    const order = pics.map((w, k) => ({ w, ...cells[k] })).sort((a, b) => a.r - b.r || a.c - b.c);
+    order.forEach(({ w, r, c, n }, k) => {
+      w.style.setProperty("--w", `${n * cellW + (n - 1) * GAP}px`);
+      w.style.left = `${x0 + c * (cellW + GAP)}px`;
+      w.style.top = `${TOP + r * (tileH + GAP)}px`;
+      const v = w.querySelector("video");
+      if (v) v.style.height = `${n * tileH + (n - 1) * GAP - chrome}px`;
       pop(w, 180 + k * 110);
     });
   }
@@ -394,7 +400,7 @@
           <h2>${esc(w.title)}</h2>
           ${visual}
           ${w.quotes.map((q) => `<p class="me">${esc(q)}</p>`).join("")}
-          <div class="files-row"><a class="btn primary" href="/dreu/logs/week-${w.n}.html">open the full log</a>${files}</div>
+          <div class="files-row"><a class="btn primary" href="/dreu/logs/week-${w.n}.html">open the full log &rarr;</a>${files}</div>
           <div class="files-row" style="margin-top:10px">${prev}${next}</div>
         </div>
         <div class="statusbar" aria-hidden="true"><span>quoted from my week ${w.n} log</span><span>${i + 1} of 9</span></div>`);
@@ -532,6 +538,7 @@
   }
   function hideW(w) {
     if (w.id === "dw-explorer") { close(); return; }
+    if (w.id === "dw-qw-note" && qwOpen) { toggleQW(); return; }
     w.hidden = true;
     if (w.id === "dw-toy") $("#dw-noise").blur();
     w.querySelectorAll("video").forEach((v) => v.pause());
@@ -625,7 +632,6 @@
     $$(".window").forEach(wireWindow);
     wireActs(root);
     $("[data-up]").addEventListener("click", () => close());
-    $(".dw-bigfolder").addEventListener("click", toggleQW);
     const qwPics = QW.filter((q) => q[1]).map(([name, src, cap]) => [name, src, cap]);
     $$(".dw-qwsnap img").forEach((img) => {
       img.style.cursor = "zoom-in";
@@ -708,7 +714,7 @@
     });
   }
 
-  async function open(trigger) {
+  async function open(trigger, opts = {}) {
     if (!root) build();
     if (task && root.hidden && isOpen) { task.click(); return; }
     if (isOpen) return;
@@ -722,16 +728,19 @@
     root.hidden = false;
     document.documentElement.style.overflow = "hidden";
     addTask();
-    if (location.hash !== "#dreu") { history.pushState({ dreu: 1 }, "", "#dreu"); pushed = true; }
-    root.classList.add("dw-booting");
+    if (!location.hash.startsWith("#dreu")) { history.pushState({ dreu: 1 }, "", "#dreu"); pushed = true; }
+    const quick = opts.quick || sessionStorage.getItem("dw-seen") === "1";
+    try { sessionStorage.setItem("dw-seen", "1"); } catch {}
+    if (quick) {
+      showW($("#dw-explorer"), false);
+      if (opts.log) act(`log:${opts.log}`);
+      return;
+    }
     await copyDialog();
     if (!isOpen) return;
     popPics();
     setTimeout(() => {
       if (!isOpen) return;
-      root.classList.remove("dw-booting");
-      const bf = $(".dw-bigfolder");
-      bf.classList.remove("dw-popin"); void bf.offsetWidth; bf.classList.add("dw-popin");
       showW($("#dw-explorer"), false);
       $("#dw-explorer").focus({ preventScroll: true });
     }, reduced ? 0 : SNAPS.length * 260 + 120);
@@ -742,7 +751,7 @@
     isOpen = false;
     stopSound();
     $$("video").forEach((v) => v.pause());
-    qwTucked = []; if (qwOpen) { qwOpen = false; $(".dw-bigfolder").classList.remove("open"); $(".dw-bigfolder").setAttribute("aria-expanded", "false"); $$(".dw-qwsnap, #dw-qw-note").forEach((w) => { w.hidden = true; }); }
+    qwTucked = []; if (qwOpen) { qwOpen = false; $('[data-icon="qw"]').setAttribute("aria-expanded", "false"); $$(".dw-qwsnap, #dw-qw-note").forEach((w) => { w.hidden = true; }); }
     clearInterval(clockTimer);
     root.hidden = true;
     if (task) { task.remove(); task = null; }
@@ -756,8 +765,8 @@
   }
 
   window.addEventListener("popstate", () => {
-    if (isOpen && location.hash !== "#dreu") close(true);
-    else if (!isOpen && location.hash === "#dreu") open();
+    if (isOpen && !location.hash.startsWith("#dreu")) close(true);
+    else if (!isOpen && location.hash.startsWith("#dreu")) openFromHash();
   });
 
   // the dreu folder icon, its explorer window's "Open folder" button, or anything with data-dreu-world
@@ -769,6 +778,13 @@
     open(t);
   }, true);
 
-  if (location.hash === "#dreu") open();
+  // /#dreu opens the folder; /#dreu/week-03 (the "back to the dreu folder"
+  // button on a log page) reopens straight into that week's notepad.
+  function openFromHash() {
+    const m = location.hash.match(/^#dreu\/week-(\d\d)$/);
+    if (m) history.replaceState(null, "", "#dreu");
+    open(null, m ? { quick: true, log: m[1] } : {});
+  }
+  if (location.hash.startsWith("#dreu")) openFromHash();
   window.dreuFolder = { open, close };
 })();
