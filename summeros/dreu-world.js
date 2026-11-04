@@ -70,6 +70,34 @@
     ["regevsqft.url", GH + "regevsqft"],
     ["theoretical_computing.url", GH + "TheoreticalComputing"],
   ];
+  // IEEE Quantum Week 2026 in Toronto. The note is Summer's own words.
+  const QW_NOTE = [
+    "the CRA was nice enough to pay for us, fully expensed, to go to IEEE Quantum Week, which was a dream.",
+    "i went to toronto. i had never been before, but i wish i could stay forever.",
+    "i made some more friends through DREU, which i didn't even think was possible.",
+    "we had to present, and had two minutes to explain our research. me and my research partner owen had two minutes each. it was very nice, and melancholy, because the experience was over...",
+  ];
+  const QW = [
+    ["cn_tower.jpg", "qw/cn-tower.jpg", "the CN Tower at night", 900, 1200],
+    ["cn_tower_view.mp4", null, "the view from the top of the CN Tower", 0, 0, "/video/qw-cn-tower.mp4", "/video/qw-cn-tower-poster.jpg", "9 / 16"],
+    ["group_selfie.jpg", "qw/group-selfie.jpg", "DREU friends at the conference", 1200, 675],
+    ["badges.jpg", "qw/badges.jpg", "first time attendee ribbons (my ribbon is better than yours)", 900, 1200],
+    ["expo_hall.jpg", "qw/expo-hall.jpg", "the IEEE Quantum Week expo hall", 1200, 900],
+    ["me_in_toronto.mp4", null, "me in toronto", 0, 0, "/video/qw-me.mp4", "/video/qw-me-poster.jpg", "4 / 3"],
+    ["photo_booth.jpg", "qw/photo-booth.jpg", "photo booth at the IEEE Computer Society 80th anniversary", 1200, 675],
+    ["aws_reception.jpg", "qw/aws-reception.jpg", "the AWS-sponsored reception", 900, 1200],
+    ["stairs_selfie.jpg", "qw/stairs-selfie.jpg", "peace signs on the hotel stairs", 1200, 900],
+    ["dinner.jpg", "qw/dinner-table.jpg", "dinner with the crew", 1200, 900],
+    ["topoconductor.jpg", "qw/topoconductor.jpg", "learning how to build a topoconductor", 1200, 900],
+    ["night_selfie.jpg", "qw/night-selfie.jpg", "out in toronto at night", 1200, 900],
+    ["lego_cn_tower.jpg", "qw/lego-cn-tower.jpg", "a LEGO CN Tower", 900, 1200],
+    ["swag.jpg", "qw/tote-bag.jpg", "conference swag: a QTC tote and a quantum machine learning book", 900, 1200],
+    ["fancy_dinner.jpg", "qw/fancy-dinner.jpg", "a fancy dinner", 1200, 900],
+    ["snacks.jpg", "qw/train-snacks.jpg", "my badge, an 80th anniversary cookie, and snacks", 900, 1200],
+    ["wrap_and_fries.jpg", "qw/dinner-wrap.jpg", "wrap, fries, and a very blue drink", 1200, 900],
+    ["hotel_lobby.jpg", "qw/hotel-lobby.jpg", "the hotel lobby", 1200, 900],
+  ];
+
   // photos from the summer that pop up when the folder opens
   const SNAPS = [
     { id: "talbot", title: "talbot_lab.jpg", src: IMG + "talbot-lab.jpg", w: 843, h: 1100, alt: "The entrance of Talbot Laboratory at UIUC, carved Materials Testing above the door", cap: "Talbot Laboratory, materials testing", pos: "--fx:0; --y:22px; --w:210px" },
@@ -183,6 +211,44 @@
           <div><h3>we made the news!!</h3><p>CRA featured our DREU-QIS crew at IEEE Quantum Week in Toronto.</p><a href="${CRA}" target="_blank" rel="noreferrer">read the CRA story &rarr;</a></div>
         </div></div>`);
 
+    // one little window per photo/video, hidden until the folder is opened
+    const qwWins = QW.map(([name, src, cap, w, h, video, poster, ratio], i) => {
+      const media = video
+        ? `<video muted loop playsinline preload="none" poster="${poster}" aria-label="${esc(cap)}" style="aspect-ratio:${ratio}"><source src="${video}" type="video/mp4"></video>`
+        : `<img src="${IMG + src}" alt="${esc(cap)}" width="${w}" height="${h}" loading="lazy">`;
+      const tall = video ? ratio === "9 / 16" : h > w;
+      return win(`dw-qw-${i}`, "dw-snap dw-qwsnap", name, `--w:${tall ? 170 : 240}px`, `<div class="pane">${media}</div><p class="dw-cap">${esc(cap)}</p>`);
+    }).join("");
+    const qwNote = win("dw-qw-note", "notepad dw-qwnote", "toronto.txt - Notepad", "--w:330px", `
+        <div class="menubar" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>Help</span></div>
+        <div class="pane">
+          <p class="dw-qw-kicker">IEEE Quantum Week 2026 &middot; Toronto</p>
+          ${QW_NOTE.map((t) => `<p>${esc(t)}</p>`).join("")}
+          <p><a href="${CRA}" target="_blank" rel="noreferrer">read the CRA story &rarr;</a></p>
+        </div>
+        <div class="statusbar" aria-hidden="true"><span>wish i could stay forever</span><span>Ln 1</span></div>`, { label: "Toronto note" });
+    const qwFolder = `<button type="button" class="dw-bigfolder" aria-expanded="false" aria-label="ieee_quantum_week folder: open my Toronto photos">
+        <span class="dw-bf-art" aria-hidden="true">
+          <svg class="dw-bf-back" viewBox="0 0 200 160">
+            <defs><linearGradient id="dwbfBack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2c230"/><stop offset="1" stop-color="#c9930a"/></linearGradient></defs>
+            <ellipse cx="100" cy="154" rx="92" ry="6" fill="rgba(0,0,0,0.35)"/>
+            <path d="M10 14h58c4 0 6 2 8 5l7 10h105c5 0 8 3 8 8v105c0 5-3 8-8 8H10c-5 0-8-3-8-8V22c0-5 3-8 8-8z" fill="url(#dwbfBack)" stroke="#6b4c00" stroke-width="2.5"/>
+            <path d="M12 18h55c3 0 4 1 6 4" fill="none" stroke="#fff3b0" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+            <g transform="rotate(-3 100 80)"><rect x="26" y="32" width="138" height="100" fill="#ffffff" stroke="#9a9a9a"/><path d="M38 50h110M38 62h110M38 74h96" stroke="#b9c4e8" stroke-width="2"/></g>
+            <g transform="rotate(2 100 80)"><rect x="34" y="38" width="138" height="96" fill="#f7f7f7" stroke="#9a9a9a"/></g>
+          </svg>
+          <img class="dw-bf-pic p1" src="${IMG}qw/cn-tower.jpg" alt="">
+          <img class="dw-bf-pic p2" src="${IMG}qw/photo-booth.jpg" alt="">
+          <svg class="dw-bf-front" viewBox="0 0 200 160">
+            <defs><linearGradient id="dwbfFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe98a"/><stop offset="0.55" stop-color="#ffd23f"/><stop offset="1" stop-color="#f0b415"/></linearGradient></defs>
+            <path d="M3 62c0-4 3-7 7-7h180c4 0 7 3 7 7l-6 80c0 5-3 8-8 8H17c-5 0-8-3-8-8z" fill="url(#dwbfFront)" stroke="#6b4c00" stroke-width="2.5"/>
+            <path d="M12 61h176" stroke="#fffbe0" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M16 145h168" stroke="#b9860a" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+          </svg>
+        </span>
+        <span class="label">ieee_quantum_week</span>
+      </button>`;
+
     const toy = win("dw-toy", "dw-toywin", "shor_toy.exe", "--fx:0.5; --y:36px; --w:540px", `
         <div class="pane scroll">
           <div class="dw-controls">
@@ -223,7 +289,7 @@
     return `
       <div class="dw-wall" aria-hidden="true">${blockIsHTML()}</div>
       <ul class="icons" aria-label="UIUC desktop">${icons.map(([act, ico, label]) => `<li><button class="icon" type="button" data-icon="${act}">${ico}<span class="label">${label}</span></button></li>`).join("")}</ul>
-      ${explorer}${SNAPS.map(snapWindow).join("")}${viewer}${results}${notes}${cra}${toy}${copy}
+      ${explorer}${SNAPS.map(snapWindow).join("")}${qwFolder}${qwNote}${qwWins}${viewer}${results}${notes}${cra}${toy}${copy}
 `;
   }
 
@@ -243,6 +309,75 @@
       const v = w.querySelector("video");
       if (v) v.play().catch(() => {});
     }, reduced ? 0 : delay + i * 260));
+  }
+
+  let qwOpen = false, qwTimers = [];
+  const GAP = 10, LEFT = 212, TOP = 10, NOTE_W = 300;
+  let qwTucked = [];
+
+  // Lay the photo windows out in rows that fit above the folder.
+  function qwLayout(wins) {
+    const area = root.getBoundingClientRect();
+    const x0 = LEFT + NOTE_W + GAP, availW = area.width - x0 - GAP;
+    const availH = area.height - TOP - GAP;
+    let cols = 1, cellW = 120;
+    for (let c = 1; c <= wins.length; c++) {
+      const w = Math.floor((availW - (c - 1) * GAP) / c);
+      const rows = Math.ceil(wins.length / c);
+      if (rows * (w * 0.75 + 52) + (rows - 1) * GAP <= availH) { cols = c; cellW = w; break; }
+      cols = c; cellW = Math.max(110, w);
+    }
+    wins.forEach((w) => { w.style.setProperty("--w", `${cellW}px`); w.style.rotate = "0deg"; });
+    return wins.map((w, k) => ({ w, x: x0 + (k % cols) * (cellW + GAP), row: Math.floor(k / cols) }));
+  }
+
+  function toggleQW() {
+    const folder = $(".dw-bigfolder");
+    const note = $("#dw-qw-note"), pics = [...root.querySelectorAll(".dw-qwsnap")];
+    qwTimers.forEach(clearTimeout);
+    qwTimers = [];
+    qwOpen = !qwOpen;
+    folder.setAttribute("aria-expanded", String(qwOpen));
+    folder.classList.toggle("open", qwOpen);
+    if (!qwOpen) {
+      [note, ...pics].forEach((w) => hideW(w));
+      qwTucked.forEach((w) => { w.hidden = false; w.querySelector("video")?.play().catch(() => {}); });
+      qwTucked = [];
+      return;
+    }
+    if (wide.matches) {
+      qwTucked = $$(".window:not([hidden])").filter((w) => !w.classList.contains("dw-qwsnap") && w.id !== "dw-qw-note");
+      qwTucked.forEach((w) => { w.hidden = true; w.querySelector("video")?.pause(); });
+    }
+    const pop = (w, delay) => qwTimers.push(setTimeout(() => {
+      if (!qwOpen || !isOpen) return;
+      w.classList.remove("dw-popin"); void w.offsetWidth; w.classList.add("dw-popin");
+      showW(w, false);
+      w.querySelector("video")?.play().catch(() => {});
+    }, reduced ? 0 : delay));
+
+    if (!wide.matches) {
+      [note, ...pics].forEach((w, k) => pop(w, k * 90));
+      qwTimers.push(setTimeout(() => note.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" }), 50));
+      return;
+    }
+    // note: its own column on the left
+    note.style.setProperty("--w", `${NOTE_W}px`);
+    note.style.left = `${LEFT}px`;
+    note.style.top = `${TOP}px`;
+    note.style.rotate = "0deg";
+    pop(note, 0);
+    // photos: measure one row height, then place left to right, top to bottom
+    const cells = qwLayout(pics);
+    pics[0].hidden = false;
+    pics[0].style.visibility = "hidden";
+    const rowH = Math.max(...pics.map((w) => { w.hidden = false; const h = w.offsetHeight; w.hidden = true; return h; })) + GAP;
+    pics[0].style.visibility = "";
+    cells.forEach(({ w, x, row }, k) => {
+      w.style.left = `${x}px`;
+      w.style.top = `${TOP + row * rowH}px`;
+      pop(w, 180 + k * 110);
+    });
   }
 
   function logWindow(w, k) {
@@ -399,7 +534,7 @@
     if (w.id === "dw-explorer") { close(); return; }
     w.hidden = true;
     if (w.id === "dw-toy") $("#dw-noise").blur();
-    w.querySelector("video")?.pause();
+    w.querySelectorAll("video").forEach((v) => v.pause());
   }
   function wireWindow(w) {
     w.addEventListener("pointerdown", () => focusW(w));
@@ -449,6 +584,7 @@
     } else if (a === "poster") showPictures(POSTER, 0);
     else if (a === "toy") { showW($("#dw-toy")); paint(); }
     else if (a === "pics") popPics();
+    else if (a === "qw") toggleQW();
     else if (a === "results") showW($("#dw-results"));
     else if (a === "notes") showW($("#dw-notes"));
     else if (a === "cra") showW($("#dw-cra"));
@@ -489,6 +625,12 @@
     $$(".window").forEach(wireWindow);
     wireActs(root);
     $("[data-up]").addEventListener("click", () => close());
+    $(".dw-bigfolder").addEventListener("click", toggleQW);
+    const qwPics = QW.filter((q) => q[1]).map(([name, src, cap]) => [name, src, cap]);
+    $$(".dw-qwsnap img").forEach((img) => {
+      img.style.cursor = "zoom-in";
+      img.addEventListener("click", () => showPictures(qwPics, qwPics.findIndex((q) => IMG + q[1] === img.getAttribute("src"))));
+    });
     $$("[data-v]").forEach((b) => b.addEventListener("click", () => showPictures(viewerList, viewerI + Number(b.dataset.v))));
     $$("[data-icon]").forEach((b) => b.addEventListener("click", () => {
       const k = b.dataset.icon;
@@ -581,11 +723,15 @@
     document.documentElement.style.overflow = "hidden";
     addTask();
     if (location.hash !== "#dreu") { history.pushState({ dreu: 1 }, "", "#dreu"); pushed = true; }
+    root.classList.add("dw-booting");
     await copyDialog();
     if (!isOpen) return;
     popPics();
     setTimeout(() => {
       if (!isOpen) return;
+      root.classList.remove("dw-booting");
+      const bf = $(".dw-bigfolder");
+      bf.classList.remove("dw-popin"); void bf.offsetWidth; bf.classList.add("dw-popin");
       showW($("#dw-explorer"), false);
       $("#dw-explorer").focus({ preventScroll: true });
     }, reduced ? 0 : SNAPS.length * 260 + 120);
@@ -596,6 +742,7 @@
     isOpen = false;
     stopSound();
     $$("video").forEach((v) => v.pause());
+    qwTucked = []; if (qwOpen) { qwOpen = false; $(".dw-bigfolder").classList.remove("open"); $(".dw-bigfolder").setAttribute("aria-expanded", "false"); $$(".dw-qwsnap, #dw-qw-note").forEach((w) => { w.hidden = true; }); }
     clearInterval(clockTimer);
     root.hidden = true;
     if (task) { task.remove(); task = null; }
