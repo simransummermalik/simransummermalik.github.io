@@ -71,7 +71,7 @@
       left: 10px;
       display: grid;
       grid-auto-flow: column;
-      grid-template-rows: repeat(6, 92px);
+      grid-template-rows: repeat(7, 92px);
       grid-template-columns: repeat(2, 88px);
       gap: 6px 4px;
       margin: 0;
@@ -613,6 +613,8 @@
   </style>
   <link rel="stylesheet" href="/summeros/dreu-world.css">
   <link rel="stylesheet" href="/summeros/screensaver.css">
+  <link rel="stylesheet" href="/summeros/hackathons.css">
+  <link rel="stylesheet" href="/summeros/compdesign.css">
 </head>
 <body>
   <a class="skip-link" href="#win-about">Skip to about me</a>
@@ -634,6 +636,8 @@
       <li><button class="icon" type="button" data-open="win-about"><span class="ico doc"></span><span class="label">about_me.txt</span></button></li>
       <li><button class="icon" type="button" data-open="win-news"><span class="ico doc loud"></span><span class="label">news!!.html</span></button></li>
       <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="../assets/poster-me.jpg" alt=""></span><span class="label">dreu</span></button></li>
+      <li><button class="icon" type="button" data-hackathons><span class="ico folder"><img src="/index_me_images/web/hack/stage.jpg" alt=""></span><span class="label">hackathon wins</span></button></li>
+      <li><button class="icon" type="button" data-compdesign><span class="ico folder"><img src="/index_me_images/web/compdesign/tower.jpg" alt=""></span><span class="label">computational design</span></button></li>
       <li><button class="icon" type="button" data-open="win-apollo"><span class="ico exe"></span><span class="label">ApolloRS.exe</span></button></li>
       <li><button class="icon" type="button" data-open="win-spatial"><span class="ico folder"><img src="../assets/vision-pro.jpg" alt=""></span><span class="label">spatial_computing</span></button></li>
       <li><button class="icon" type="button" data-open="win-qml"><span class="ico folder"><img src="../assets/cair-poster.jpg" alt=""></span><span class="label">qml_outreach</span></button></li>
@@ -898,6 +902,8 @@
       <li><a href="/qml-outreach/">QML outreach<small>CAIR projects &amp; resources</small></a></li>
       <li><a href="/spatial-computing/">Spatial computing<small>Vision Pro &amp; pathfinding</small></a></li>
       <li><a href="/jackson-laboratory/">Jackson Lab genomics<small>cancer genomics, summer 2025</small></a></li>
+      <li><button type="button" data-hackathons>Hackathon wins<small>7 hackathons, 9 awards</small></button></li>
+      <li><button type="button" data-compdesign>Computational design<small>coming soon</small></button></li>
       <li><a href="/apollors/">ApolloRS<small>Apollo 11 software in Rust</small></a></li>
       <li><a href="/wearable/">LilyGO wearable clip<small>demo &amp; build notes</small></a></li>
       <li><a href="/presentations/">Presentations &amp; posters</a></li>
@@ -922,8 +928,16 @@
       <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
       <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
       <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
-      <li><a href="/wearable/">LilyGO wearable clip</a></li>
-      <li><a href="/presentations/">Where I have presented</a></li>
+    </ul>
+    <h2>Hackathon wins</h2>
+    <ul>
+      <li>DuQuantum 2026, Duke University: 1st Place Overall, 1st Place Alice &amp; Bob track, Best Use of ElevenLabs. Cat qubit readout (<a href="https://github.com/simransummermalik/solvingalice-bob">repo + report</a>)</li>
+      <li>CO-LAB Pitch Competition 2026, UNC Charlotte Center City: 1st Place / Grand Prize ($2,500). AgriZone (<a href="https://github.com/simransummermalik/AgriZoneMVP">repo</a>)</li>
+      <li>Method x Havk Hackathon: 3rd Place. Pacifica (<a href="https://github.com/simransummermalik/pacifica">repo</a>)</li>
+      <li>HackUNCP 2026, UNC Pembroke: Best Use of Solana (MLH). Coroner (<a href="https://devpost.com/software/coroner-9g73nq">Devpost</a>)</li>
+      <li>AstroHack 2025: 3rd Place out of 142, built solo in 36 hours. BioForge (<a href="https://devpost.com/software/bioforge">Devpost</a>)</li>
+      <li>CAIR Hackathon, April 2025: 1st Place. SYN (<a href="https://devpost.com/software/syn-uthl6w">Devpost</a>)</li>
+      <li>Hack CLT Fall 2024, UNC Charlotte: Most Technical. BinBuddy (<a href="https://github.com/simransummermalik/BinBuddy">repo</a>)</li>
     </ul>
     <h2>Elsewhere</h2>
     <ul>
@@ -1080,5 +1094,7 @@
   </script>
   <script src="/summeros/dreu-world.js" defer></script>
   <script src="/summeros/screensaver.js" defer></script>
+  <script src="/summeros/hackathons.js" defer></script>
+  <script src="/summeros/compdesign.js" defer></script>
 </body>
 </html>

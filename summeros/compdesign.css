@@ -1,0 +1,27 @@
+/* computational design folder. The root element is ".dw cd", so it reuses the
+   dreu folder styles (dreu-world.css) and only adds the wallpaper and theme. */
+
+/* wallpaper: the impossible-tower etching, repeated */
+.cd .dw-wall {
+  background: #ffffff url("/index_me_images/web/compdesign/tower.jpg") repeat;
+  background-size: auto 440px;
+}
+
+/* windows keep the SummerOS colors instead of the dreu navy + orange */
+.cd .titlebar { background: linear-gradient(90deg, #1515ff, #ff00a8) !important; color: #ffffff !important; }
+.cd .window.inactive .titlebar { background: linear-gradient(90deg, #808080, #b5b5b5) !important; color: #dcdcdc !important; }
+.cd .window:not(.inactive) .titlebar { box-shadow: none; }
+.cd .dw-rule { background: #ff00a8; }
+.cd .icon .label { background: #000000; }
+.cd .icon:hover .label, .cd .icon:focus-visible .label { background: #1515ff; }
+
+/* the folder */
+.cd .dw-folder { min-height: 280px; }
+.cd .dw-webview h3 { font-size: 21px; overflow-wrap: normal; }
+.cd-empty { align-self: center; margin: 0; color: #808080; font: 13px Tahoma, Verdana, sans-serif; text-align: center; }
+
+@media (max-width: 899px) {
+  .cd .dw-wall { background-size: auto 300px; }
+  .cd .dw-folder { min-height: 0; }
+  .cd-empty { padding: 28px 12px; }
+}
