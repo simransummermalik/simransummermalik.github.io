@@ -1,14 +1,16 @@
 // computational design: a SummerOS folder that opens its own desktop, with an
 // impossible-architecture etching tiled as the wallpaper. Opening a project
 // pops up its windows on that desktop, the same way the hackathon wins do:
-// the README, the pictures in a clean grid, and an MS-DOS Prompt that runs
-// the project's verify script. Reuses the dreu folder styles (.dw ...).
+// the README, the pictures in a clean grid, an MS-DOS Prompt that runs the
+// project's check, and a MATH.md with live figures. Reuses the dreu folder
+// styles (.dw ...).
 // Opens from /#computational-design, or straight into a project from
 // /#computational-design/<project-id>.
 (() => {
   const IMG = "/index_me_images/web/compdesign/";
   const HASH = "#computational-design";
   const REPO = "https://github.com/simransummermalik/CERTIFICATE-OF-NONEXISTENCE";
+  const JG = "https://github.com/simransummermalik/ComputationalEditorialism";
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wide = window.matchMedia("(min-width: 900px)");
   const sleep = (ms) => new Promise((r) => setTimeout(r, reduced ? 0 : ms));
@@ -20,8 +22,13 @@
       file: "certificate_of_nonexistence",
       title: "Certificate of Nonexistence",
       thumb: IMG + "coe-thumb.jpg",
+      repo: REPO,
+      dir: "coe/",
+      run: "verify.py",
+      figures: { src: "/summeros/coe-figures.js", api: "coeFigures" },
+      sections: "13 sections",
       desc: "<b>Certificate of Nonexistence</b><br>2026 &middot; Python, Z3, Blender<br><br>A house where every room passes inspection, and a theorem prover proves the house cannot exist.",
-      // [file in coe/, window title, caption, width, height]
+      // [file in dir, window title, caption, width, height]
       pics: [
         ["house", "the_house_built_anyway.jpg", "The House, Built Anyway (ink, drawn from above)", 1800, 2400],
         ["stair-down", "looking_down.jpg", "looking down the stair hall from the first landing", 1800, 2400],
@@ -222,9 +229,207 @@ z1 = z4 + 464
           <a class="btn" href="${REPO}/blob/main/out/proof/certificate.json" target="_blank" rel="noreferrer">the certificate &rarr;</a>
         </p>`,
     },
+    {
+      id: "judgment-geometry",
+      file: "computational_editorialism",
+      title: "Judgment Geometry",
+      thumb: IMG + "jg-thumb.jpg",
+      repo: JG,
+      dir: "jg/",
+      run: "make curvature-demo",
+      figures: { src: "/summeros/jg-figures.js", api: "jgFigures" },
+      sections: "12 sections",
+      desc: "<b>Judgment Geometry</b><br>2026 &middot; Python, JavaScript<br><br>What if taste is not a score, but a shape? A study of what one-number rankings leave out.",
+      // the dress: The Met 159425 (CC0). The style square: four covers drawn by
+      // the project's own renderer, with The Met 157913 (CC0) in the image slot,
+      // one move of margin and one of whitespace apart (delta 0.24)
+      pics: [
+        ["dress", "dress.jpg", "Stripes have rhythm, bows have direction, a bustle has flare. Dress, ca. 1885, The Met", 1006, 1500],
+        ["style_square", "style_square.jpg", "One style square: the same cover with margin and whitespace moved, four versions", 1040, 1440],
+      ],
+      prompt: "C:\\SUMMER\\COMPUT~1\\COMPUT~1>",
+      command: "make curvature-demo",
+      hi: /all_passed|max_abs_circulation/,
+      // what make prints (DOS wraps at 80 columns); the report path is this folder's
+      output: `python3 scripts/run_curvature_demo.py --seed 20260731 --output results/curvature_
+demo.json
+{
+  "checks": {
+    "all_passed": true,
+    "integrable_exact_potential_fit": true,
+    "integrable_zero_circulation": true,
+    "interaction_coexists_with_zero_circulation": true,
+    "nonintegrable_circulation_detected": true,
+    "nonintegrable_has_residual_energy": true
+  },
+  "integrable_max_abs_circulation": 0.0,
+  "nonintegrable_max_abs_circulation": 0.5,
+  "report": "C:\\\\SUMMER\\\\COMPUT~1\\\\COMPUT~1\\\\results\\\\curvature_demo.json"
+}`,
+      // the repo's README
+      readme: `
+        <p class="cd-kicker">computational design &middot; 2026 &middot; Python, JavaScript</p>
+        <h3>Judgment Geometry</h3>
+        <p class="cd-sub">What if taste is not a score, but a shape?</p>
+        <hr>
+        <p>Look at the dress. Your eye does not see one number. It sees the beat of the stripes, the reach of the bow, the widening of the train, and the way all three work together. That sets up the project's central question:</p>
+        <p><b>What if visual judgments do not fit one score? Their directions and strengths may contain a pattern that a ranking leaves out.</b></p>
+        <p>Many visual-ranking systems do something useful and simple: they place designs on a leaderboard from best to worst. Judgment Geometry asks what that leaderboard cannot show.</p>
+        <p><b>A leaderboard keeps the order. A map keeps the direction and strength of the comparisons. This project builds the map.</b></p>
+        <p>The current prototype tests editorial layouts. The dress shows how the same method could extend to fashion.</p>
+        <hr>
+        <h4>how the experiment works</h4>
+        <ol class="jg-steps">
+          <li><b>Hold the content still.</b> Keep the same subject, words, image, and context.</li>
+          <li><b>Make two isolated style changes.</b> Change one visual decision at a time, for example margin and whitespace.</li>
+          <li><b>Create four related versions.</b> Show neither change, each change alone, and both changes together.</li>
+          <li><b>Ask simple side-by-side questions.</b> In the planned human study, people make repeated, randomized choices between two versions for one criterion.</li>
+          <li><b>Close the loop.</b> Estimate the comparison strengths and test whether they balance around the four versions.</li>
+        </ol>
+        <p>If the loop balances within uncertainty, one score may be enough for those four designs. If a repeatable imbalance remains beyond uncertainty, one score cannot fully represent those comparisons.</p>
+        <p>That measured leftover is the heart of the project. Mathematicians call it <b>circulation</b>. Here, it is a test of what a ranking erases.</p>
+        <hr>
+        <p><b>Act I &middot; The score makes a promise.</b> Imagine one editorial cover. The photograph stays. The headline stays. The words stay. Only the formal decisions move: more margin, less density, wider whitespace, stronger hierarchy. A conventional aesthetic model looks at the resulting covers and gives each one a number. The numbers look neutral. They are not. They make a powerful promise: every local comparison among those covers can be explained by the same hidden order.</p>
+        <p><b>Act II &middot; The loop tests the promise.</b> One person sees the edges at different moments in the study. The interface never announces a loop. It simply asks the same precise question each time. Only later does the analysis restore the orientation and discover whether the four answers close.</p>
+        <p><b>Act III &middot; A geometry appears.</b> If every measured loop closes, the hidden score survives. If a loop refuses to close beyond its uncertainty, the failure has a location: this evaluator, this question, this content anchor, and this pair of style directions. Instead of calling the person inconsistent, the experiment asks which mathematical representation failed.</p>
+        <p><b>Act IV &middot; The machine faces the same test.</b> Predicting the preferred cover is no longer enough. The model must preserve the same local failures of scoreability that appear in human judgment. A smooth ranking can be accurate edge by edge while deleting the structure connecting those edges: <b>right answers, wrong geometry.</b></p>
+        <hr>
+        <p>The project does not need to announce that taste is objective, irrational, universal, or impossible to model. It can end in three scientifically useful places:</p>
+        <ul>
+          <li><b>The score survives.</b> Scalar ranking is adequate in the tested neighborhood.</li>
+          <li><b>The score breaks locally.</b> Scalar representability fails for named style-direction pairs.</li>
+          <li><b>The model gets the geometry wrong.</b> Prediction hid a representational mismatch.</li>
+        </ul>
+        <p class="cd-last">The breakthrough is not the word &ldquo;curvature.&rdquo; It is an experiment capable of distinguishing these endings.</p>
+        <hr>
+        <h4>research status</h4>
+        <p>The renderer, browser-study prototype, response pipeline, loop mathematics, and synthetic demonstrations are implemented. Human recruitment still requires ethics review, perceptibility testing, power analysis, and a study plan containing every comparison needed to close each loop. <b>No human finding is claimed.</b></p>
+        <p class="jg-credit">Pictures: <a href="https://www.metmuseum.org/art/collection/search/159425" target="_blank" rel="noreferrer">Dress, American, ca. 1885</a> and <a href="https://www.metmuseum.org/art/collection/search/157913" target="_blank" rel="noreferrer">Evening dress, House of Worth, ca. 1880</a>, The Metropolitan Museum of Art, Brooklyn Museum Costume Collection, open access (CC0). The covers are drawn by the project's renderer with the Worth gown in the image slot.</p>
+        <h4>run the mathematical proof in 30 seconds</h4>
+        <p><code>make curvature-demo</code> compares two fields on the same controlled square. The first comes from a nonlinear score with a strong interaction, and its loop still closes. The second nudges one edge by 0.5, and no score for the four covers can reproduce it.</p>
+        <p class="cd-links">
+          <button type="button" class="btn" data-math>read the math &rarr;</button>
+          <button type="button" class="btn" data-run>run make curvature-demo</button>
+          <a class="btn" href="${JG}" target="_blank" rel="noreferrer">GitHub repo &rarr;</a>
+          <a class="btn" href="${JG}/blob/main/docs/mathematical-framework.md" target="_blank" rel="noreferrer">the full framework &rarr;</a>
+        </p>`,
+      // the math, from the README, docs/mathematical-framework.md and the code
+      math: `
+        <p class="cd-kicker">computational_editorialism &middot; the math</p>
+        <h3>Is taste a score, or a shape?</h3>
+        <p class="cd-sub">one square of covers, four answers, and whether they close</p>
+        <hr>
+        <p>The README tells the story. This is the same story in numbers. The covers here are drawn live by the project's own renderer, with a House of Worth gown from The Met in the image slot, and the loop arithmetic is the same as <code>complex.py</code>. Each figure prints what it finds the way the MS-DOS Prompt does. No human finding is claimed: every number below is the demo's, a toy's, or yours.</p>
+        <p class="cd-links cd-figgo"><span>Jump to a figure:</span>
+          <button type="button" class="btn" data-fig-go="square">1 &middot; four covers</button>
+          <button type="button" class="btn" data-fig-go="judge">2 &middot; judge them yourself</button>
+          <button type="button" class="btn" data-fig-go="curl">3 &middot; the stair</button>
+          <button type="button" class="btn" data-fig-go="pool">4 &middot; three people, one loop</button>
+          <button type="button" class="btn" data-fig-go="matrix">5 &middot; the matrix</button>
+        </p>
+
+        <h4>1 &middot; hold the idea still, move the style</h4>
+        <p>A cover is rendered from three things: the content <var>b</var> (words, image, template), the style coordinates <b>&theta;</b>, and the presentation context <var>c</var>.</p>
+        <p class="cd-eq"><var>x</var> = <var>R</var>(<var>b</var>, <b>&theta;</b>, <var>c</var>), &nbsp;&nbsp; <b>&theta;</b> = (&theta;<sub>margin</sub>, &theta;<sub>alignment</sub>, &theta;<sub>type</sub>, &theta;<sub>whitespace</sub>, &theta;<sub>density</sub>, &theta;<sub>hierarchy</sub>, &theta;<sub>image/text</sub>, &theta;<sub>contrast</sub>) &isin; [0, 1]<sup>8</sup></p>
+        <p>Every coordinate runs from 0 to 1, and the renderer turns it into something you can see. These are the real lines from <code>render_contract.js</code>, in hundredths of the cover's width (cqw):</p>
+        <pre class="cd-code">padding          3.8 + 7.2 &theta;_margin                  cqw
+block gap        1.1 + 4.4 &theta;_whitespace              cqw
+deck line height 1.08 + 0.52 &theta;_whitespace
+headline size    5.4 + 7.4 &theta;_type + 1.8 &theta;_hierarchy  cqw
+headline weight  350 + 350 &theta;_hierarchy
+image share      31 + 49 &theta;_image/text                %
+image scale      1 + 0.08 &theta;_density
+ink              mix(ink, paper, 0.48 (1 - &theta;_contrast))</pre>
+        <p>The point is not to generate another image. The point is to create a measured neighborhood around the same artifact.</p>
+
+        <h4>2 &middot; two moves make a square</h4>
+        <p>Pick two style directions <var>i</var> and <var>j</var> and a step &delta;. Each move takes one coordinate from just below the anchor to just above it, by the same amount on both sides:</p>
+        <p class="cd-eq">&theta;<sub><var>i</var></sub> &rarr; &theta;<sub><var>i</var></sub> &plusmn; &delta;&prime;, &nbsp;&nbsp; &delta;&prime; = min(&delta;, &theta;<sub><var>i</var></sub>, 1 &minus; &theta;<sub><var>i</var></sub>)</p>
+        <p>Near the edge of [0, 1] the step shrinks on both sides instead of being clipped on one, so the move stays symmetric. Apply each move alone and together:</p>
+        <p class="cd-eq"><var>x</var>, &nbsp; <var>T</var><sub><var>i</var></sub><var>x</var>, &nbsp; <var>T</var><sub><var>j</var></sub><var>x</var>, &nbsp; <var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var> = <var>T</var><sub><var>j</var></sub><var>T</var><sub><var>i</var></sub><var>x</var></p>
+        <p>The two edit orders reach the same renderer state. That equality creates a real square in the experimental object: four vertices, four edges, one face. Not a metaphor, not a mood board, and not four unrelated images. Try other pairs: the covers redraw, and the readout prints what each move changed on the page.</p>
+        <figure class="cd-fig" data-fig="square"><figcaption><b>Fig. 1</b> The first layout the generator makes with the project's seed, 20260731, in the &ldquo;editorial&rdquo; context. Pick the two moves and the step. Photograph: evening dress, House of Worth, ca. 1880, The Met (CC0).</figcaption></figure>
+
+        <h4>3 &middot; judgment lives on the edges</h4>
+        <p>For one person <var>e</var>, one question <var>q</var> (beautiful, luxurious, timeless) and one context <var>c</var>, put a number on each edge <var>v</var> &rarr; <var>w</var>: how strongly the head beats the tail, on the log-odds scale.</p>
+        <p class="cd-eq">&omega;(<var>v</var>, <var>w</var>) = logit <var>P</var>(<var>w</var> &#8827; <var>v</var>) = log <var>P</var> &frasl; (1 &minus; <var>P</var>), &nbsp;&nbsp; &omega;(<var>w</var>, <var>v</var>) = &minus;&omega;(<var>v</var>, <var>w</var>)</p>
+        <p>Mathematicians call this a 1-form: a number on every oriented edge that flips sign when you walk the edge backwards. A style edit is not labeled &ldquo;good&rdquo; or &ldquo;bad.&rdquo; It receives a direction and a strength for a specific person answering a specific question.</p>
+        <p>One click is not a probability. So the study asks each edge more than once with the sides swapped, and never lets 2 out of 2 become infinitely sure. Fig. 2 adds half a choice to each side:</p>
+        <p class="cd-eq"><var>P&#770;</var> = (<var>k</var> + &frac12;) &frasl; (<var>n</var> + 1): &nbsp; 0 of 2 &rarr; 0.167, &nbsp; 1 of 2 &rarr; 0.5, &nbsp; 2 of 2 &rarr; 0.833; &nbsp; &omega; = &minus;1.609, 0, +1.609</p>
+
+        <h4>4 &middot; walk around the loop</h4>
+        <p>Orient the face <var>x</var> &rarr; <var>T</var><sub><var>i</var></sub><var>x</var> &rarr; <var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var> &rarr; <var>T</var><sub><var>j</var></sub><var>x</var> &rarr; <var>x</var> and add up the four edges with the boundary's signs:</p>
+        <p class="cd-eq"><var>F</var> = &omega;(<var>x</var>, <var>T</var><sub><var>i</var></sub><var>x</var>) + &omega;(<var>T</var><sub><var>i</var></sub><var>x</var>, <var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>) &minus; &omega;(<var>T</var><sub><var>j</var></sub><var>x</var>, <var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>) &minus; &omega;(<var>x</var>, <var>T</var><sub><var>j</var></sub><var>x</var>) = <var>d</var>&omega;</p>
+        <p>If one score <var>U</var> explains every edge, &omega;(<var>v</var>, <var>w</var>) = <var>U</var>(<var>w</var>) &minus; <var>U</var>(<var>v</var>), and the loop telescopes:</p>
+        <p class="cd-eq">[<var>U</var>(<var>T</var><sub><var>i</var></sub><var>x</var>) &minus; <var>U</var>(<var>x</var>)] + [<var>U</var>(<var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>) &minus; <var>U</var>(<var>T</var><sub><var>i</var></sub><var>x</var>)] &minus; [<var>U</var>(<var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>) &minus; <var>U</var>(<var>T</var><sub><var>j</var></sub><var>x</var>)] &minus; [<var>U</var>(<var>T</var><sub><var>j</var></sub><var>x</var>) &minus; <var>U</var>(<var>x</var>)] = 0</p>
+        <p>So <var>F</var> tells you whether a score is possible. <var>F</var> &asymp; 0 within uncertainty: one score can explain this style neighborhood. <var>F</var> &ne; 0 reliably: no score for these four covers gives all four edges, and the ranking throws away a structured loop.</p>
+        <p>The study never shows anyone a loop. It asks the same question about one pair at a time, and the analysis restores the orientation afterwards. Fig. 2 does exactly that, with you, on the square from Fig. 1.</p>
+        <figure class="cd-fig" data-fig="judge"><figcaption><b>Fig. 2</b> Eight choices: each edge twice, sides swapped. Then your four answers become a stair round the square, one flight per edge, and get walked. If the last flight lands level, one score explains you.</figcaption></figure>
+
+        <h4>5 &middot; interaction is not circulation</h4>
+        <p>A score can be nonlinear and full of interaction:</p>
+        <p class="cd-eq"><var>U</var>(&theta;<sub><var>i</var></sub>, &theta;<sub><var>j</var></sub>) = &alpha;&theta;<sub><var>i</var></sub> + &beta;&theta;<sub><var>j</var></sub> + &gamma;&theta;<sub><var>i</var></sub>&theta;<sub><var>j</var></sub> + &eta;&theta;<sub><var>i</var></sub><sup>2</sup>&theta;<sub><var>j</var></sub></p>
+        <p>Its mixed difference, what you get from doing both moves beyond doing each, can be large. And the loop still closes, because it is a score:</p>
+        <p class="cd-eq">&Delta;<sub><var>i</var></sub>&Delta;<sub><var>j</var></sub><var>U</var> = <var>U</var>(<var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>) &minus; <var>U</var>(<var>T</var><sub><var>i</var></sub><var>x</var>) &minus; <var>U</var>(<var>T</var><sub><var>j</var></sub><var>x</var>) + <var>U</var>(<var>x</var>) &ne; 0, &nbsp;&nbsp; while &nbsp; <var>d</var>(<var>dU</var>) = 0</p>
+        <p>So ordinary factorial interaction is not circulation. Judgment Geometry tests scalar representability itself, not whether two design variables merely interact.</p>
+        <p><code>make curvature-demo</code> builds exactly this on margin &times; contrast of the first generated layout, with <var>U</var> = 1.25<var>x</var> &minus; 0.75<var>y</var> + 2.40<var>xy</var> + 0.80<var>x</var><sup>2</sup><var>y</var>. <b>Case A:</b> mixed difference 0.1857818071, circulation 0, residual 0. <b>Case B</b>, the same field with one edge nudged by 0.5: circulation 0.5, residual energy 0.0625, residual fraction 0.0533483986.</p>
+        <p>Fig. 3 draws it as a stair round the square: one flight per edge, each climbing by what was measured. Turn the interaction all the way up and the stair still comes home level. Nudge one edge and the last flight arrives exactly that much off, like the stair in Certificate of Nonexistence that comes home 38&prime;-8&Prime; up.</p>
+        <figure class="cd-fig" data-fig="curl"><figcaption><b>Fig. 3</b> The curvature demo, live. At Case A and Case B the readout matches the repo's reference run to ten places.</figcaption></figure>
+
+        <h4>6 &middot; the boundary of a boundary</h4>
+        <p>Write the square as matrices. <var>B</var><sub>1</sub> says which vertex each edge leaves (&minus;1) and enters (+1). <var>B</var><sub>2</sub> says which edges go round the face, and which way. Rows are <var>x</var>, <var>T</var><sub><var>i</var></sub><var>x</var>, <var>T</var><sub><var>j</var></sub><var>x</var>, <var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>; columns are the edges <var>x</var>&rarr;<var>T</var><sub><var>i</var></sub><var>x</var>, <var>T</var><sub><var>i</var></sub><var>x</var>&rarr;<var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>, <var>T</var><sub><var>j</var></sub><var>x</var>&rarr;<var>T</var><sub><var>i</var></sub><var>T</var><sub><var>j</var></sub><var>x</var>, <var>x</var>&rarr;<var>T</var><sub><var>j</var></sub><var>x</var>.</p>
+        <p class="cd-eq"><var>B</var><sub>1</sub> = <span class="cd-mat jg-mat4"><i>&minus;1</i><i>0</i><i>0</i><i>&minus;1</i><i>1</i><i>&minus;1</i><i>0</i><i>0</i><i>0</i><i>0</i><i>&minus;1</i><i>1</i><i>0</i><i>1</i><i>1</i><i>0</i></span> &nbsp;&nbsp; <var>B</var><sub>2</sub> = <span class="cd-mat jg-mat1"><i>1</i><i>1</i><i>&minus;1</i><i>&minus;1</i></span> &nbsp;&nbsp; <var>B</var><sub>1</sub><var>B</var><sub>2</sub> = 0</p>
+        <p>The boundary of a boundary is empty. A score's edges are <var>d</var><sub>0</sub><var>U</var> = <var>B</var><sub>1</sub><sup>&#8868;</sup><var>U</var> and a loop is <var>d</var><sub>1</sub>&omega; = <var>B</var><sub>2</sub><sup>&#8868;</sup>&omega;, so <var>d</var><sub>1</sub><var>d</var><sub>0</sub><var>U</var> = <var>B</var><sub>2</sub><sup>&#8868;</sup><var>B</var><sub>1</sub><sup>&#8868;</sup><var>U</var> = (<var>B</var><sub>1</sub><var>B</var><sub>2</sub>)<sup>&#8868;</sup><var>U</var> = 0. That one line is why a score always closes.</p>
+
+        <h4>7 &middot; the best single score</h4>
+        <p>Real answers are noisy and never close exactly. Fit the score that comes closest, edge by edge, and keep what is left over:</p>
+        <p class="cd-eq"><var>U</var>* = argmin<sub><var>U</var></sub> &Sigma;<sub><var>a</var></sub> <var>w</var><sub><var>a</var></sub> [&omega;&#770;<sub><var>a</var></sub> &minus; (<var>B</var><sub>1</sub><sup>&#8868;</sup><var>U</var>)<sub><var>a</var></sub>]<sup>2</sup>, &nbsp;&nbsp; &omega;&#770; = <var>B</var><sub>1</sub><sup>&#8868;</sup><var>U</var>* + <var>r</var></p>
+        <p>The first part is what a score can say; <var>r</var> is what it can't. On a single square with equal weights the leftover is the same size on every edge, <var>r</var> = (<var>F</var>/4)&thinsp;<var>B</var><sub>2</sub>, so its energy is <var>F</var><sup>2</sup>/4. In Case B, <var>F</var> = 0.5, so <var>r</var> = &plusmn;0.125 on each edge and the energy is 0.0625 out of 1.1715:</p>
+        <p class="cd-eq">&rho;<sub>potential</sub> = 1 &minus; &Vert;<var>r</var>&Vert;<sup>2</sup> &frasl; &Vert;&omega;&#770;&Vert;<sup>2</sup> = 1 &minus; 0.0625 &frasl; 1.1715 = 0.9467</p>
+        <p>The best score's edges, 0.755, 0.139, 0.691 and 0.203, all point the same way as the measured 0.880, 0.264, 0.566 and 0.078. It gets every winner right, and it still has no loop. That is the failure the benchmark looks for in a model: <b>high choice accuracy + low 2-form alignment = right answers, wrong geometry.</b></p>
+
+        <h4>8 &middot; pooling can make a loop nobody has</h4>
+        <p>Suppose every person has a perfectly consistent score, but they disagree. Average their choices, then take logits:</p>
+        <p class="cd-eq">&omega;<sub>pool</sub>(<var>v</var>, <var>w</var>) = logit [ (1/<var>N</var>) &Sigma;<sub><var>e</var></sub> &sigma;(<var>U</var><sub><var>e</var></sub>(<var>w</var>) &minus; <var>U</var><sub><var>e</var></sub>(<var>v</var>)) ]</p>
+        <p>The logit of an average is not the average of logits, so the pooled loop can stop closing. That pooled cycle is not evidence that any individual has one. So the analysis estimates each person first and pools second. Evaluator identity is part of the mathematical unit, not disposable annotation metadata.</p>
+        <figure class="cd-fig" data-fig="pool"><figcaption><b>Fig. 4</b> Three people, each with one score for the four covers, so each stair closes: <var>F</var> = 0. Average their choices and the pooled stair does not.</figcaption></figure>
+
+        <h4>9 &middot; every pair of moves, one matrix</h4>
+        <p>With <var>d</var> style directions, every pair <var>i</var>, <var>j</var> has its own square at <var>x</var> and its own <var>F</var><sub><var>ij</var></sub>. Arrange them in a matrix:</p>
+        <p class="cd-eq"><b>F</b>(<var>x</var>)<sub><var>ij</var></sub> = <var>F</var><sub><var>ij</var></sub>(<var>x</var>), &nbsp;&nbsp; <b>F</b>(<var>x</var>)<sub><var>ji</var></sub> = &minus;<var>F</var><sub><var>ij</var></sub>(<var>x</var>), &nbsp;&nbsp; <b>F</b>(<var>x</var>)<sub><var>ii</var></sub> = 0</p>
+        <p>That skew-symmetric matrix is the judgment 2-form at <var>x</var>. It asks which pairs of style decisions make one-number ranking fail, whether the defect sits in typography, composition or contrast, and whether a model keeps the human matrix or flattens it. Its size is the Frobenius norm &Vert;<b>F</b>&Vert;<sub>F</sub>, but collapsing the matrix into one number would repeat the original mistake.</p>
+        <p>A model can keep the antisymmetry by building the matrix from wedges:</p>
+        <p class="cd-eq"><b>F</b> &asymp; &Sigma;<sub>&#8467;</sub> <var>a</var><sub>&#8467;</sub> &and; <var>b</var><sub>&#8467;</sub>, &nbsp;&nbsp; (<var>a</var> &and; <var>b</var>)<sub><var>ij</var></sub> = <var>a</var><sub><var>i</var></sub><var>b</var><sub><var>j</var></sub> &minus; <var>a</var><sub><var>j</var></sub><var>b</var><sub><var>i</var></sub></p>
+        <p>Translated: many observed loops may be mixtures of a few recurring two-dimensional tensions in style space. Fig. 5 is one tension. This is a proposed modeling direction, not a result.</p>
+        <p>The experiment does not need the whole cube of 2<sup><var>d</var></sup> covers. One base, <var>d</var> single moves and <var>d</var>(<var>d</var> &minus; 1)/2 double moves complete every face that touches <var>x</var>. For the eight directions that is 1 + 8 + 28 = 37 covers, 8<sup>2</sup> = 64 edges and 28 faces, instead of 256 covers.</p>
+        <figure class="cd-fig" data-fig="matrix"><figcaption><b>Fig. 5</b> The 2-form built from one tension, <var>a</var> &and; <var>b</var>. Drag the bars. Pink loops turn one way, blue the other. Point at a cell to see its sum.</figcaption></figure>
+
+        <h4>10 &middot; the dress, registered</h4>
+        <p>The dress is a worked example of what the same method would measure in fashion. The numbers come from <a href="${JG}/blob/main/docs/assets/00-garment-geometry.png" target="_blank" rel="noreferrer">the project's own photograph</a> of a black dress with white stripes, a bow and a train. All of it is in image space, normalized to the frame, (<var>u</var>, <var>v</var>) = (<var>x</var>/<var>W</var>, <var>y</var>/<var>H</var>), with <var>W</var> &asymp; 816 px and <var>H</var> &asymp; 1160 px.</p>
+        <ul>
+          <li><b>Stripes.</b> The spacing between neighbouring white courses, measured across the bands: <var>p&#771;</var> = median <var>p</var><sub><var>k</var></sub>(<var>s</var>) &asymp; 50 px &asymp; 0.043<var>H</var>, with about 10 to 13 courses visible. The white duty cycle, <var>D</var><sub><var>w</var></sub> = median <var>t</var><sub><var>w</var></sub>/<var>p</var> &asymp; 0.36 to 0.40.</li>
+          <li><b>Bow.</b> From the gathered centre <var>q</var> to the right loop's tip <var>r</var>: <b>b</b> = <var>r</var> &minus; <var>q</var> &asymp; (130, 55) px, so &Vert;<b>b</b>&Vert; &asymp; 141 px &asymp; 0.17<var>W</var>, at tan<sup>&minus;1</sup>(55/130) &asymp; 23&deg; below horizontal.</li>
+          <li><b>Train.</b> Hem width over waist width, 190/70 &asymp; 2.7, a trapezoid of about 8.5 &times; 10<sup>4</sup> px<sup>2</sup>.</li>
+          <li><b>Black and white.</b> Among classified garment pixels, <var>P</var><sub>black</sub> &asymp; 0.82 to 0.87, about 5 : 1.</li>
+        </ul>
+        <p>Each is a candidate style coordinate: stripe pitch, duty cycle, bow reach, train flare. A valid style face would change two of them while holding the garment, pose, material and view still. These are 2-D image estimates, not dressmaking measurements.</p>
+
+        <h4>11 &middot; what it does not claim</h4>
+        <p>A reliable nonzero face means the four edges cannot come from one score, for that person, that question and that context, and the failure sits on a named pair of moves. It does not mean the person is irrational, that beauty is solved, that the two variables interact, or that anyone experienced a path: static choices measure circulation, not memory. Noise alone makes <var>F</var> nonzero, so the scalar null is simulated on the exact trial graph before any face is called real. The scalar null is allowed to win.</p>
+        <p><b>No human finding is claimed.</b> The renderer, browser study, response pipeline, loop mathematics and synthetic demonstrations are built. The human loops are the next experiment.</p>
+
+        <h4>12 &middot; checking it</h4>
+        <p><code>make curvature-demo</code> builds the square, both fields, both potential fits and six checks, and writes the whole report to <code>results/curvature_demo.json</code>. The repo also runs 51 Python tests, regenerates the 1,296-record trial manifest from seed 20260731 byte for byte, and audits every render signature: zero identical. No third-party dependencies.</p>
+        <p class="cd-links">
+          <button type="button" class="btn" data-run>run make curvature-demo</button>
+          <a class="btn" href="${JG}/blob/main/scripts/run_curvature_demo.py" target="_blank" rel="noreferrer">run_curvature_demo.py &rarr;</a>
+          <a class="btn" href="${JG}/blob/main/src/judgment_geometry/complex.py" target="_blank" rel="noreferrer">complex.py &rarr;</a>
+          <a class="btn" href="${JG}/blob/main/docs/mathematical-framework.md" target="_blank" rel="noreferrer">the full framework &rarr;</a>
+        </p>`,
+    },
   ];
   const byId = (id) => PROJECTS.find((p) => p.id === id);
-  const DEFAULT_DESC = `Buildings made with code.<br><br>Select an item to view its description.`;
+  const DEFAULT_DESC = `Design made with code and math.<br><br>Select an item to view its description.`;
 
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const folderIco = (src) => `<span class="ico folder">${src ? `<img src="${src}" alt="">` : ""}</span>`;
@@ -239,19 +444,19 @@ z1 = z4 + 464
 
   function projectWindows(p) {
     const readme = win(`cd-readme-${p.id}`, `cd-readme cd-set-${p.id}`, `README.md - ${p.file}`, "--w:560px", `
-        <div class="dw-toolbar">${p.math ? `<button type="button" class="btn primary" data-math>MATH.md: the math, live &rarr;</button>` : ""}<button type="button" class="btn" data-run>Run verify.py</button><a class="btn" href="${REPO}" target="_blank" rel="noreferrer">GitHub repo</a></div>
+        <div class="dw-toolbar">${p.math ? `<button type="button" class="btn primary" data-math>MATH.md: the math, live &rarr;</button>` : ""}<button type="button" class="btn" data-run>Run ${esc(p.run)}</button><a class="btn" href="${p.repo}" target="_blank" rel="noreferrer">GitHub repo</a></div>
         <div class="pane cd-doc">${p.readme}</div>
         <div class="statusbar" aria-hidden="true"><span>close me to go back to the folder</span><span>2026</span></div>`, { label: `${p.title} README` });
     const math = !p.math ? "" : win(`cd-math-${p.id}`, `cd-readme cd-math cd-set-${p.id}`, `MATH.md - ${p.file}`, "--w:640px", `
         <div class="pane cd-doc">${p.math}</div>
-        <div class="statusbar" aria-hidden="true"><span>close me to go back to the pictures</span><span>13 sections</span></div>`, { label: `${p.title}: the math` });
+        <div class="statusbar" aria-hidden="true"><span>close me to go back to the pictures</span><span>${p.sections}</span></div>`, { label: `${p.title}: the math` });
     const pics = p.pics.map(([src, name, cap, w, h], k) =>
       win(`cd-pic-${p.id}-${k}`, `dw-snap cd-pic cd-set-${p.id}`, name, "--w:300px", `
-        <div class="pane"><img src="${IMG}coe/${src}-sm.jpg" alt="${esc(cap)}" width="${w}" height="${h}" data-full="${k}"></div>
+        <div class="pane"><img src="${IMG}${p.dir}${src}-sm.jpg" alt="${esc(cap)}" width="${w}" height="${h}" data-full="${k}"></div>
         <p class="dw-cap">${esc(cap)}</p>`)).join("");
     const dos = win(`cd-dos-${p.id}`, `cd-dos cd-set-${p.id}`, "MS-DOS Prompt", "--w:560px", `
-        <div class="dw-toolbar"><button type="button" class="btn" data-run>Run verify.py</button></div>
-        <div class="pane cd-dos-pane"><pre class="cd-dos-out" aria-live="polite"><span class="cd-cursor" aria-hidden="true">_</span></pre></div>`, { label: "MS-DOS Prompt running verify.py" });
+        <div class="dw-toolbar"><button type="button" class="btn" data-run>Run ${esc(p.run)}</button></div>
+        <div class="pane cd-dos-pane"><pre class="cd-dos-out" aria-live="polite"><span class="cd-cursor" aria-hidden="true">_</span></pre></div>`, { label: `MS-DOS Prompt running ${p.run}` });
     return readme + math + pics + dos;
   }
 
@@ -511,23 +716,24 @@ z1 = z4 + 464
     }
     m.classList.remove("dw-popin"); void m.offsetWidth; m.classList.add("dw-popin");
     showW(m);
-    figures(m);
+    figures(p, m);
     if (location.hash.startsWith(HASH)) history.replaceState(history.state, "", `${HASH}/${p.id}/math`);
   }
-  // the live figures in MATH.md live in their own file, loaded the first time it opens
-  let figs = null;
-  function figures(m) {
-    if (!m.querySelector("figure[data-fig]")) return;
-    figs ||= new Promise((ok, no) => {
-      const js = Object.assign(document.createElement("script"), { src: "/summeros/coe-figures.js", onload: ok, onerror: no });
+  // each project's live figures live in their own file, loaded the first time its MATH.md opens
+  const figs = {};
+  function figures(p, m) {
+    if (!p.figures || !m.querySelector("figure[data-fig]")) return;
+    const { src, api } = p.figures;
+    figs[src] ||= new Promise((ok, no) => {
+      const js = Object.assign(document.createElement("script"), { src, onload: ok, onerror: no });
       document.head.appendChild(js);
     });
-    figs.then(() => window.coeFigures.mount(m)).catch(() => {});
+    figs[src].then(() => window[api].mount(m)).catch(() => {});
   }
 
-  // the MATH.md icon on the desktop: open the project if it isn't, then the math
+  // the MATH.md icon on the desktop: the math of the open project, or of the first one
   async function mathIcon() {
-    const p = PROJECTS.find((x) => x.math);
+    const p = openSet?.math ? openSet : PROJECTS.find((x) => x.math);
     if (openSet !== p) await openProject(p);
     openMath(p);
   }
@@ -536,7 +742,7 @@ z1 = z4 + 464
     const m = $(`#cd-math-${p.id}`);
     if (!m || m.hidden) return;
     mathOpen = false;
-    window.coeFigures?.stop();
+    if (p.figures) window[p.figures.api]?.stop();
     m.hidden = true;
     if (wide.matches) $$(`.cd-pic.cd-set-${p.id}`).forEach((w, k) => pop(w, k * 70, () => openSet === p && !mathOpen));
     // big screens: back to the README; phones: back to the pictures, which now sit where the math was
@@ -626,7 +832,7 @@ z1 = z4 + 464
     const lines = p.output.split("\n");
     for (const [k, line] of lines.entries()) {
       if (!alive()) return done();
-      write(`${line}\n`, k === lines.length - 1 ? "hi" : "");
+      write(`${line}\n`, (p.hi ? p.hi.test(line) : k === lines.length - 1) ? "hi" : "");
       await sleep(line ? 45 : 160);
     }
     write(`\n${p.prompt}`);
@@ -639,7 +845,7 @@ z1 = z4 + 464
     viewerP = p; viewerI = (i + p.pics.length) % p.pics.length;
     const [src, name, cap] = p.pics[viewerI], w = $("#cd-viewer"), img = w.querySelector("img");
     w.querySelector(".titlebar h2").textContent = `${name} - Image Viewer`;
-    img.src = `${IMG}coe/${src}.jpg`; img.alt = cap;
+    img.src = `${IMG}${p.dir}${src}.jpg`; img.alt = cap;
     w.querySelector(".dw-cap").textContent = cap;
     if (wide.matches && w.hidden) {
       const W = root.clientWidth, vw = Math.min(1000, W - LEFT - 2 * EDGE);

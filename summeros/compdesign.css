@@ -49,6 +49,8 @@
 .cd-doc h4 { margin: 0 0 6px; color: #6b6b6b; font: bold 11px Tahoma, Verdana, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
 .cd-doc code { font: 13px "Courier New", Courier, monospace; }
 .cd-last { font-style: italic; }
+.cd-doc .jg-credit { margin-top: 14px; color: #6b6b6b; font: 11.5px/1.5 Tahoma, Verdana, sans-serif; }
+.cd-doc .jg-credit a { color: inherit; }
 .cd-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0 !important; }
 .cd-links .btn { border: 0; font-size: 12px; cursor: pointer; }
 .cd-links .btn:disabled { color: #808080; cursor: default; }
@@ -63,7 +65,8 @@
 }
 
 /* README toolbar */
-.cd-readme .dw-toolbar .btn { border: 0; font-size: 12px; cursor: pointer; }
+.cd-readme .dw-toolbar { flex-wrap: wrap; }
+.cd-readme .dw-toolbar .btn { border: 0; font-size: 12px; white-space: nowrap; cursor: pointer; }
 .cd-readme .dw-toolbar .btn.primary { color: #ff00a8; }
 .cd-readme .dw-toolbar .btn:disabled { color: #808080; cursor: default; }
 
@@ -85,8 +88,10 @@
   margin: 4px 0 14px; padding: 8px 10px; overflow-x: auto; color: #c0c0c0; background: #000000;
   font: 12px/1.35 "Courier New", Courier, monospace;
 }
-.cd-doc ul { margin: 0 0 12px; padding-left: 20px; }
+.cd-doc ul, .cd-doc ol { margin: 0 0 12px; padding-left: 20px; }
 .cd-doc li { margin: 0 0 5px; }
+.cd-mat.jg-mat4 { grid-template-columns: repeat(4, auto); }
+.cd-mat.jg-mat1 { grid-template-columns: auto; }
 
 /* MATH.md figures: a little Win98 applet each (toolbar, drawing, MS-DOS readout) */
 .cd-fig { margin: 6px 0 18px; padding: 3px; background: #c0c0c0; box-shadow: var(--raised); container-type: inline-size; }
@@ -165,6 +170,103 @@
 .cd-fig .cd-door[aria-pressed="true"] .cd-gap { stroke: #ff00a8; stroke-dasharray: none; }
 .cd-fig .cd-stone-mark circle { fill: #111111; }
 
+/* Judgment Geometry: an editorial cover, as the project's web/styles.css lays
+   it out (same variables, same grid), with a photograph in the image slot and
+   a magazine masthead. The headline keeps its scale, at 0.62 of the repo's size,
+   so the long words fit their column instead of being clipped. */
+.jg-cover { display: block; aspect-ratio: 4 / 5; overflow: hidden; container-type: inline-size; background: #efeadf; box-shadow: 0 0 0 1px #808080; }
+.jg-cover .editorial {
+  --ed-paper: #eee9dd; --ed-ink: #171713; --ed-accent: #c94b30; --ed-margin: 6.5cqw; --ed-gap: 2.3cqw; --ed-title: 8.4cqw;
+  --copy-shift: 0cqw; --copy-inset-start: 0cqw; --copy-inset-end: 0cqw; --masthead-size: 7.2cqw; --masthead-weight: 400;
+  --masthead-tracking: -.07em; --provenance-width: 50%; --poster-image-bottom: 7cqw; --rail-rule: .12cqw; --polish-keyline: .1cqw;
+  position: relative; display: flex; flex-direction: column; width: 100%; height: 100%; overflow: hidden; padding: var(--ed-margin);
+  color: var(--ed-ink); background: var(--ed-paper); text-align: left; font: 16px/normal "Helvetica Neue", Arial, sans-serif;
+  box-shadow: inset 0 0 0 var(--polish-keyline) color-mix(in srgb, var(--ed-ink) 22%, transparent);
+}
+.jg-cover .ed-rail { display: flex; justify-content: space-between; padding-bottom: 1.1cqw; border-bottom: max(1px, var(--rail-rule)) solid currentColor; text-transform: uppercase; letter-spacing: .14em; font-size: 1.7cqw; font-weight: 700; }
+.jg-cover .ed-provenance { width: 58%; }
+.jg-cover .ed-provenance-mark { display: block; width: var(--provenance-width); height: max(1px, .3cqw); margin-top: .6cqw; background: var(--ed-accent); }
+.jg-cover .ed-masthead { margin: 1.4cqw 0 2.2cqw; font-family: Didot, "Bodoni 72", "Bodoni MT", "Times New Roman", serif; font-size: calc(var(--masthead-size) * 2.6); font-weight: var(--masthead-weight); line-height: .78; letter-spacing: var(--masthead-tracking); }
+.jg-cover .ed-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, var(--image-share, 55%)) 1fr; gap: var(--ed-gap); }
+.jg-cover .editorial.image-right .ed-body { grid-template-columns: 1fr minmax(0, var(--image-share, 55%)); }
+.jg-cover .editorial.image-right .ed-art { order: 2; }
+.jg-cover .editorial.stack .ed-body { grid-template-columns: 1fr; grid-template-rows: var(--image-share, 55%) 1fr; }
+.jg-cover .editorial.poster .ed-body { display: block; }
+.jg-cover .ed-art { position: relative; min-height: 0; overflow: hidden; background: var(--photo-bg, #3d1619); }
+.jg-cover .ed-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--photo-pos, 50% 30%); transform: scale(var(--image-scale, 1)); }
+.jg-cover .ed-copy { min-width: 0; display: flex; flex-direction: column; justify-content: var(--vertical-align, flex-start); padding-inline: var(--copy-inset-start) var(--copy-inset-end); transform: translateX(var(--copy-shift)); }
+.jg-cover .ed-kicker { margin-bottom: 1.4cqw; color: var(--ed-accent); text-transform: uppercase; letter-spacing: .14em; font-size: 1.8cqw; font-weight: 700; }
+.jg-cover .ed-headline { margin: 0; font-family: Didot, "Bodoni 72", "Bodoni MT", "Times New Roman", serif; font-size: calc(var(--ed-title) * .62); font-weight: var(--ed-title-weight, 400); line-height: .95; letter-spacing: -.02em; text-wrap: balance; }
+.jg-cover .ed-deck { margin: 1.8cqw 0 0; max-width: 32em; font-size: 2.1cqw; }
+.jg-cover .ed-rule { width: 100%; height: max(1px, .16cqw); margin: auto 0 1.2cqw; background: currentColor; opacity: .42; }
+.jg-cover .ed-folio { font-size: 1.6cqw; text-transform: uppercase; letter-spacing: .12em; }
+.jg-cover .editorial.poster .ed-art { position: absolute; inset: 15cqw var(--ed-margin) var(--poster-image-bottom); }
+.jg-cover .editorial.poster .ed-copy { position: absolute; z-index: 2; inset: auto calc(var(--ed-margin) * .6) calc(var(--ed-margin) * .65); padding: 2.8cqw; color: #ffffff; background: color-mix(in srgb, var(--ed-ink) 88%, transparent); }
+.jg-cover .editorial.poster .ed-headline { font-size: calc(var(--ed-title) * .7); }
+
+/* Judgment Geometry figures: toolbar controls */
+.cd-fig-bar .jg-sel { height: 22px; padding: 0 2px; color: #111111; background: #ffffff; border: 0; box-shadow: var(--sunken); font: 12px Tahoma, Verdana, sans-serif; }
+.cd-fig-bar .jg-range { width: 96px; margin: 0 4px 0 0; accent-color: #1515ff; }
+
+/* Fig. 1: four covers on the corners of a square */
+.jg-sq { display: grid; grid-template-columns: 1fr 46px 1fr; grid-template-rows: auto 40px auto; max-width: 470px; margin: 8px auto 6px; }
+.jg-corner { min-width: 0; }
+.cd-doc .jg-vlab { margin: 0 0 3px; color: #111111; font: 12px Tahoma, Verdana, sans-serif; }
+.cd-doc .jg-vlab var, .cd-doc .jg-q var { font-size: 14px; }
+.cd-doc .jg-vals { margin: 3px 0 0; overflow: hidden; color: #555555; font: 11px Tahoma, Verdana, sans-serif; white-space: nowrap; text-overflow: ellipsis; }
+.jg-arr { position: relative; display: grid; place-items: center; font: italic 15px "Times New Roman", Times, serif; }
+.jg-arr-h::before { content: ""; position: absolute; left: 6px; right: 12px; top: 50%; border-top: 2px solid #111111; }
+.jg-arr-h::after { content: ""; position: absolute; right: 4px; top: calc(50% - 4px); border-style: solid; border-width: 5px 0 5px 9px; border-color: transparent transparent transparent #111111; }
+.jg-arr-h span { position: relative; top: -14px; }
+.jg-arr-v::before { content: ""; position: absolute; top: 12px; bottom: 4px; left: 50%; border-left: 2px solid #111111; }
+.jg-arr-v::after { content: ""; position: absolute; top: 4px; left: calc(50% - 4px); border-style: solid; border-width: 0 5px 9px; border-color: transparent transparent #111111; }
+.jg-arr-v span { position: relative; left: 16px; }
+.jg-mid { display: grid; place-items: center; color: #ff00a8; font: bold 26px/1 "Times New Roman", Times, serif; }
+
+/* Fig. 2: the side-by-side question */
+.jg-ask { padding: 8px 10px 10px; }
+.cd-doc .jg-q { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; max-width: 470px; margin: 0 auto 8px; font: 15px Georgia, serif; }
+.cd-doc .jg-q .jg-n { flex: none; color: #6b6b6b; font: 12px Tahoma, Verdana, sans-serif; }
+.jg-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 470px; margin: 0 auto; }
+.jg-pick { display: block; min-width: 0; padding: 6px; color: #111111; background: #c0c0c0; border: 0; box-shadow: var(--raised); cursor: pointer; }
+.jg-pick:hover .jg-cover { box-shadow: 0 0 0 2px #1515ff; }
+.jg-pick:active { box-shadow: var(--sunken); }
+.jg-pick:focus-visible { outline: 1px dotted #000000; outline-offset: -4px; }
+.jg-tag { display: block; margin-top: 5px; font: 12px Tahoma, Verdana, sans-serif; }
+
+/* the stair, the pooled squares and the matrix: shared */
+.cd-fig .jg-m { fill: #111111; font-family: "Times New Roman", Times, serif; font-style: italic; }
+.cd-fig .jg-blue { fill: #1515ff; }
+/* the stair, cut and hatched like the engraving on the desktop */
+.cd-fig .jg-floor { fill: #f2f2ee; stroke: #9a9a95; stroke-width: 0.7; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
+.cd-fig .jg-stone polygon { stroke: #111111; stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.cd-fig .jg-stone .jg-hatched { stroke: none; }
+.cd-fig .jg-ft { fill: #ffffff; }
+.cd-fig .jg-landing .jg-ft { fill: #fbf7ea; }
+.cd-fig .jg-stone .jg-ft.jg-on { fill: #ffe0f3; }
+.cd-fig .jg-fu { fill: #ecece7; }
+.cd-fig .jg-fv { fill: #d2d2cc; }
+.cd-fig .jg-hatch { stroke: #111111; stroke-width: 0.55; }
+.cd-fig .jg-ghost { fill: rgba(255, 0, 168, 0.1); stroke: #ff00a8; stroke-width: 2; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
+/* Fig. 4: three small stairs and the pooled one */
+.jg-pool { padding: 8px 8px 2px; }
+.jg-people { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.cd-fig-canvas .jg-person svg { height: auto; max-height: none; aspect-ratio: 16 / 10; }
+.cd-doc .jg-who { margin: 0; color: #111111; font: 12px Tahoma, Verdana, sans-serif; text-align: center; }
+.cd-doc .jg-who b { color: #1515ff; }
+.cd-doc .jg-pool-arrow { margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed #c0c0c0; color: #6b6b6b; font: 12px Tahoma, Verdana, sans-serif; text-align: center; }
+.cd-fig .jg-cell { cursor: pointer; outline: none; }
+.cd-fig .jg-cell rect { stroke: #ffffff; stroke-width: 1; }
+.cd-fig .jg-cell-t { fill: #111111; font-family: Tahoma, Verdana, sans-serif; pointer-events: none; }
+.cd-fig .jg-cell-t.on { fill: #ffffff; }
+.cd-fig .jg-outline rect { fill: none; stroke: #111111; stroke-width: 2.5; pointer-events: none; }
+.cd-fig .jg-zero { stroke: #808080; stroke-width: 1; }
+.cd-fig .jg-hit { fill: #f4f4f0; cursor: ns-resize; touch-action: none; outline: none; }
+.cd-fig .jg-hit:hover, .cd-fig .jg-hit:focus-visible { fill: #e4e4ff; }
+.cd-fig .jg-bar { pointer-events: none; }
+.cd-fig .jg-bar-a { fill: #111111; }
+.cd-fig .jg-bar-b { fill: #808080; }
+
 /* pictures */
 .cd-pic .dw-cap { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .cd-pic img { cursor: zoom-in; }
@@ -192,6 +294,11 @@
   .cd-fig { margin-left: -6px; margin-right: -6px; }
   .cd-fig-bar .btn { padding: 3px 7px; font-size: 11px; }
   .cd-doc .cd-code { padding: 8px; font-size: 10.5px; }
+  .jg-sq { grid-template-columns: 1fr 32px 1fr; }
+  .jg-arr-h span { top: -13px; }
+  .jg-pair { gap: 8px; }
+  .jg-ask { padding: 6px 4px 8px; }
+  .cd-fig-bar .jg-range { width: 80px; }
 }
 
 @media (prefers-reduced-motion: reduce) { .cd-cursor { animation: none; } }
