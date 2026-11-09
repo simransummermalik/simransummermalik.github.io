@@ -86,6 +86,10 @@
       padding: 0;
       list-style: none;
     }
+    /* the home desktop has 15 icons: 8 rows, a little tighter, still clear of the sticky note */
+    @media (min-width: 900px) {
+      #desktop > .icons { grid-template-rows: repeat(8, 86px); gap: 2px 4px; }
+    }
 
     .icon {
       display: flex;
@@ -325,6 +329,15 @@
     .browser .news img { border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); }
     .browser .news h3 { margin: 0 0 4px; color: var(--blue); font-size: 1.3rem; }
     .browser .news p { margin: 0 0 6px; }
+    .browser .post { padding: 16px 16px 12px; border-bottom: 4px solid var(--cyan); }
+    .browser .post-art { position: relative; margin: 0 6px 14px 0; }
+    .browser .post-art img { display: block; width: 100%; height: auto; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); }
+    .browser .post-art .burst { top: -18px; right: -14px; }
+    .browser .post h3 { margin: 6px 0 4px; color: var(--blue); font-size: 1.45rem; line-height: 1.05; }
+    .browser .dek { margin: 0 0 10px; font-style: italic; }
+    .browser .post blockquote { margin: 0 0 10px; padding: 8px 10px; background: #ffffff; border-left: 4px solid var(--pink); line-height: 1.35; }
+    .browser .post-credit { margin: 0; padding: 6px 16px 8px; color: #555555; font: 11.5px/1.3 var(--ui); }
+    .browser .post-credit a { color: #555555; font-weight: normal; }
 
     /* terminal */
     .terminal .pane {
@@ -514,7 +527,8 @@
     .start-menu li a:focus-visible,
     .start-menu li button:hover,
     .start-menu li button:focus-visible { color: #ffffff; background: var(--blue); outline: none; }
-    .start-menu li a small { display: block; color: inherit; opacity: 0.75; font-size: 12px; }
+    .start-menu li a small,
+    .start-menu li button small { display: block; color: inherit; opacity: 0.75; font-size: 12px; }
     .start-menu .sep { height: 0; margin: 4px 2px; border-top: 1px solid #808080; border-bottom: 1px solid #ffffff; }
 
     /* ---------- plain view ---------- */
@@ -568,6 +582,7 @@
     <ul class="icons" aria-label="Desktop">
       <li><button class="icon" type="button" data-open="win-about"><span class="ico doc"></span><span class="label">about_me.txt</span></button></li>
       <li><button class="icon" type="button" data-open="win-news"><span class="ico doc loud"></span><span class="label">news!!.html</span></button></li>
+      <li><button class="icon" type="button" data-open="win-substack"><span class="ico doc"></span><span class="label">cool_girl.html</span></button></li>
       <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="/index_me_images/web/poster-me.jpg" alt=""></span><span class="label">dreu</span></button></li>
       <li><button class="icon" type="button" data-hackathons><span class="ico folder"><img src="/index_me_images/web/hack/stage.jpg" alt=""></span><span class="label">hackathon wins</span></button></li>
       <li><button class="icon" type="button" data-compdesign><span class="ico folder"><img src="/index_me_images/web/compdesign/tower.jpg" alt=""></span><span class="label">computational design</span></button></li>
@@ -789,6 +804,29 @@
       </div>
     </section>
 
+    <section class="window browser" id="win-substack" tabindex="-1" hidden style="--fx:0.35; --y:70px; --w:clamp(380px, 32vw, 470px)" aria-labelledby="t-substack">
+      <header class="titlebar">
+        <h2 id="t-substack">cool_girl.html - Summer Explorer</h2>
+        <button type="button" data-action="min" aria-label="Minimize cool_girl.html">_</button>
+        <button type="button" data-action="close" aria-label="Close cool_girl.html">&times;</button>
+      </header>
+      <div class="addressbar" aria-hidden="true"><span>Address</span><span class="url">summerdoesthings.substack.com/p/why-is-everyone-so-obsessed-with</span></div>
+      <div class="pane">
+        <article class="post">
+          <div class="post-art">
+            <img src="/index_me_images/web/substack-buttons.jpg" alt="Painted enamel buttons with tiny figures in period clothes, French, 1850 to 1880" width="620" height="298" loading="lazy">
+            <span class="burst" aria-hidden="true">new<br>post!!</span>
+          </div>
+          <p class="venue">Substack / Oct 31, 2026</p>
+          <h3>Why is everyone so obsessed with the cool girl aesthetic?</h3>
+          <p class="dek">reading too much into what other people wear.</p>
+          <blockquote>In 1356, the city of Florence made it illegal for women to wear decorative buttons without corresponding buttonholes.</blockquote>
+          <a href="https://summerdoesthings.substack.com/p/why-is-everyone-so-obsessed-with" target="_blank" rel="noreferrer">read it on Substack &rarr;</a>
+        </article>
+        <p class="post-credit">Buttons: painted enamel, French, 1850&ndash;80. <a href="https://www.metmuseum.org/art/collection/search/115314" target="_blank" rel="noreferrer">The Met</a>, open access.</p>
+      </div>
+    </section>
+
     <p class="sticky" aria-label="How I work">
       <span>factorization</span>
       <span>but explain it</span>
@@ -817,12 +855,13 @@
       <li><a href="/spatial-computing/">Spatial computing<small>Vision Pro &amp; pathfinding</small></a></li>
       <li><a href="/jackson-laboratory/">Jackson Lab genomics<small>cancer genomics, summer 2025</small></a></li>
       <li><button type="button" data-hackathons>Hackathon wins<small>7 hackathons, 9 awards</small></button></li>
-      <li><button type="button" data-compdesign>Computational design<small>Certificate of Nonexistence</small></button></li>
+      <li><button type="button" data-compdesign>Computational design<small>Certificate of Nonexistence &amp; more</small></button></li>
       <li><a href="/apollors/">ApolloRS<small>Apollo 11 software in Rust</small></a></li>
       <li><a href="/wearable/">LilyGO wearable clip<small>demo &amp; build notes</small></a></li>
       <li><a href="/presentations/">Presentations &amp; posters</a></li>
       <li class="sep" role="separator"></li>
       <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna" target="_blank" rel="noreferrer">AWS article: DNA data<small>Student Builder Campus Leader</small></a></li>
+      <li><a href="https://summerdoesthings.substack.com/p/why-is-everyone-so-obsessed-with" target="_blank" rel="noreferrer">Substack: the cool girl aesthetic<small>reading too much into what people wear</small></a></li>
       <li class="sep" role="separator"></li>
       <li><button type="button" data-plain>Plain view (simple HTML)</button></li>
     </ul>
@@ -859,6 +898,7 @@
       <li><a href="https://github.com/simransummermalik">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/summermalik/">LinkedIn</a></li>
       <li><a href="https://builder.aws.com/content/3CbLOMnkPLbbFmdxmoztWPZprj9/the-fastest-growing-data-problem-in-the-world-might-be-dna">AWS article: The Fastest-Growing Data Problem in the World Might Be DNA</a></li>
+      <li><a href="https://summerdoesthings.substack.com/p/why-is-everyone-so-obsessed-with">Substack essay: Why is everyone so obsessed with the cool girl aesthetic?</a> (October 2026)</li>
     </ul>
     <button type="button" id="back-to-desktop">Back to desktop view</button>
   </section>
