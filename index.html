@@ -317,6 +317,10 @@
     .browser .paper h3 { margin: 6px 0 6px; padding-right: 30px; color: var(--blue); font-size: 1.45rem; line-height: 1.05; }
     .browser .paper p { margin: 0 0 8px; font-size: 1rem; }
     .browser a { color: var(--blue); font-weight: bold; }
+    .browser .flash { display: block; padding: 7px 16px; color: #ffffff; background: var(--ink); font: bold 13px/1.3 var(--mono); text-decoration: none; text-transform: uppercase; }
+    .browser .flash b { color: var(--yellow); }
+    .browser .flash:hover,
+    .browser .flash:focus-visible { background: var(--blue); outline: none; }
     .burst {
       position: absolute; top: -6px; right: 6px;
       display: grid; place-items: center; width: 74px; height: 74px;
@@ -348,6 +352,7 @@
     .terminal p { margin: 0; }
     .terminal .dim { color: #7a7a7a; }
     .terminal .hl { color: var(--yellow); }
+    .terminal .win { color: var(--pink); font-weight: bold; }
     .terminal a { color: var(--cyan); }
     .terminal img { float: right; width: 120px; margin: 2px 0 8px 12px; border: 2px solid var(--green); }
     .cursor { display: inline-block; width: 9px; height: 1em; vertical-align: text-bottom; background: var(--green); animation: blink 1s steps(1) infinite; }
@@ -627,6 +632,7 @@
       </header>
       <div class="addressbar" aria-hidden="true"><span>Address</span><span class="url">summer://news/2026</span></div>
       <div class="pane">
+        <a class="flash" href="/apollors/#aerospace"><b>new!!</b> ApolloRS accepted @ IEEE Aerospace&nbsp;&rarr;</a>
         <div class="paper">
           <span class="burst" aria-hidden="true">new<br>paper!!</span>
           <p class="venue">IEEE Quantum Week 2026 / QML</p>
@@ -662,7 +668,7 @@
     </section>
 
     <!-- apollo -->
-    <section class="window terminal" id="win-apollo" tabindex="-1" style="--fx:0.04; --y:462px; --w:450px" aria-labelledby="t-apollo">
+    <section class="window terminal" id="win-apollo" tabindex="-1" style="--fx:0.04; --y:490px; --w:450px" aria-labelledby="t-apollo">
       <header class="titlebar">
         <h2 id="t-apollo">ApolloRS.exe</h2>
         <button type="button" data-action="min" aria-label="Minimize ApolloRS">_</button>
@@ -675,7 +681,9 @@
         <p>[ok] execute real AGC words</p>
         <p>[ok] record machine trace</p>
         <p>[ok] compare vs yaAGC</p>
+        <p class="win">[!!] accepted: IEEE Aerospace Conference 2027</p>
         <p class="hl">&gt; Apollo 11 guidance software, in Rust.</p>
+        <p class="dim">// built for fun, just trying to learn Rust</p>
         <p><a href="/apollors/">open /apollors/</a> <span class="cursor" aria-hidden="true"></span></p>
       </div>
     </section>
@@ -856,7 +864,7 @@
       <li><a href="/jackson-laboratory/">Jackson Lab genomics<small>cancer genomics, summer 2025</small></a></li>
       <li><button type="button" data-hackathons>Hackathon wins<small>7 hackathons, 9 awards</small></button></li>
       <li><button type="button" data-compdesign>Computational design<small>Certificate of Nonexistence &amp; more</small></button></li>
-      <li><a href="/apollors/">ApolloRS<small>Apollo 11 software in Rust</small></a></li>
+      <li><a href="/apollors/">ApolloRS<small>Apollo 11 in Rust &middot; IEEE Aerospace 2027</small></a></li>
       <li><a href="/wearable/">LilyGO wearable clip<small>demo &amp; build notes</small></a></li>
       <li><a href="/presentations/">Presentations &amp; posters</a></li>
       <li class="sep" role="separator"></li>
@@ -871,6 +879,7 @@
     <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
     <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
     <h2>Publications</h2>
+    <p><a href="/publications/#apollors">ApolloRS: Bounded Reconstruction and Differential Execution of Apollo 11 Flight Software</a> &mdash; accepted to the 2027 IEEE Aerospace Conference.</p>
     <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
     <h2>In the news</h2>
     <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
@@ -880,7 +889,7 @@
       <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
       <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
       <li><a href="/spatial-computing/">Spatial computing research logs</a></li>
-      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust</a></li>
+      <li><a href="/apollors/">ApolloRS: Apollo 11 guidance software in Rust (IEEE Aerospace Conference 2027)</a></li>
       <li><a href="https://github.com/simransummermalik/CERTIFICATE-OF-NONEXISTENCE">Certificate of Nonexistence: a house that passes every inspection except existence (computational design)</a></li>
     </ul>
     <h2>Hackathon wins</h2>
