@@ -1,0 +1,259 @@
+/* splice girl folder: opens its own desktop on top of SummerOS. The root is
+   ".dw sgw", so windows, icons, file grids, the image viewer and the zoom
+   reuse the dreu folder styles (dreu-world.css). This file adds the plum and
+   pink of the team's presentation, the boot screen, and the toys. */
+
+.dw.sgw {
+  --plum: #4a2640;
+  --plum-d: #26101f;
+  --rose: #ffafaf;           /* the CLI prints its banner in 256-color pink 217 */
+  --hot: #ff4fa3;
+  --blush: #f3dbe6;
+  --back: #5fd7ff;           /* flow running against a junction's direction */
+  --orange: var(--hot);      /* recolors the reused dreu notepad styles */
+  --illini: var(--plum);
+}
+
+/* ---------- wallpaper: my CLI banner as stickers, on the presentation's plum ---------- */
+.sgw .dw-wall { background: var(--plum); }
+.sgw-st { position: absolute; display: block; filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.3)); }
+
+/* ---------- windows ---------- */
+.sgw .titlebar { background: linear-gradient(90deg, var(--plum), #c03c80) !important; color: #ffffff !important; }
+.sgw .window.inactive .titlebar { background: linear-gradient(90deg, #7d7480, #b0a9b2) !important; color: #e6e6e6 !important; }
+.sgw .window:not(.inactive) .titlebar { box-shadow: inset 0 -3px 0 var(--rose); }
+.sgw .icon .label { background: var(--plum-d); text-shadow: none; }
+.sgw .icon:hover .label, .sgw .icon:focus-visible .label { background: var(--hot); }
+.sgw .dw-file[aria-selected="true"] .label, .sgw .dw-file:focus-visible .label { background: var(--plum); outline-color: var(--hot); }
+.sgw .dw-rule { background: var(--hot); }
+.sgw .dw-webview h3 { font-size: 23px; }
+
+/* desktop icons */
+.sgw .ico.exe::before { background: linear-gradient(90deg, var(--plum), var(--hot)); }
+.sgw .ico.exe.sgw-grad::after { content: "\2207"; inset: 11px 0 0; color: var(--hot); font: bold 20px/1 "Times New Roman", serif; }
+.sgw .ico.exe.sgw-hpc::after { content: "HPC"; inset: 15px 0 0; color: var(--plum); font: bold 11px/1 "Courier New", monospace; }
+.sgw .ico.sgw-dos { width: 44px; height: 36px; margin-top: 4px; background: #000000; box-shadow: inset 0 0 0 2px #c0c0c0, inset 0 0 0 3px #000000; }
+.sgw .ico.sgw-dos::after { content: "C:\\>"; position: absolute; left: 6px; top: 12px; color: #c0c0c0; font: bold 11px/1 "Courier New", monospace; }
+.sgw .ico.sgw-pic { width: 44px; height: 38px; margin-top: 3px; padding: 3px; background: #ffffff; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5); }
+.sgw .ico.sgw-pic img { width: 100%; height: 100%; object-fit: cover; }
+.sgw .ico.sgw-url { width: 40px; height: 40px; margin-top: 2px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffffff, #7fc8ff 40%, #1d5fbf); box-shadow: 1px 1px 0 #000000; }
+.sgw .ico.sgw-url::after { content: ""; position: absolute; inset: 6px 12px; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 50%; }
+
+/* ---------- boot: the real `splice-girl --start` output ---------- */
+.sgw-boot {
+  position: absolute; inset: 0; z-index: 3000; overflow: hidden; padding: 10px 14px;
+  color: #c0c0c0; background: #000000; cursor: pointer;
+  font: 14px/1.3 "Courier New", Courier, monospace;
+  transition: opacity 0.25s ease;
+}
+.sgw-boot[hidden] { display: none; }
+.sgw-boot.off { opacity: 0; }
+.sgw-boot-out { position: absolute; left: 14px; right: 14px; top: 10px; margin: 0; white-space: pre; }
+.sgw-boot-out.full { top: auto; bottom: 10px; }   /* once it fills the screen, it scrolls like a terminal */
+.sgw-boot-out .art { display: block; color: var(--rose); line-height: 1; }
+.sgw-boot-out .cmd { color: #ffffff; }
+.sgw-boot-hint { position: absolute; top: 8px; right: 14px; color: #6b6b6b; font: 12px Tahoma, Verdana, sans-serif; }
+
+/* ---------- documents (README.txt, study_design.txt, team.txt) ---------- */
+.sgw-doc { padding: 16px 20px 20px !important; background: #ffffff; font: 15px/1.5 "Times New Roman", Times, serif; }
+.sgw .window .pane.sgw-doc.scroll { max-height: min(70vh, 620px); overflow-y: auto; }
+.sgw-doc h3 { margin: 0; color: var(--plum); font: bold 30px/1.05 "Times New Roman", Times, serif; }
+.sgw-doc h4 { margin: 18px 0 6px; color: var(--plum); font: bold 15px Tahoma, Verdana, sans-serif; text-transform: lowercase; }
+.sgw-doc p, .sgw-doc li { margin: 0 0 9px; }
+.sgw-doc ul { margin: 0 0 9px; padding-left: 20px; }
+.sgw-doc hr { margin: 12px 0; border: 0; border-top: 1px dashed #b9a3b2; }
+.sgw-doc pre { margin: 8px 0 12px; padding: 8px 10px; overflow-x: auto; color: var(--rose); background: var(--plum-d); font: 13px/1.35 "Courier New", monospace; }
+.sgw-doc code { padding: 0 3px; background: var(--blush); font: 13px "Courier New", monospace; }
+.sgw-doc a { color: #0000ee; }
+.sgw-kick { margin: 0 0 4px !important; color: var(--hot); font: bold 11px Tahoma, Verdana, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+.sgw-sub { margin: 4px 0 0 !important; color: #555555; font-style: italic; }
+.sgw-eq { margin: 8px 0 12px !important; padding: 7px 10px; overflow-x: auto; background: #fbf3f7; border-left: 4px solid var(--hot); font-style: italic; white-space: nowrap; }
+.sgw-eq .up { font-style: normal; }
+.sgw-links { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px !important; }
+.sgw-links .btn { font: 12px Tahoma, Verdana, sans-serif; text-decoration: none; border: 0; cursor: pointer; }
+.sgw-me::before { content: "> "; color: var(--hot); }
+.sgw-checklist { margin: 4px 0 12px; padding: 0; list-style: none; font: 13px/1.5 "Courier New", monospace; }
+.sgw-checklist li { margin: 0; }
+.sgw-checklist li::before { content: "[ok] "; color: #1a8f3a; font-weight: bold; }
+.sgw .dw-log svg, .sgw .dw-log img { max-width: none; background: #ffffff; }
+
+/* hpc_at_midnight.txt reuses the dreu toronto.txt note (.dw-qwnote) */
+.sgw-diary code { padding: 0 2px; background: #f1e6ec; font: inherit; }
+.sgw-diary .btn { font: 12px Tahoma, Verdana, sans-serif; border: 0; cursor: pointer; }
+/* tucked under the folder on a laptop screen: smaller, so it covers less */
+.sgw-diary.sgw-docked .menubar { display: none; }
+.sgw-diary.sgw-docked .pane { padding: 8px 12px 6px; font-size: 12.5px; line-height: 1.45; }
+.sgw-diary.sgw-docked .pane p { margin: 0 0 6px; }
+
+
+/* ---------- hodge_toy.exe: drawn like the program's own figures ---------- */
+.sgw .window .pane.sgw-toy-pane { max-height: calc(100vh - 150px); overflow-y: auto; padding: 8px 10px 10px; background: #ffffff; }
+.sgw-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-bottom: 8px; font: 12px Tahoma, Verdana, sans-serif; }
+.sgw-presets .btn { border: 0; cursor: pointer; font-size: 12px; }
+.sgw-presets .btn[aria-pressed="true"] { color: #ffffff; background: var(--plum); box-shadow: inset 1px 1px #000000, inset -1px -1px #b06a98; }
+.sgw-graph { display: block; width: 100%; height: auto; background: #ffffff; border: 1px solid #777777; }
+.sgw-graph text { font-family: Georgia, "Times New Roman", serif; }
+.sgw-graph .tl { fill: #111111; font-size: 15px; font-weight: bold; }
+.sgw-graph .ts { fill: #555555; font-size: 12px; font-style: italic; }
+.sgw-graph .ex { fill: #ffffff; stroke: #111111; stroke-width: 1.4; }
+.sgw-graph .exl { fill: #111111; font-size: 12px; font-weight: bold; text-anchor: middle; }
+.sgw-graph .intron { stroke: #bbbbbb; stroke-width: 1; }
+.sgw-graph .arc { fill: none; stroke: #111111; stroke-linecap: round; }
+.sgw-graph .arc.neg { stroke-dasharray: 7 5; stroke-linecap: butt; }
+.sgw-graph .arc.zero { stroke: #aaaaaa; stroke-width: 1; stroke-dasharray: 2 4; }
+.sgw-graph .head { fill: #111111; }
+.sgw-graph .val { fill: #111111; font: 12px "Courier New", monospace; text-anchor: middle; paint-order: stroke; stroke: #ffffff; stroke-width: 4px; }
+.sgw-graph .val.zero { fill: #999999; }
+.sgw-graph .dot { fill: #ff00a8; }
+.sgw-graph .sep { stroke: #cccccc; stroke-width: 1; }
+
+.sgw-read { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: center; margin: 10px 0 6px; }
+.sgw-cbig { color: #111111; font: bold 19px/1 Georgia, "Times New Roman", serif; white-space: nowrap; }
+.sgw-cbar { position: relative; height: 14px; background: #ffffff; border: 1px solid #111111; }
+.sgw-cbar i { position: absolute; left: 1px; top: 1px; bottom: 1px; background: #ff00a8; transition: width 0.15s ease; }
+.sgw-say { grid-column: 1 / -1; margin: 0; font: 15px/1.45 Georgia, "Times New Roman", serif; }
+.sgw-checks { grid-column: 1 / -1; margin: 0; color: #777777; font: 11px/1.4 "Courier New", monospace; }
+
+.sgw-sliders { display: grid; gap: 2px; margin: 6px 0 4px; padding: 6px 8px; background: #f4f4f4; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.sgw-edge { display: grid; grid-template-columns: 82px 1fr 74px; gap: 8px; align-items: center; font: 13px "Courier New", monospace; }
+.sgw-edge input { width: 100%; accent-color: #ff00a8; }
+.sgw-edge output { text-align: right; }
+.sgw-tries { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 6px 0 2px; font: 12px Tahoma, Verdana, sans-serif; }
+.sgw-tries .btn { border: 0; cursor: pointer; font-size: 11px; }
+.sgw-note { margin: 4px 0 0; min-height: 1.3em; color: #333333; font: italic 14px/1.4 Georgia, "Times New Roman", serif; }
+.sgw-legend { margin: 4px 0 0; color: #555555; font: 11px/1.4 Tahoma, Verdana, sans-serif; }
+
+/* ---------- hpc_run.exe ---------- */
+.sgw-hpc .pane { padding: 10px 12px !important; background: #c0c0c0 !important; box-shadow: none !important; font: 13px/1.45 Tahoma, Verdana, sans-serif; }
+.sgw .window .pane.sgw-hpc-pane { max-height: calc(100vh - 150px); overflow-y: auto; }
+.sgw-clock { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin: 0 0 8px; padding: 6px 10px; color: var(--back); background: #000000; font: bold 22px "Courier New", monospace; }
+.sgw-clock small { color: #9a9a9a; font: 11px Tahoma, Verdana, sans-serif; }
+.sgw-stage { margin: 0 0 8px; padding: 8px 10px; background: #d4d0c8; box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080; }
+.sgw-stage h4 { display: flex; justify-content: space-between; gap: 8px; margin: 0 0 4px; font: bold 13px Tahoma, Verdana, sans-serif; }
+.sgw-stage h4 span:last-child { font: bold 13px "Courier New", monospace; white-space: nowrap; }
+.sgw-stage .job { margin: 0 0 4px; color: #444444; font: 11px "Courier New", monospace; }
+.sgw-bar { display: flex; gap: 2px; height: 18px; padding: 2px; background: #ffffff; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.sgw-bar i { flex: 1; background: var(--plum); visibility: hidden; }
+.sgw-stage.hodge .sgw-bar i { background: var(--hot); }
+.sgw-stats { display: grid; grid-template-columns: 1fr auto; gap: 0 12px; margin: 6px 0 0; font: 12px/1.45 "Courier New", monospace; }
+.sgw-stats dt { color: #333333; }
+.sgw-stats dd { margin: 0; text-align: right; font-weight: bold; font-variant-numeric: tabular-nums; }
+.sgw-hpc-end { margin-top: 4px; padding: 8px 10px; background: #ffffff; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.sgw-hpc-end[hidden] { display: none; }
+.sgw-scale { display: flex; height: 20px; margin: 4px 0; border: 2px solid #000000; }
+.sgw-scale span:first-child { flex: 6107; background: repeating-linear-gradient(45deg, #9a9a9a 0 6px, #c8c8c8 6px 12px); }
+.sgw-scale span:last-child { flex: 5; min-width: 3px; background: var(--hot); }
+.sgw-hpc-end p { margin: 4px 0; font: 13px/1.4 "Times New Roman", Times, serif; }
+.sgw-hpc .dw-toolbar { flex-wrap: wrap; align-items: center; font: 12px Tahoma, Verdana, sans-serif; }
+.sgw-hpc .dw-toolbar .btn[aria-pressed="true"] { box-shadow: inset 1px 1px #000000, inset -1px -1px #ffffff; background: #d8d8d8; }
+
+/* ---------- MS-DOS Prompt (shares compdesign's .cd-dos look) ---------- */
+.sgw .window.cd-dos { min-height: 0; }
+.sgw .cd-dos-pane { flex: none; height: min(420px, 52vh); }
+
+/* image viewer + notebook bits */
+.sgw .sgw-viewer img { max-height: calc(100vh - 190px); background: #ffffff; cursor: pointer; }
+.sgw .dw-log pre.sgw-menu { margin: 0 0 12px; padding: 8px 10px; color: var(--rose); background: #000000; font: 13px/1.4 "Courier New", monospace; }
+.sgw .dw-log img { border-color: var(--plum); }
+.sgw .cd-dos-out .hi { color: #ffffff; }
+.sgw .cd-dos-out .pass { color: #55ff55; }
+.sgw .cd-dos-out .art { color: var(--rose); font-size: 0.42em; line-height: 1; }
+
+/* ---------- MATH.md: the paper (compdesign's MATH.md look, in plum) ---------- */
+.sgw .cd-mathico::before {
+  content: "\2202"; position: absolute; inset: 9px 0 0; z-index: 1; color: #ff00a8;
+  font: italic bold 24px/1 "Times New Roman", Times, serif; text-align: center;
+}
+.sgw .sgw-math .cd-doc { padding: 22px 28px 26px !important; }
+.sgw .sgw-math .cd-doc h3 { font-size: 36px; }
+.cd-mat.sg-mat3 { grid-template-columns: repeat(3, auto); }
+.sg-byline { margin: 12px 0 0 !important; color: #333333; font: 12.5px/1.6 Tahoma, Verdana, sans-serif; }
+.sg-byline b { color: #111111; }
+.sg-abstract { margin: 16px 0 16px; padding: 12px 16px 2px; background: #faf5f8; box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff; }
+.sg-abstract p { font-size: 14px; line-height: 1.6; }
+.sg-abstract p > b:first-child { margin-right: 8px; color: var(--plum); font: bold 11px Tahoma, Verdana, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+.sg-thm { margin: 4px 0 14px; padding: 10px 14px 0; border-left: 3px solid var(--plum); background: #fbf8fa; }
+.sg-thm .cd-eq { background: #ffffff; }
+.sgw-math .cd-doc h4 { margin-top: 22px; }
+
+/* the figures */
+.sg-range { display: inline-flex; align-items: center; gap: 4px; margin-right: 6px; color: #111111; font: 12px "Courier New", Courier, monospace; }
+.sg-range input { width: 78px; margin: 0; accent-color: #ff00a8; }
+.sg-range output { min-width: 2.2em; text-align: right; }
+.cd-fig .sg-drag { cursor: grab; touch-action: pan-y; }
+.cd-fig .sg-drag:active { cursor: grabbing; }
+.cd-fig .sg-pick { cursor: crosshair; touch-action: pan-y; }
+.cd-fig .sg-head { stroke: none; }
+.cd-fig .sg-m { font-family: "Times New Roman", Times, serif; font-style: italic; }
+.cd-fig .sg-hint { fill: #888888; font-style: italic; }
+/* Fig. 1 */
+.cd-fig .sg-plane { fill: rgba(21, 21, 255, 0.07); stroke: #1515ff; stroke-opacity: 0.45; stroke-width: 1; }
+.cd-fig .sg-simplex { fill: rgba(0, 0, 0, 0.05); stroke: #9a9a9a; stroke-width: 1; stroke-dasharray: 4 3; }
+.cd-fig line.sg-ax { stroke: #8a8a8a; }
+.cd-fig .sg-ax.sg-head { fill: #8a8a8a; }
+.cd-fig .sg-ax-neg { stroke-dasharray: 2 3; }
+.cd-fig .sg-axl { fill: #555555; }
+.cd-fig .sg-cline { stroke: #ff00a8; stroke-width: 1.6; stroke-opacity: 0.75; }
+.cd-fig .sg-gl { fill: #1515ff; }
+.cd-fig .sg-cl { fill: #ff00a8; }
+.cd-fig line.sg-w { stroke: #111111; }
+.cd-fig .sg-w.sg-head { fill: #111111; }
+.cd-fig line.sg-g { stroke: #1515ff; }
+.cd-fig .sg-g.sg-head { fill: #1515ff; }
+.cd-fig line.sg-c { stroke: #ff00a8; }
+.cd-fig .sg-c.sg-head { fill: #ff00a8; }
+.cd-fig .sg-drop { stroke-width: 1.2; stroke-dasharray: 4 3; }
+.cd-fig .sg-drop-c { stroke: #ff00a8; }
+.cd-fig .sg-drop-g { stroke: #1515ff; }
+.cd-fig .sg-right { fill: none; stroke: #555555; stroke-width: 1; }
+.cd-fig .sg-arc { fill: none; stroke: #111111; stroke-width: 1.2; }
+/* Fig. 2 */
+.cd-fig .sg-tri { fill: none; stroke: #111111; stroke-width: 1.2; }
+.cd-fig .sg-lvl { fill: #555555; }
+.cd-fig .sg-zero { stroke: #111111; stroke-width: 2.2; }
+.cd-fig .sg-ex-case { fill: #ff00a8; stroke: #ffffff; stroke-width: 1.5; }
+.cd-fig .sg-ex-ctrl { fill: #111111; stroke: #ffffff; stroke-width: 1.5; }
+.cd-fig .sg-you circle { fill: rgba(255, 255, 255, 0.55); stroke: #111111; stroke-width: 2; }
+.cd-fig .sg-you path { stroke: #111111; stroke-width: 1.5; }
+/* Fig. 3 */
+.cd-fig line.sg-e, .cd-fig path.sg-e { stroke: #111111; }
+.cd-fig .sg-e.sg-head { fill: #111111; }
+.cd-fig .sg-arcpath { fill: none; stroke-width: 1.8; }
+.cd-fig line.sg-bridge, .cd-fig path.sg-bridge { stroke: #b0b0b0; }
+.cd-fig .sg-bridge.sg-head { fill: #b0b0b0; }
+.cd-fig .sg-exon { fill: #ffffff; stroke: #111111; stroke-width: 1.4; }
+.cd-fig .sg-exl { fill: #111111; font: bold 11px Georgia, "Times New Roman", serif; }
+.cd-fig .sg-z1 { fill: #ff00a8; }
+.cd-fig .sg-z2 { fill: #1515ff; }
+.cd-fig .sg-axis { stroke: #111111; stroke-width: 1; }
+.cd-fig .sg-stem { stroke: #111111; stroke-width: 1.2; }
+.cd-fig .sg-ev { fill: #111111; }
+.cd-fig .sg-ev0 { fill: #ff00a8; }
+.cd-fig .sg-same { stroke: #9a9a9a; stroke-width: 1; stroke-dasharray: 2 3; }
+/* Fig. 4 */
+.cd-fig .sg-grid { stroke: #e4e4e4; stroke-width: 1; }
+.cd-fig .sg-case { fill: #ff00a8; }
+.cd-fig .sg-ctrl { fill: #111111; }
+.cd-fig .sg-hit { fill: transparent; cursor: ns-resize; touch-action: none; }
+.cd-fig .sg-brace { fill: none; stroke: #777777; stroke-width: 1; }
+.cd-fig .sg-brick { fill: #9a9a9a; }
+.cd-fig .sg-brick.sg-ext { fill: #ff00a8; }
+.cd-fig .sg-obs { stroke: #ff00a8; stroke-width: 1.5; stroke-dasharray: 5 3; }
+.cd-fig .sg-obs.sg-mirror { stroke-dasharray: 2 3; }
+
+/* phones: stacked like the rest of SummerOS */
+@media (max-width: 899px) {
+  .sgw-boot { position: fixed; }
+  .sgw .window .pane.sgw-toy-pane, .sgw .window .pane.sgw-hpc-pane, .sgw .window .pane.sgw-doc.scroll { max-height: none; }
+  .sgw-edge { grid-template-columns: 70px 1fr 64px; font-size: 12px; }
+  .sgw-doc { padding: 14px 14px 18px !important; }
+  .sgw .cd-dos-pane { height: 340px; }
+  .sgw .sgw-math { height: auto !important; }
+  .sgw .sgw-math .cd-doc { padding: 16px 14px 20px !important; overflow: visible; }
+  .sgw .sgw-math .cd-doc h3 { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sgw-boot { transition: none; }
+  .sgw-cbar i { transition: none; }
+}

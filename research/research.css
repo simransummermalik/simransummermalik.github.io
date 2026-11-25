@@ -1,0 +1,125 @@
+/* Research pages: the plain archive style used by /apollors/ and /dreu/,
+   with a SummerOS window title bar on top and room for figures, equations
+   and tables. Colors come from the desktop (index.html :root). */
+:root {
+  --ink: #111111;
+  --pink: #ff00a8;
+  --blue: #1515ff;
+  --cyan: #00ffe1;
+  --yellow: #fff600;
+  --green: #39ff14;
+  --chrome: #c0c0c0;
+  --paper: #fff6ba;
+  --ui: Tahoma, Verdana, "Segoe UI", Geneva, sans-serif;
+  --serif: "Times New Roman", Times, serif;
+  --mono: "Courier New", Courier, monospace;
+  --raised: inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+}
+
+body { margin: 0; color: var(--ink); background: #ffffff; font: 18px/1.55 var(--serif); }
+.r-page { max-width: 860px; margin: 0 auto; padding: 0 18px 24px; }
+.r-page .site-trail { margin: 0 -18px 18px; }
+
+/* the window title bar the page "opens" with */
+.r-titlebar {
+  display: flex; align-items: center; gap: 6px;
+  margin: 0 0 22px; padding: 3px 3px 3px 8px;
+  color: #ffffff; background: linear-gradient(90deg, var(--blue), var(--pink));
+  box-shadow: 0 0 0 3px var(--chrome), 6px 6px 0 3px rgba(0, 0, 0, 0.25);
+  font: bold 14px/1.6 var(--ui);
+}
+.r-titlebar span:first-child { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.r-titlebar a {
+  display: grid; place-items: center; width: 22px; height: 20px;
+  color: var(--ink); background: var(--chrome); box-shadow: var(--raised);
+  font: bold 13px/1 var(--ui); text-decoration: none;
+}
+
+h1 { margin: 0; color: var(--blue); font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1; }
+.r-dek { margin: 8px 0 18px; color: #333333; font-size: 1.2rem; font-style: italic; }
+h2 { margin: 44px 0 10px; padding-bottom: 4px; border-bottom: 2px solid var(--ink); font-size: 1.55rem; line-height: 1.15; }
+h3 { margin: 26px 0 6px; font-size: 1.2rem; }
+p, li { max-width: 72ch; }
+a { color: #0000aa; }
+a:visited { color: #551a8b; }
+
+/* status box, styled like the yellow news!! paper */
+.r-status {
+  margin: 0 0 22px; padding: 12px 16px;
+  background: var(--paper); border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--pink);
+}
+.r-status p { margin: 0 0 6px; }
+.r-status p:last-child { margin-bottom: 0; }
+.r-label { color: var(--pink); font: bold 13px var(--mono); letter-spacing: 0.02em; text-transform: uppercase; }
+
+/* quick facts */
+.r-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 18px; margin: 0 0 18px; font-size: 1rem; }
+.r-facts dt { font-weight: bold; }
+.r-facts dd { margin: 0; }
+
+.r-toc { columns: 2; column-gap: 32px; padding-left: 22px; font-size: 1rem; }
+.r-toc li { break-inside: avoid; }
+
+/* equations: written in HTML, no math library */
+.r-math {
+  margin: 14px 0; padding: 10px 14px; overflow-x: auto;
+  background: #f6f6f6; border-left: 4px solid var(--blue);
+  font: italic 1.1rem/1.9 var(--serif); white-space: nowrap;
+}
+.r-math .up { font-style: normal; }
+
+code { font: 0.92em var(--mono); background: #f1f1f1; padding: 0 3px; }
+pre {
+  margin: 12px 0; padding: 12px 14px; overflow-x: auto;
+  color: var(--green); background: #000000; border: 2px solid #333333;
+  font: 15px/1.5 var(--mono);
+}
+pre code { padding: 0; color: inherit; background: none; }
+pre .c { color: #8a8a8a; }
+
+figure { margin: 26px 0; }
+figure img, figure object { display: block; width: 100%; height: auto; border: 2px solid var(--ink); background: #ffffff; }
+figcaption { margin-top: 6px; color: #333333; font-size: 0.95rem; line-height: 1.4; }
+figcaption b { color: var(--ink); }
+
+.r-table { width: 100%; margin: 12px 0; border-collapse: collapse; font-size: 0.98rem; }
+.r-table th, .r-table td { padding: 6px 8px; border-bottom: 1px solid #bbbbbb; text-align: left; vertical-align: top; }
+.r-table th { border-bottom: 2px solid var(--ink); }
+.r-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.r-scroll { overflow-x: auto; }
+
+/* upstream preprocessing vs downstream mathematics */
+.r-pipeline { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0 8px; }
+.r-stage { padding: 12px 14px; border: 2px solid var(--ink); font-size: 0.98rem; }
+.r-stage h3 { margin: 0 0 6px; font: bold 14px var(--ui); text-transform: uppercase; }
+.r-stage ol { margin: 0 0 8px; padding-left: 20px; }
+.r-stage .r-time { margin: 0; font: bold 1.5rem var(--mono); }
+.r-stage.up { background: #ececec; }
+.r-stage.down { background: #fff0fa; border-color: var(--pink); box-shadow: 5px 5px 0 var(--blue); }
+.r-timebar { margin: 14px 0 4px; font: 13px var(--ui); }
+.r-timebar .bar { display: flex; height: 22px; border: 2px solid var(--ink); background: #ffffff; }
+.r-timebar .bar span:first-child { flex: 6107; background: repeating-linear-gradient(45deg, #9a9a9a 0 6px, #c8c8c8 6px 12px); }
+.r-timebar .bar span:last-child { flex: 5; min-width: 3px; background: var(--pink); }
+.r-timebar p { margin: 4px 0 0; }
+
+.r-cite { white-space: pre-wrap; }
+.r-links { padding-left: 22px; }
+.r-links li { margin: 4px 0; }
+
+.r-back {
+  margin: 14px 0 40px;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 16px;
+  color: #ffffff; background: var(--blue); border: 3px solid var(--pink);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+  font: bold 15px var(--ui); text-decoration: none;
+}
+.r-back:visited { color: #ffffff; }
+.r-back:hover { background: var(--pink); }
+
+@media (max-width: 700px) {
+  body { font-size: 17px; }
+  .r-pipeline { grid-template-columns: 1fr; }
+  .r-toc { columns: 1; }
+  .r-facts { grid-template-columns: 1fr; gap: 0; }
+  .r-facts dd { margin-bottom: 8px; }
+}

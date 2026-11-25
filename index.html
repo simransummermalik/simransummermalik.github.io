@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simran (Summer) Malik</title>
-  <meta name="description" content="Simran (Summer) Malik: research and projects in quantum algorithms, spatial computing, computing systems, and computational genomics.">
+  <meta name="description" content="Simran (Summer) Malik: undergraduate researcher at UNC Charlotte working on quantum algorithms, hybrid quantum-classical learning, computational biology, and scientific software.">
   <meta name="theme-color" content="#1515ff">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Simran (Summer) Malik">
-  <meta property="og:description" content="Quantum algorithms, spatial computing, computing systems, and the chaotic process of making hard ideas understandable.">
+  <meta property="og:description" content="When can we trust what a computational system tells us? Quantum algorithms, hybrid quantum-classical learning, RNA splicing, and Apollo 11 in Rust.">
   <meta property="og:url" content="https://simransummermalik.github.io/">
   <meta property="og:image" content="https://simransummermalik.github.io/index_me_images/web/cra-cohort.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -272,6 +272,18 @@
 
     /* notepad */
     .notepad .pane { font-family: var(--mono); font-size: 15px; line-height: 1.45; }
+    /* about_me.txt is longer than the window: it scrolls like a real Notepad */
+    #win-about .pane { max-height: 340px; overflow-y: auto; }
+    #win-about .pane::-webkit-scrollbar { width: 16px; }
+    #win-about .pane::-webkit-scrollbar-track { background: repeating-conic-gradient(#c0c0c0 0 25%, #ffffff 0 50%) 0 0 / 2px 2px; }
+    #win-about .pane::-webkit-scrollbar-thumb { background: var(--chrome); box-shadow: var(--raised); }
+    #win-about .pane::-webkit-scrollbar-button:vertical:start:decrement,
+    #win-about .pane::-webkit-scrollbar-button:vertical:end:increment { display: block; height: 16px; background-color: var(--chrome); background-position: center; background-repeat: no-repeat; box-shadow: var(--raised); }
+    #win-about .pane::-webkit-scrollbar-button:vertical:start:decrement { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M8 5l4 4H4z'/%3E%3C/svg%3E"); }
+    #win-about .pane::-webkit-scrollbar-button:vertical:end:increment { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M4 7h8l-4 4z'/%3E%3C/svg%3E"); }
+    #win-about .pane::-webkit-scrollbar-button:vertical:start:increment,
+    #win-about .pane::-webkit-scrollbar-button:vertical:end:decrement { display: none; }
+    @supports not selector(::-webkit-scrollbar) { #win-about .pane { scrollbar-color: #c0c0c0 #e8e8e8; } }
     .notepad h1 {
       margin: 0 0 10px;
       color: var(--blue);
@@ -365,6 +377,15 @@
     .player .seek { flex: 1; height: 8px; box-shadow: var(--sunken); background: linear-gradient(90deg, var(--pink) 0 64%, #ffffff 64%); }
     .player .caption { margin: 4px 4px 2px; font-size: 13px; line-height: 1.35; }
     .player .caption a { color: #0000ee; }
+
+    /* folder view: big icons on white, like a Win98 folder */
+    .folderview .pane { padding: 10px 6px; }
+    .folder-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 4px 2px; margin: 0; padding: 0; list-style: none; }
+    .folder-icons .icon { height: 92px; color: var(--ink); text-decoration: none; }
+    .folder-icons .icon .label { text-shadow: none; }
+    .folder-icons .icon:hover .label,
+    .folder-icons .icon:focus-visible .label { color: #ffffff; }
+    .ico.exe.sg::after { content: "SG"; color: var(--pink); }
 
     /* explorer */
     .explorer .pane { display: grid; grid-template-columns: 42% 1fr; gap: 14px; }
@@ -568,6 +589,7 @@
       .tasks { visibility: hidden; }
       .explorer .pane { grid-template-columns: 1fr; }
       .browser .news { grid-template-columns: 1fr; }
+      #win-about .pane { max-height: none; }
       .tray .tray-links { display: none; }
     }
 
@@ -579,6 +601,7 @@
   <link rel="stylesheet" href="/summeros/screensaver.css">
   <link rel="stylesheet" href="/summeros/hackathons.css">
   <link rel="stylesheet" href="/summeros/compdesign.css">
+  <link rel="stylesheet" href="/summeros/splice-world.css">
 </head>
 <body>
   <a class="skip-link" href="#win-about">Skip to about me</a>
@@ -587,6 +610,7 @@
     <ul class="icons" aria-label="Desktop">
       <li><button class="icon" type="button" data-open="win-about"><span class="ico doc"></span><span class="label">about_me.txt</span></button></li>
       <li><button class="icon" type="button" data-open="win-news"><span class="ico doc loud"></span><span class="label">news!!.html</span></button></li>
+      <li><button class="icon" type="button" data-open="win-research"><span class="ico folder"><img src="/index_me_images/web/research-thumb.jpg" alt=""></span><span class="label">research</span></button></li>
       <li><button class="icon" type="button" data-open="win-substack"><span class="ico doc"></span><span class="label">cool_girl.html</span></button></li>
       <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="/index_me_images/web/poster-me.jpg" alt=""></span><span class="label">dreu</span></button></li>
       <li><button class="icon" type="button" data-hackathons><span class="ico folder"><img src="/index_me_images/web/hack/stage.jpg" alt=""></span><span class="label">hackathon wins</span></button></li>
@@ -612,12 +636,16 @@
       <div class="menubar" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
       <div class="pane">
         <h1>Simran <span>(Summer)</span> Malik</h1>
-        <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+        <p>Hi, I'm Summer!</p>
+        <p>I'm an undergraduate researcher at UNC Charlotte studying Computer Science and Biology, with a concentration in Bioinformatics and a minor in AI and Data Science. Graduating May 2027.</p>
+        <p>I'm particularly interested in what happens when a computational system gives us an answer, and how we can tell whether that answer is actually trustworthy. My research has taken me from quantum algorithms at UIUC to the mathematics of RNA splicing, behavioral stability in machine learning, and reconstructing the Apollo Guidance Computer in Rust.</p>
         <ul>
-          <li>student researcher @ UNC Charlotte</li>
-          <li>founder + QML division lead @ CAIR</li>
-          <li>AWS Student Builder Campus Leader</li>
+          <li>QML division lead @ CAIR</li>
+          <li>founder @ HAVK</li>
+          <li>computational biology @ RAW Lab</li>
+          <li>teaching assistant @ UNC Charlotte</li>
         </ul>
+        <p>Outside of research, I like building unnecessarily complicated things, experimenting with hardware, writing about oddly specific subjects, and finding mathematical problems in places where they probably weren't intended to exist.</p>
         <p><a href="https://github.com/simransummermalik" target="_blank" rel="noreferrer">github</a> / <a href="https://www.linkedin.com/in/summermalik/" target="_blank" rel="noreferrer">linkedin</a> / <a href="/publications/">publications</a></p>
       </div>
       <div class="statusbar" aria-hidden="true"><span>summer is here to compute !!</span><span>Ln 1, Col 1</span></div>
@@ -812,6 +840,29 @@
       </div>
     </section>
 
+    <!-- research folder: one icon per project -->
+    <section class="window folderview" id="win-research" tabindex="-1" hidden style="--fx:0.28; --y:64px; --w:clamp(380px, 34vw, 500px)" aria-labelledby="t-research">
+      <header class="titlebar">
+        <h2 id="t-research">C:\summer\research</h2>
+        <button type="button" data-action="min" aria-label="Minimize research">_</button>
+        <button type="button" data-action="close" aria-label="Close research">&times;</button>
+      </header>
+      <div class="addressbar" aria-hidden="true"><span>Address</span><span class="url">C:\summer\research</span></div>
+      <div class="pane">
+        <ul class="folder-icons" aria-label="Research projects">
+          <li><a class="icon" href="/research/splice-girl/" data-splice-world><span class="ico exe sg"></span><span class="label">splice_girl.exe</span></a></li>
+          <li><button class="icon" type="button" data-open="win-apollo"><span class="ico exe"></span><span class="label">ApolloRS.exe</span></button></li>
+          <li><button class="icon" type="button" data-open="win-dreu"><span class="ico folder"><img src="/index_me_images/web/poster-me.jpg" alt=""></span><span class="label">dreu</span></button></li>
+          <li><button class="icon" type="button" data-open="win-spatial"><span class="ico folder"><img src="/index_me_images/web/vision-pro.jpg" alt=""></span><span class="label">spatial_computing</span></button></li>
+          <li><button class="icon" type="button" data-open="win-qml"><span class="ico folder"><img src="/index_me_images/web/cair-poster.jpg" alt=""></span><span class="label">qml_outreach</span></button></li>
+          <li><button class="icon" type="button" data-open="win-jax"><span class="ico folder"><img src="/index_me_images/web/jax-report.jpg" alt=""></span><span class="label">jackson_lab</span></button></li>
+          <li><button class="icon" type="button" data-compdesign><span class="ico folder"><img src="/index_me_images/web/compdesign/tower.jpg" alt=""></span><span class="label">computational design</span></button></li>
+          <li><a class="icon" href="/research/"><span class="ico doc"></span><span class="label">all_research.html</span></a></li>
+        </ul>
+      </div>
+      <div class="statusbar" aria-hidden="true"><span>8 object(s)</span><span>research</span></div>
+    </section>
+
     <section class="window browser" id="win-substack" tabindex="-1" hidden style="--fx:0.35; --y:70px; --w:clamp(380px, 32vw, 470px)" aria-labelledby="t-substack">
       <header class="titlebar">
         <h2 id="t-substack">cool_girl.html - Summer Explorer</h2>
@@ -857,6 +908,7 @@
   <nav class="start-menu" id="start-menu" hidden aria-label="Site directory">
     <div class="band" aria-hidden="true"><span><b>summer</b>.os</span></div>
     <ul>
+      <li><a href="/research/">Research<small>Splice Girl, ApolloRS, DREU &amp; more</small></a></li>
       <li><a href="/publications/">Publications<small>papers &amp; conference posters</small></a></li>
       <li><a href="/dreu/">Quantum research / DREU<small>UIUC logs &amp; factoring manual</small></a></li>
       <li><a href="/qml-outreach/">QML outreach<small>CAIR projects &amp; resources</small></a></li>
@@ -877,7 +929,25 @@
 
   <section class="plain-page" id="plain-page" aria-labelledby="plain-title">
     <h1 id="plain-title" tabindex="-1">Simran (Summer) Malik</h1>
-    <p>I study quantum algorithms, spatial computing, computing systems, research experiments, and the chaotic process of making hard ideas understandable.</p>
+    <p>Hi, I'm Summer!</p>
+    <p>I'm an undergraduate researcher at UNC Charlotte studying Computer Science and Biology, with a concentration in Bioinformatics and a minor in AI and Data Science. Expected graduation: May 2027.</p>
+    <p>I'm particularly interested in what happens when a computational system gives us an answer, and how we can tell whether that answer is actually trustworthy. My research has taken me from quantum algorithms at UIUC to the mathematics of RNA splicing, behavioral stability in machine learning, and reconstructing the Apollo Guidance Computer in Rust.</p>
+    <p>I lead the Quantum Machine Learning division of CAIR, founded HAVK, and work on computational biology research through the RAW Lab. I also teach computing as a university teaching assistant.</p>
+    <p>Outside of research, I like building unnecessarily complicated things, experimenting with hardware, writing about oddly specific subjects, and finding mathematical problems in places where they probably weren't intended to exist.</p>
+    <p>summer is here to compute !!</p>
+    <h2>Research interests</h2>
+    <ul>
+      <li>Quantum computing and quantum algorithms</li>
+      <li>Hybrid quantum-classical machine learning</li>
+      <li>Computational science and engineering</li>
+      <li>Numerical reliability and computational stability</li>
+      <li>Applied mathematics</li>
+      <li>Computational biology and bioinformatics</li>
+      <li>Scientific software engineering</li>
+      <li>Topological data analysis</li>
+      <li>Scientific computing and high-performance computing</li>
+      <li>Computational representations</li>
+    </ul>
     <h2>Publications</h2>
     <p><a href="/publications/#apollors">ApolloRS: Bounded Reconstruction and Differential Execution of Apollo 11 Flight Software</a> &mdash; accepted to the 2027 IEEE Aerospace Conference.</p>
     <p><a href="/publications/">Beyond Accuracy: Behavioral Stability and Compression Effects in Hybrid Quantum-Classical Learning</a> &mdash; IEEE Quantum Week 2026.</p>
@@ -885,6 +955,8 @@
     <p><a href="https://cra.org/crn/2026/10/dreu-qis-students-at-ieee-quantum-week-from-summer-research-to-the-quantum-research-community/">CRA features our DREU-QIS cohort at IEEE Quantum Week</a> &mdash; Computing Research News, October 2026.</p>
     <h2>Research &amp; projects</h2>
     <ul>
+      <li><a href="/research/">Research directory: every project on one page</a></li>
+      <li><a href="/research/splice-girl/">Splice Girl: topological analysis of RNA splicing in endometriosis (Rust research software, crates.io)</a></li>
       <li><a href="/dreu/">Quantum research / DREU: UIUC research logs and factoring manual</a></li>
       <li><a href="/qml-outreach/">QML outreach and CAIR division work</a></li>
       <li><a href="/jackson-laboratory/">Jackson Laboratory computational genomics</a></li>
@@ -1055,10 +1127,17 @@
     // open windows at load: about_me ends up in front
     windows().filter((w) => !w.hidden).forEach(addTask);
     activate(document.getElementById("win-about"));
+
+    // /#research and /#splice-girl open those windows (the research pages link back here)
+    const hashWindows = { "#research": "win-research" };
+    const openFromHash = () => { const id = hashWindows[location.hash]; if (id) openWindow(id); };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
   </script>
   <script src="/summeros/dreu-world.js" defer></script>
   <script src="/summeros/screensaver.js" defer></script>
   <script src="/summeros/hackathons.js" defer></script>
   <script src="/summeros/compdesign.js" defer></script>
+  <script src="/summeros/splice-world.js" defer></script>
 </body>
 </html>

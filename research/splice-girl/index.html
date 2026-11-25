@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Splice Girl: Topological Analysis of RNA Splicing in Endometriosis - Summer Malik</title>
+  <meta name="description" content="Splice Girl turns RNA splice junctions into graphs and splits their signal with discrete Hodge theory. A Rust research tool (crates.io: splice-girl) for an endometriosis RNA-seq study.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Splice Girl: Topological Analysis of RNA Splicing in Endometriosis">
+  <meta property="og:description" content="RNA splice junctions as graphs, split into gradient and cycle-space parts with discrete Hodge theory. Research software in Rust.">
+  <meta property="og:url" content="https://simransummermalik.github.io/research/splice-girl/">
+  <meta property="og:image" content="https://simransummermalik.github.io/research/splice-girl/img/hodge-decomposition.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/site-navigation.css">
+  <link rel="stylesheet" href="/research/research.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the research page</a>
+  <div class="r-page">
+    <nav class="site-trail" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/research/">Research</a></li>
+        <li aria-current="page">Splice Girl</li>
+      </ol>
+    </nav>
+
+    <div class="r-titlebar" aria-hidden="true"><span>splice_girl.exe - C:\summer\research</span><a href="/#research" tabindex="-1">&times;</a></div>
+
+    <main id="main">
+      <h1>Splice Girl</h1>
+      <p class="r-dek">Topological analysis of RNA splicing in endometriosis</p>
+
+      <div class="r-status">
+        <p><span class="r-label">Status, November 24, 2026</span></p>
+        <p><strong>Research software, in progress.</strong> The Rust tool is published on crates.io (version 0.2.2) and its 127 automated tests pass. The eight-sample endometriosis analysis is specified in advance. Three of the eight samples have been aligned on the university cluster, so <strong>there is no case/control result yet</strong>.</p>
+      </div>
+
+      <dl class="r-facts">
+        <dt>Team</dt><dd>Splice Girls: Summer Malik, Vania Zeledon, Sydney Holmes, Wynn Oo</dd>
+        <dt>My role</dt><dd>Lead programmer and mathematical modeling</dd>
+        <dt>Context</dt><dd>BINF 2111 team research project, UNC Charlotte, fall 2026</dd>
+        <dt>Install</dt><dd><code>cargo install splice-girl --locked</code></dd>
+        <dt>Code</dt><dd><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis">GitHub repository</a> &middot; <a href="https://crates.io/crates/splice-girl">crates.io</a> &middot; <a href="https://docs.rs/splice-girl">docs.rs</a></dd>
+        <dt>License</dt><dd>CC BY 4.0 (versions 0.2.0 and later; 0.1.0 was MIT)</dd>
+      </dl>
+
+      <h2 id="contents">On this page</h2>
+      <ol class="r-toc">
+        <li><a href="#motivation">Why splicing</a></li>
+        <li><a href="#question">Research question</a></li>
+        <li><a href="#contributions">What I did</a></li>
+        <li><a href="#math">The mathematics</a></li>
+        <li><a href="#design">Study design</a></li>
+        <li><a href="#pipeline">From reads to numbers</a></li>
+        <li><a href="#efficiency">Why the Rust stage is fast</a></li>
+        <li><a href="#results">Validation so far</a></li>
+        <li><a href="#try">Try it yourself</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+        <li><a href="#stack">Technical stack</a></li>
+        <li><a href="#cite">Status and citation</a></li>
+        <li><a href="#materials">Supporting materials</a></li>
+      </ol>
+
+      <h2 id="motivation">Why splicing</h2>
+      <p>A gene is copied into an early RNA molecule made of <em>exons</em> and <em>introns</em>. During splicing, the introns are usually removed and selected exons are joined. Different joining choices (alternative splicing) can produce different finished RNAs from the same gene.</p>
+      <p>RNA sequencing gives short reads, and some of them span the joint between two exons. Those joints are <em>splice junctions</em>. Standard summaries count how many reads support each junction. Splice Girl asks a structural question instead: how do all of a gene's observed junctions fit together?</p>
+      <p>The first application is endometriosis. Candidate genes come from two independent kinds of evidence: genetic risk (the GWAS Catalog and Koller et al. 2026) and measured responses to dioxin-like chemicals (the Comparative Toxicogenomics Database). Together that is 661 candidate genes, each labeled risk-only, environment-only or both.</p>
+
+      <h2 id="question">Research question</h2>
+      <p><strong>Do endometriosis samples organize their RNA splice connections differently from control samples?</strong></p>
+      <p>The measurement is a <em>cycle fraction</em>: how much of a gene's normalized junction signal is left over after the best node-based explanation is removed. The study compares that number between four endometriosis and four control samples of the same tissue.</p>
+
+      <h2 id="contributions">What I did</h2>
+      <p>I was the team's lead programmer and worked on the mathematical modeling. The repository's dated contribution logs record each person's work. Mine includes:</p>
+      <ul>
+        <li>Wrote the first version of the Rust tool, the synthetic mathematical foundation the rest was built on.</li>
+        <li>Wrote the data contract and the parser tests that reject bad input, the plain-language Hodge explanation, and the math specification's equations and checks.</li>
+        <li>Built the read-preprocessing workflow (Cleaver/fastp, HISAT2, junction assignment) and validated the public dataset manifests.</li>
+        <li>Added the three-panel graph figure, the <code>validate</code> input audit, the all-gene comparison, installation checks, continuous integration and the candidate-sized benchmark.</li>
+        <li>Prepared and published the first crates.io releases (0.1.0, 0.2.0 and 0.2.1). For 0.2.0, I moved the project to CC BY 4.0, with authorization from all four contributors.</li>
+        <li>Ran the cluster work: downloading, aligning and counting three of the eight samples, then running the Rust analysis on them (Slurm jobs recorded in the logs).</li>
+      </ul>
+      <p>Teammates: Vania Zeledon led computational development and the mathematical theory, including the statistics specification, the exact permutation test, the junction-usage baseline, the cohort analysis configuration and the interpretation plan. Sydney Holmes led the biological research. Wynn Oo worked on the RNA-seq data and splice-junction research.</p>
+
+      <h2 id="math">The mathematics</h2>
+      <h3>A gene as a graph</h3>
+      <p>For one gene in one sample, each exon locus is a node and each observed splice junction is a directed edge, pointing the way the transcript reads. Its weight is the number of reads supporting it. An exon-skipping event adds a second route between the same two exons:</p>
+<pre><code>E1 ──→ E2 ──→ E3     one route
+
+E1 ──→ E2 ──→ E3     exon skipping: a second route,
+│             ↑      straight from E1 to E3
+└─────────────┘</code></pre>
+      <p>The edge signal is normalized so samples with different sequencing depth can be compared:</p>
+      <p class="r-math">w<sub>e</sub> = c<sub>e</sub> / &Sigma;<sub>j</sub> c<sub>j</sub></p>
+      <p>The incidence matrix <var>B</var><sub>1</sub> has one row per node and one column per edge. Each edge's column is &minus;1 at its source, +1 at its target, and 0 elsewhere. Nodes and edges are sorted by identifier, so the answer does not depend on the input row order.</p>
+
+      <h3>Hodge decomposition</h3>
+      <p>Splice Girl finds the node values (a potential <var>&phi;</var>) that best explain the edge signal <var>F</var>, then splits <var>F</var> into what they explain and what is left:</p>
+      <p class="r-math">&phi;* = <span class="up">argmin</span><sub>&phi;</sub> &Vert;F &minus; B<sub>1</sub><sup>T</sup>&phi;&Vert;<sub>2</sub><sup>2</sup> &nbsp;&nbsp; <span class="up">(normal equations:</span> L&phi;* = B<sub>1</sub>F, &nbsp; L = B<sub>1</sub>B<sub>1</sub><sup>T</sup><span class="up">)</span></p>
+      <p class="r-math">F<sub>grad</sub> = B<sub>1</sub><sup>T</sup>&phi;* &nbsp;&nbsp;&nbsp; F<sub>cycle</sub> = F &minus; F<sub>grad</sub> &nbsp;&nbsp;&nbsp; C = &Vert;F<sub>cycle</sub>&Vert;<sup>2</sup> / &Vert;F&Vert;<sup>2</sup></p>
+      <p><var>L</var> is the graph Laplacian. It is singular, because adding a constant to <var>&phi;</var> on a connected piece of the graph changes nothing. So the code fixes the first node of each connected component at zero and solves for the rest.</p>
+      <p><strong>Gradient, curl and harmonic.</strong> In full combinatorial Hodge theory, a flow on edges splits three ways: a <em>gradient</em> part (in the image of <var>B</var><sub>1</sub><sup>T</sup>), a <em>curl</em> part (flow around filled-in faces, the image of <var>B</var><sub>2</sub>) and a <em>harmonic</em> part (in the kernel of both). A splice graph has nodes and edges but no filled faces, so <var>B</var><sub>2</sub> = 0. The curl part is empty, and everything that is not gradient is harmonic. That harmonic part is the <em>cycle-space</em> component Splice Girl reports. It has dimension |E| &minus; |V| + (number of connected components), the graph's cycle rank. Adding faces, which would separate curl from harmonic, is deliberately left out of the current specification.</p>
+
+      <h3>Every answer checks itself</h3>
+      <p>No result is reported unless three identities hold, at a relative tolerance built on 10<sup>&minus;9</sup>:</p>
+      <p class="r-math">F &asymp; F<sub>grad</sub> + F<sub>cycle</sub> &nbsp;&nbsp;&nbsp; B<sub>1</sub>F<sub>cycle</sub> &asymp; 0 &nbsp;&nbsp;&nbsp; F<sub>grad</sub><sup>T</sup>F<sub>cycle</sub> &asymp; 0</p>
+      <p>These say the split is complete, the leftover really is cycle-space flow, and the two parts are orthogonal, so they do not double-count signal.</p>
+
+      <figure>
+        <img src="/research/splice-girl/img/hodge-decomposition.png" width="1280" height="720" alt="Three copies of a three-exon splice graph E1, E2, E3 with an exon-skipping arc from E1 to E3: what was measured equals a straight-through gradient part plus a loop part in which the skip edge runs backward. A bar shows 89 percent straight-through and 11 percent loop.">
+        <figcaption><b>Figure 1.</b> The decomposition on the exon-skipping test graph, with 100 reads on each junction. The graph has no directed cycle, but as an undirected graph it is a triangle with one independent cycle, so one ninth (11%) of the signal energy is cycle-space. That 1/9 is derived by hand in the math specification and reproduced by the code. Figure from the team's presentation.</figcaption>
+      </figure>
+
+      <h3>A worked example you can check</h3>
+      <p>The packaged example's TRIANGLE gene in sample S0 has junction counts A&rarr;B = 30, A&rarr;C = 5 and B&rarr;C = 30. So <var>F</var> = (6, 1, 6)/13 on (A&rarr;B, A&rarr;C, B&rarr;C). The cycle space is spanned by <var>z</var> = (1, &minus;1, 1), going A&rarr;B&rarr;C and back along C&rarr;A. Projecting onto it gives <var>F</var><sub>cycle</sub> = (11/39)(1, &minus;1, 1) &asymp; (0.2821, &minus;0.2821, 0.2821). The cycle fraction is <var>C</var> = 121/219 &asymp; 0.5525. These are exactly the values the program prints in Figure 3.</p>
+
+      <h2 id="design">Study design</h2>
+      <ul>
+        <li><strong>Data:</strong> public paired-end RNA-seq of proliferative endometrium, <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE315857">GEO GSE315857</a>: four control (SRR36710387&ndash;390) and four endometriosis (SRR36710383&ndash;386) samples, 49.5 to 89.7 million read pairs each.</li>
+        <li><strong>Reads to junctions:</strong> clean reads, align to the GENCODE v50 GRCh38.p14 primary assembly with HISAT2, and check strand orientation. A sample is held back if fewer than 95% of read 1s agree. Junctions are counted from uniquely mapped reads with at least 8 bases on each side and mapped to annotated exon pairs. Ambiguous junctions are excluded, not guessed.</li>
+        <li><strong>One shared graph per gene:</strong> chosen without looking at case/control labels. An edge is kept if it has at least 5 reads in at least 4 of the 8 samples. A gene is kept if its graph has cycle rank at least 1 and every sample has at least 50 reads on those edges.</li>
+        <li><strong>Comparison:</strong> for each gene, the effect is mean <var>C</var>(cases) &minus; mean <var>C</var>(controls). The summary statistic is the mean absolute effect across genes. An exact permutation test uses all 70 ways to label 4 of the 8 samples as cases, with Benjamini&ndash;Hochberg correction across genes.</li>
+        <li><strong>Baseline:</strong> a simpler measure (junction-usage entropy) goes through the same test. If the Hodge measurement does no better, that gets reported.</li>
+        <li><strong>Settings saved in advance:</strong> the thresholds and the <a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/analysis/cohort_primary/README.md">analysis configuration</a> are frozen, and an <a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/docs/interpretation_plan.md">interpretation plan</a> is written before the full run.</li>
+      </ul>
+
+      <h2 id="pipeline">From reads to numbers</h2>
+      <p>The work splits into two very different stages. Upstream, established bioinformatics tools turn raw sequencing reads into junction counts. Downstream, Splice Girl does the mathematics. The numbers below are one endometriosis sample, SRR36710386, run on UNC Charlotte's HPC cluster on November 19, 2026.</p>
+
+      <div class="r-pipeline">
+        <section class="r-stage up" aria-labelledby="stage-up">
+          <h3 id="stage-up">1. Upstream preprocessing</h3>
+          <ol>
+            <li>Download from SRA and convert to FASTQ: about 36 GB of paired reads (conversion took 2 min 39 s)</li>
+            <li>Clean, then align 54,679,380 read pairs with HISAT2 (97.54% overall alignment)</li>
+            <li>Assign junction-spanning reads to annotated exon pairs: 28,844,691 junction observations kept, 1,274,883 ambiguous ones excluded</li>
+            <li>Write the junction table: <strong>210,520 rows</strong></li>
+          </ol>
+          <p class="r-time">1 h 41 min 47 s</p>
+          <p>alignment plus junction extraction (Slurm job 27844959)</p>
+        </section>
+        <section class="r-stage down" aria-labelledby="stage-down">
+          <h3 id="stage-down">2. Splice Girl (Rust)</h3>
+          <ol>
+            <li>Read and validate the 210,520-row table</li>
+            <li>Build one graph per gene</li>
+            <li>Hodge decomposition, with the three checks on every graph</li>
+            <li>Write <code>sample_metrics.tsv</code> (3.8 MB) and <code>junction_components.tsv</code> (34 MB)</li>
+          </ol>
+          <p class="r-time">5 s</p>
+          <p>Hodge analysis stage (Slurm job 27866517)</p>
+        </section>
+      </div>
+      <div class="r-timebar" role="img" aria-label="Time bar: preprocessing 6,107 seconds, Hodge analysis 5 seconds, drawn to scale.">
+        <div class="bar"><span></span><span></span></div>
+        <p>Drawn to scale: the pink sliver is the 5-second Hodge stage, about 0.08% of the 1 h 41 min 47 s upstream run.</p>
+      </div>
+      <p><strong>Only the Hodge stage took five seconds.</strong> Getting from raw reads to the junction table took about an hour and 42 minutes, not counting the download and FASTQ conversion. The 28.8 million figure counts junction observations at the assignment stage. The Rust tool reads the 210,520 aggregated rows built from them. Building the shared reference map behind that table took 5,087,789 annotated exons across 646,577 transcripts and produced 536,254 graph nodes.</p>
+
+      <h2 id="efficiency">Why the Rust stage is fast</h2>
+      <p>This is about the shape of the problem, not a race against other tools:</p>
+      <ul>
+        <li><strong>Reads are counted once, upstream.</strong> The mathematics never touches individual reads. 28,844,691 observations become one row per junction, per gene and sample: 210,520 rows.</li>
+        <li><strong>Each gene is its own small problem.</strong> The linear system for one gene has one unknown per exon node (minus one per connected piece). Its size depends on the gene's exon structure, not on sequencing depth. In the 243-gene benchmark on real data, the largest graph had 66 nodes.</li>
+        <li><strong>Genes are independent.</strong> The run is one pass over the table, solving many small systems. There is no matrix covering all genes at once.</li>
+        <li><strong>The solver is simple on purpose:</strong> Gaussian elimination with partial pivoting on each gene's reduced Laplacian, with no external linear-algebra dependency. The math specification flags it for review before very large or badly conditioned graphs.</li>
+      </ul>
+      <p>The five seconds is one recorded run of one sample, not a general runtime guarantee. A second, smaller measurement on real data: analysis plus export for 243 genes (1,388 junction rows) took a median of 11.2 ms over five runs, with about 4 MiB peak memory.</p>
+
+      <h2 id="results">Validation so far</h2>
+      <h3>The software</h3>
+      <ul>
+        <li><strong>127 Rust tests pass</strong> on the current code (commit <code>f3d7596</code>, rerun for this page on November 24, 2026). The repository also records 64 preprocessing tests and 32 helper-script tests passing in Python.</li>
+        <li>Synthetic graphs with known answers: a chain and a branching tree give 0, an equal-weight directed cycle gives 1, the exon-skipping triangle gives exactly 1/9, and a fixed noisy version gives 5618/45027 &asymp; 0.12477.</li>
+        <li>Bad input fails with a clear message instead of being skipped silently: wrong headers, negative or non-finite counts, self-loops, duplicate edges, zero total support and mismatched sample manifests. Existing result folders are never overwritten.</li>
+      </ul>
+
+      <h3>Real data, checked independently</h3>
+      <p>On November 18, the packaged tool ran on the first 1,000,000 cleaned read pairs (about 2%) of control sample SRR36710387. Two independent checks followed:</p>
+      <ul>
+        <li>243 of the 661 candidate genes were observed, with 1,388 junction edges. A separate parser re-read the alignment file, and all 19,983 read&ndash;junction observations matched the exported counts exactly.</li>
+        <li>For every one of the 243 genes, the incidence matrix was rebuilt in NumPy and the least-squares problem was solved with SVD. All 243 matched the Rust results. The largest difference was 4.96 &times; 10<sup>&minus;11</sup>, under the declared 10<sup>&minus;8</sup> tolerance.</li>
+      </ul>
+      <p>That is a check of counting and numerics on one control. It is not a biological finding.</p>
+
+      <figure>
+        <img src="/research/splice-girl/img/junction-assignment.png" width="1200" height="533" loading="lazy" alt="Bar chart for the first million cleaned read pairs of SRR36710387 under the earlier node rule: 152,907 junction observations mapped to a unique exon pair, 409,613 matched one gene but several exon pairs, 3,352 matched several genes, 19,634 matched several genes and exon pairs, and 1,583 were unannotated.">
+        <figcaption><b>Figure 2.</b> Why junction observations were kept or excluded in that pilot, under the earlier exon-interval node rule. Most exclusions matched one gene but several overlapping exon pairs. This audit is why the team changed to a shared-splice-site node rule on November 18. Figure from the repository's pilot audit.</figcaption>
+      </figure>
+
+      <h2 id="try">Try it yourself</h2>
+      <p>This needs Rust 1.85 or newer. The example uses eight invented samples and four invented genes, and downloads no patient data. These exact commands were run with the published 0.2.2 crate on November 24, 2026:</p>
+<pre><code>cargo install splice-girl --locked
+splice-girl example --output splice-girl-example
+cd splice-girl-example
+<span class="c"># read-only preflight (prints PASS, 8 samples, 1 eligible gene, 7 scenarios)</span>
+splice-girl check --config analysis.json
+<span class="c"># the full run: writes configured-results/</span>
+splice-girl run --config analysis.json
+open configured-results/report.html</code></pre>
+      <p>The example's own <code>README.md</code> walks through <code>prepare-shared</code>, <code>stats</code> and <code>sensitivity</code> step by step. Every saved run includes a <code>run_manifest.json</code> with the command, version, settings and input checksums.</p>
+
+      <figure>
+        <img src="/research/splice-girl/img/three-panel-triangle.svg" width="1224" height="826" loading="lazy" alt="Program output for gene TRIANGLE in sample S0: three aligned panels of the same three-node graph show the observed signal, the gradient component and the cycle component, with a table of junction values. Cycle fraction 0.5525, mathematical checks PASS.">
+        <figcaption><b>Figure 3.</b> Unedited program output from the run above (<code>configured-results/primary_report/graphs/graph-000002.svg</code>). The same nodes, edges and line-width scale appear in every panel. Dashed edges run against their stored direction. Synthetic data.</figcaption>
+      </figure>
+      <figure>
+        <img src="/research/splice-girl/img/demo-report.png" width="1100" height="700" loading="lazy" alt="Top of the offline Splice Girl comparison report, version 0.2.2: 2 genes, 15 sample/gene graphs, 0 failed mathematical checks, with a gene summary table for LOW_COVERAGE and TRIANGLE.">
+        <figcaption><b>Figure 4.</b> The offline HTML report from the same run. It states its limits at the top: the checks verify the mathematics, not biological comparability. Synthetic data.</figcaption>
+      </figure>
+
+      <h2 id="limitations">Limitations</h2>
+      <ul>
+        <li><strong>No case/control result yet.</strong> Only three of the eight samples are aligned. Any gene-level difference seen so far comes from single samples and is not evidence.</li>
+        <li><strong>Small study.</strong> Four samples per group allow only 70 relabelings, so the smallest possible two-sided permutation p-value is coarse. Tissue matching, batch effects and replicate consistency still have to be reviewed.</li>
+        <li><strong>Cycle space is not circular RNA.</strong> Ordinary exon skipping creates cycle-space signal (Figure 1). The preprocessing does not detect back-splicing, so a missing back-splice edge proves nothing.</li>
+        <li><strong>Annotation-bound.</strong> Junctions are mapped to annotated exons, so the method cannot discover unannotated splicing. Ambiguous assignments are excluded. In the early pilot that removed most observations (Figure 2), which is why the node rule changed.</li>
+        <li><strong>Exploratory look recorded.</strong> The threshold values were written on November 18. An exploratory one-case-versus-one-control table was viewed on November 20, and the values were approved unchanged on November 22. The decisions log records this openly, and any later change must be reported as made after case/control data were seen.</li>
+        <li><strong>Graph-level only.</strong> No filled faces, so curl and harmonic parts are not separated. The dense solver suits per-gene graphs and needs review before very large ones.</li>
+        <li>Splice Girl is research software, not a clinical or diagnostic tool.</li>
+      </ul>
+
+      <h2 id="stack">Technical stack</h2>
+      <ul>
+        <li><strong>Rust</strong> (2024 edition, minimum Rust 1.85): parsing, graphs, Hodge decomposition, exact permutation tests, Benjamini&ndash;Hochberg correction, baselines, SVG figures and offline HTML reports. Dependencies are only <code>serde</code> and <code>serde_json</code>.</li>
+        <li><strong>Python:</strong> read preprocessing adapters, gene-set construction and interpretation scripts.</li>
+        <li><strong>Bioinformatics tools:</strong> SRA-Tools, Cleaver/fastp, HISAT2, samtools, GENCODE v50 annotation, FastQC/MultiQC.</li>
+        <li><strong>Infrastructure:</strong> Slurm jobs on UNC Charlotte's HPC cluster, GitHub Actions (formatting, strict Clippy, tests), and JSON run manifests with SHA-256 checksums.</li>
+      </ul>
+
+      <h2 id="cite">Status and citation</h2>
+      <p>Splice Girl is <strong>research software</strong>, not a peer-reviewed publication. The repository's <code>CITATION.cff</code> asks anyone using it to cite the software and record the version or commit; <code>splice-girl cite</code> prints the same details.</p>
+<pre class="r-cite"><code>@software{splice_girl_2026,
+  author  = {Holmes, Sydney and Zeledon, Vania and Malik, Summer and Oo, Wynn},
+  title   = {Splice Girl: graph and Hodge analysis of RNA splice-junction data},
+  version = {0.2.2},
+  year    = {2026},
+  license = {CC-BY-4.0},
+  url     = {https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis}
+}</code></pre>
+
+      <h2 id="materials">Supporting materials</h2>
+      <ul class="r-links">
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis">Source code and full README</a> (GitHub)</li>
+        <li><a href="https://crates.io/crates/splice-girl">splice-girl on crates.io</a> and <a href="https://docs.rs/splice-girl">API documentation on docs.rs</a></li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/assets/hodgetheorynew.pdf">Research proposal</a> (24-page PDF, September 2, 2026)</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/docs/math_spec.md">Math specification</a>: equations, conventions and the hand-derived test values</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/docs/software_validation.md">Software validation record</a>: installs, tests and benchmarks</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/logs/november_19th_summer.md">HPC run log for SRR36710386</a>: the Slurm jobs and counts above</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/data/pilots/SRR36710387_real_validation_nov18/README.md">Real-data validation</a>: the BAM recount and SVD check, with exact reproduction steps</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/blob/main/beginner_test/README.md">Beginner walkthrough</a>: every demo command with expected answers</li>
+        <li><a href="https://github.com/simransummermalik/TopologicalAnalysisofRNASplicinginEndometriosis/tree/main/examples/demo">Example input files</a>: junctions, manifest and gene lists</li>
+      </ul>
+
+      <p><a href="#contents">Back to top</a></p>
+    </main>
+    <a class="r-back" href="/#splice-girl"><span aria-hidden="true">&larr;</span> back to the splice_girl desktop</a>
+  </div>
+</body>
+</html>
